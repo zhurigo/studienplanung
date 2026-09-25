@@ -152,19 +152,35 @@ Add or remove electives. The counter never goes above 12 ECTS, and you can't pic
 
 ```
 --- Plan electives ---
-Selected: 6/12 ECTS
+Selected: 6/12 ECTS (Python, Entrepreneurship)
 1. Add an elective
 2. Remove an elective
 0. Back
 Choose (0-2): 1
 
-1. Python (3 ECTS)            [selected]
-2. User Experience (3 ECTS)
-3. Entrepreneurship (3 ECTS)  [selected]
-Pick an elective to add: 1
-Python is already in your plan.
-Pick an elective to add: 2
-Added User Experience. Selected: 9/12 ECTS
+--- Categories ---
+1. Languages (10)
+2. Technology (5)
+3. Business and Management (4)
+4. Personal Skills (1)
+5. Job Reflection (1)
+Choose a category (0 to go back): 1
+
+--- Languages ---
+ 1. Spanish 1 (Beginner)       3 ECTS   HS
+ 2. Spanish 2 (Intermediate)   3 ECTS   FS
+ 3. French 1                   3 ECTS   HS
+ 4. Italian 1                  3 ECTS   FS
+ 5. German for Business 1      3 ECTS   FS
+ 6. Russian 1                  3 ECTS   HS
+ 7. Portuguese 1               3 ECTS   FS
+ 8. Chinese 1                  3 ECTS   HS
+ 9. Japanese 1                 3 ECTS   FS
+10. Arabic 1                   3 ECTS   HS
+Pick an elective (0 to go back): 12
+Please enter a number from 0 to 10.
+Pick an elective (0 to go back): 1
+Added Spanish 1 (Beginner). Selected: 9/12 ECTS
 ```
 
 ### Step 8: Check my plan
