@@ -1,2 +1,2 @@
 # studienplanung
-A dscription will come in the near future
+A description will come in the near future
