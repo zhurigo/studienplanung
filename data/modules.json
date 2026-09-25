@@ -1,0 +1,315 @@
+{
+  "info": {
+    "programme": "BSc Business Information Technology, part-time",
+    "curriculum": "Curriculum 2025",
+    "academic_year": "Fall 2026/2027",
+    "total_ects": 180,
+    "source": "Module overview BSc BIT part-time, Curriculum 2025"
+  },
+  "groups": [
+    {
+      "name": "Foundation",
+      "short": "Foundation",
+      "ects": 24
+    },
+    {
+      "name": "Business Administration",
+      "short": "Business Admin.",
+      "ects": 21
+    },
+    {
+      "name": "Business Information Technology",
+      "short": "BIT",
+      "ects": 33
+    },
+    {
+      "name": "Information Technology",
+      "short": "IT",
+      "ects": 27
+    },
+    {
+      "name": "Student Work",
+      "short": "Student Work",
+      "ects": 27
+    },
+    {
+      "name": "Specialisation",
+      "short": "Specialisation",
+      "ects": 36
+    },
+    {
+      "name": "Electives",
+      "short": "Electives",
+      "ects": 12
+    }
+  ],
+  "modules": [
+    {
+      "name": "Applied Mathematics 1",
+      "semester": 1,
+      "group": "Foundation",
+      "ects": 3,
+      "project_based": false,
+      "assessment": true
+    },
+    {
+      "name": "Statistics 1",
+      "semester": 1,
+      "group": "Foundation",
+      "ects": 3,
+      "project_based": false,
+      "assessment": true
+    },
+    {
+      "name": "Principles of Management",
+      "semester": 1,
+      "group": "Business Administration",
+      "ects": 6,
+      "project_based": false,
+      "assessment": true
+    },
+    {
+      "name": "Digital Business",
+      "semester": 1,
+      "group": "Business Information Technology",
+      "ects": 6,
+      "project_based": false,
+      "assessment": true
+    },
+    {
+      "name": "Programming Foundations",
+      "semester": 1,
+      "group": "Information Technology",
+      "ects": 6,
+      "project_based": false,
+      "assessment": true
+    },
+    {
+      "name": "Communication Essentials",
+      "semester": 2,
+      "group": "Foundation",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Applied Mathematics 2",
+      "semester": 2,
+      "group": "Foundation",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Statistics 2",
+      "semester": 2,
+      "group": "Foundation",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Requirements Engineering",
+      "semester": 2,
+      "group": "Business Information Technology",
+      "ects": 6,
+      "project_based": true,
+      "assessment": false
+    },
+    {
+      "name": "Advanced Programming",
+      "semester": 2,
+      "group": "Information Technology",
+      "ects": 6,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Financial Management",
+      "semester": 3,
+      "group": "Business Administration",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Organisational Behaviour",
+      "semester": 3,
+      "group": "Business Administration",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Enterprise Systems",
+      "semester": 3,
+      "group": "Business Information Technology",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Business Process Management",
+      "semester": 3,
+      "group": "Business Information Technology",
+      "ects": 6,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Database Technology",
+      "semester": 3,
+      "group": "Information Technology",
+      "ects": 6,
+      "project_based": true,
+      "assessment": false
+    },
+    {
+      "name": "Critical Thinking and Academic Writing",
+      "semester": 4,
+      "group": "Foundation",
+      "ects": 6,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Corporate Finance Basics",
+      "semester": 4,
+      "group": "Business Administration",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "IT Project Management",
+      "semester": 4,
+      "group": "Business Information Technology",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Web-based Applications",
+      "semester": 4,
+      "group": "Information Technology",
+      "ects": 6,
+      "project_based": true,
+      "assessment": false
+    },
+    {
+      "name": "Digital Ethics",
+      "semester": 5,
+      "group": "Foundation",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Digital Marketing",
+      "semester": 5,
+      "group": "Business Administration",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Supply Chain Management",
+      "semester": 5,
+      "group": "Business Administration",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Digital Law",
+      "semester": 5,
+      "group": "Business Information Technology",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Business Intelligence",
+      "semester": 5,
+      "group": "Business Information Technology",
+      "ects": 6,
+      "project_based": true,
+      "assessment": false
+    },
+    {
+      "name": "IT Security",
+      "semester": 5,
+      "group": "Information Technology",
+      "ects": 3,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Topics in Business Information Technology",
+      "semester": 6,
+      "group": "Student Work",
+      "ects": 6,
+      "project_based": false,
+      "assessment": false
+    },
+    {
+      "name": "Practical Project",
+      "semester": 7,
+      "group": "Student Work",
+      "ects": 9,
+      "project_based": true,
+      "assessment": false
+    },
+    {
+      "name": "Bachelor Thesis",
+      "semester": 8,
+      "group": "Student Work",
+      "ects": 12,
+      "project_based": true,
+      "assessment": false
+    }
+  ],
+  "slots": [
+    {
+      "type": "Electives",
+      "semester": 3,
+      "ects": 3
+    },
+    {
+      "type": "Electives",
+      "semester": 4,
+      "ects": 3
+    },
+    {
+      "type": "Electives",
+      "semester": 5,
+      "ects": 3
+    },
+    {
+      "type": "Electives",
+      "semester": 6,
+      "ects": 3
+    },
+    {
+      "type": "Specialisation",
+      "semester": 6,
+      "ects": 12
+    },
+    {
+      "type": "Specialisation",
+      "semester": 7,
+      "ects": 12
+    },
+    {
+      "type": "Specialisation",
+      "semester": 8,
+      "ects": 12
+    }
+  ],
+  "replacement_limits": {
+    "Foundation": 3,
+    "Business Administration": 3,
+    "Business Information Technology": 6,
+    "Information Technology": 6
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "info": {
+    "programme": "BSc Business Information Technology, part-time",
+    "curriculum": "Curriculum 2025",
+    "academic_year": "Fall 2026/2027",
+    "elective_ects_required": 12,
+    "note": "Entries with provisional=true are examples. Replace them with the real list from modulbeschreibungen.webapps.fhnw.ch."
+  },
+  "categories": [
+    "Languages",
+    "Technology",
+    "Business and Management",
+    "Personal Skills",
+    "Job Reflection"
+  ],
+  "electives": [
+    {
+      "id": "LANG-ES1",
+      "name": "Spanish 1 (Beginner)",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "Spanish",
+      "semester": "HS",
+      "related_specialisations": [],
+      "provisional": true,
+      "level": "A1"
+    },
+    {
+      "id": "LANG-ES2",
+      "name": "Spanish 2 (Intermediate)",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "Spanish",
+      "semester": "FS",
+      "related_specialisations": [],
+      "provisional": true,
+      "level": "A2"
+    },
+    {
+      "id": "LANG-FR1",
+      "name": "French 1",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "French",
+      "semester": "HS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "LANG-IT1",
+      "name": "Italian 1",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "Italian",
+      "semester": "FS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "LANG-DE1",
+      "name": "German for Business 1",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "German",
+      "semester": "FS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "LANG-RU1",
+      "name": "Russian 1",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "Russian",
+      "semester": "HS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "LANG-PT1",
+      "name": "Portuguese 1",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "Portuguese",
+      "semester": "FS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "LANG-ZH1",
+      "name": "Chinese 1",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "Chinese",
+      "semester": "HS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "LANG-JA1",
+      "name": "Japanese 1",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "Japanese",
+      "semester": "FS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "LANG-AR1",
+      "name": "Arabic 1",
+      "category": "Languages",
+      "ects": 3,
+      "taught_in": "Arabic",
+      "semester": "HS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "TECH-AI",
+      "name": "AI Technologies",
+      "category": "Technology",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "HS",
+      "related_specialisations": [
+        "Business Analytics and Data Science",
+        "Digital Business Management"
+      ],
+      "provisional": true
+    },
+    {
+      "id": "TECH-PY",
+      "name": "Python",
+      "category": "Technology",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "FS",
+      "related_specialisations": [
+        "Business Analytics and Data Science"
+      ],
+      "provisional": true
+    },
+    {
+      "id": "TECH-BC",
+      "name": "Blockchain",
+      "category": "Technology",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "FS",
+      "related_specialisations": [
+        "Digital Trust"
+      ],
+      "provisional": true
+    },
+    {
+      "id": "TECH-UX",
+      "name": "User Experience (UX)",
+      "category": "Technology",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "HS",
+      "related_specialisations": [
+        "Digital Business Management"
+      ],
+      "provisional": true
+    },
+    {
+      "id": "TECH-AND",
+      "name": "Mobile Apps with Android",
+      "category": "Technology",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "FS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "BUS-SCRUM",
+      "name": "Agile Project Management with Scrum",
+      "category": "Business and Management",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "HS",
+      "related_specialisations": [
+        "Digital Business Management"
+      ],
+      "provisional": true
+    },
+    {
+      "id": "BUS-CONS",
+      "name": "Consulting",
+      "category": "Business and Management",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "FS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "BUS-ENT",
+      "name": "Entrepreneurship",
+      "category": "Business and Management",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "HS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "BUS-DMA",
+      "name": "Digital Marketing and Analytics",
+      "category": "Business and Management",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "FS",
+      "related_specialisations": [
+        "Business Analytics and Data Science"
+      ],
+      "provisional": true
+    },
+    {
+      "id": "SKILL-PRES",
+      "name": "Presentation and Public Speaking",
+      "category": "Personal Skills",
+      "ects": 3,
+      "taught_in": "English",
+      "semester": "HS",
+      "related_specialisations": [],
+      "provisional": true
+    },
+    {
+      "id": "JOB-REF",
+      "name": "Job Reflection",
+      "category": "Job Reflection",
+      "ects": 6,
+      "taught_in": "English",
+      "semester": "HS",
+      "related_specialisations": [],
+      "provisional": false,
+      "rules": {
+        "max_per_study_year": 1,
+        "max_total": 3,
+        "min_work_percentage": 50
+      }
+    }
+  ]
+}

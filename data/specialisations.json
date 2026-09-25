@@ -1,0 +1,175 @@
+{
+  "info": {
+    "note": "Module names are provisional: official Curriculum 2025 names not yet published. Edit this file when they are."
+  },
+  "specialisations": [
+    {
+      "id": "BADS",
+      "name": "Business Analytics and Data Science",
+      "focus": "Data analysis, AI and machine learning, big data, web analytics",
+      "semesters": [
+        6,
+        7,
+        8
+      ],
+      "ects": 36,
+      "modules": [
+        {
+          "name": "AI / Machine Learning",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Big Data",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Python / R",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Web Analytics",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "BADS Module 5",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "BADS Module 6",
+          "ects": 6,
+          "provisional": true
+        }
+      ],
+      "builds_on": [
+        "Statistics 1",
+        "Statistics 2",
+        "Database Technology",
+        "Business Intelligence"
+      ],
+      "careers": [
+        "Data Analyst",
+        "Data Scientist",
+        "Data Engineer",
+        "Digital Marketing Manager",
+        "Business Development Manager"
+      ],
+      "source": "https://www.fhnw.ch/en/business/degree-programmes/offerings/programmes/business-analytics-and-data-science"
+    },
+    {
+      "id": "DBM",
+      "name": "Digital Business Management",
+      "focus": "Digital business models, process design, agile projects, business AI",
+      "semesters": [
+        6,
+        7,
+        8
+      ],
+      "ects": 36,
+      "modules": [
+        {
+          "name": "Digital Innovation and Business Models",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Business Analysis and Process Design",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Agile Project Management",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Business Architecture and IT Infrastructure",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Business AI",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Technology Management",
+          "ects": 6,
+          "provisional": true
+        }
+      ],
+      "builds_on": [
+        "Digital Business",
+        "Business Process Management",
+        "Digital Marketing"
+      ],
+      "careers": [
+        "Business Analyst",
+        "Requirements Engineer",
+        "Product Owner",
+        "Process Manager",
+        "Scrum Master"
+      ],
+      "source": "https://www.fhnw.ch/en/business/degree-programmes/offerings/programmes/digital-business-management"
+    },
+    {
+      "id": "DT",
+      "name": "Digital Trust",
+      "focus": "Cybersecurity, data protection, IS audit and compliance",
+      "semesters": [
+        6,
+        7,
+        8
+      ],
+      "ects": 36,
+      "modules": [
+        {
+          "name": "Cybersecurity Management",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "Data Protection and Privacy",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "IS Auditing and Compliance",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "DT Module 4",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "DT Module 5",
+          "ects": 6,
+          "provisional": true
+        },
+        {
+          "name": "DT Module 6",
+          "ects": 6,
+          "provisional": true
+        }
+      ],
+      "builds_on": [
+        "IT Security",
+        "Digital Law",
+        "Digital Ethics"
+      ],
+      "careers": [
+        "Cybersecurity Consultant",
+        "IS and IT Consultant",
+        "Compliance Officer",
+        "IS and IT Auditor"
+      ],
+      "source": "https://www.fhnw.ch/en/business/degree-programmes/offerings/programmes/digital-trust"
+    }
+  ]
+}
