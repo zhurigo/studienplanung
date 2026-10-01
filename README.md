@@ -1,46 +1,65 @@
-# studienplanung
+# studienplanung — BIT Study Planner
 
-A tool that is here to help BIT students of FHNW to find Electives (4 x 3 ECTS that can be filled in during the 2nd and 3rd years of the degree)
+An interactive command-line tool that helps FHNW Business Information Technology (BIT) students choose a specialisation and four electives, then generates a personal 180-ECTS study roadmap.
 
-IDEA SKETCH
-"Specialization explorer" with an "Electives picker".
+## The problem
 
-Specialization:
-* There's 3 paths for specialization
-* Each specialization will require 6 modules
+In the BIT programme you pick one of three specialisations and four 3-ECTS electives, but the information needed to decide is spread across the FHNW programme page and many individual module descriptions. It is also hard to see how a single swap changes the whole 180-ECTS plan. This tool brings the choices into one place and keeps the plan consistent as you change it.
 
+## What it does
 
-Electives [Reference - https://modulbeschreibungen.webapps.fhnw.ch/]:
-* Electives are not directly related to a specialization
-* Electives can be selected on a freestyle motto
+- **Suggests a specialisation**: take a short quiz, or skip it if you already know where you're heading.
+- **Lets you explore** the three specialisations (Business Analytics and Data Science, Digital Business Management, Digital Trust) and the elective categories.
+- **Builds your plan**: one specialisation (6 modules, 36 ECTS) plus four 3-ECTS electives.
+- **Regenerates your roadmap** whenever you swap a module, so the semester-by-semester view always matches your choices.
+- **Checks and saves**: validates the plan against the curriculum, shows a per-group progress report, and saves to `my_plan.json`.
 
+## Scope (MVP)
 
-There are 180 ECTS where some are Specialization specific modules and some are Elective specific modules. A user will interact with the CLI application by being asked a questionnaire and receive a suggestive specialization such as [Reference - https://www.fhnw.ch/en/business/degree-programmes/offerings/programmes/bachelor-in-business-information-technology]:
-* Business Analytics and Data Science: Focuses on analyzing large volumes of data, identifying patterns, and using insights for smart business forecasting and decision-making.
-* Digital Business Management: Concentrates on designing digital business models, managing organizational change, and aligning IT strategies with corporate goals.
-* Digital Trust: Centers on cybersecurity, risk management, data protection, and operating secure IT infrastructures.
+| In                                                       | Out                                                            |
+| -------------------------------------------------------- | -------------------------------------------------------------- |
+| Console application (interactive, with input validation) | Graphical or web interface                                     |
+| Questionnaire-based specialisation suggestion            | Languages of instruction other than English                    |
+| Choosing one specialisation and four electives           | Official module lists (names are placeholders until published) |
+| Full 180-ECTS roadmap that updates on every swap         | Multiple users or accounts                                     |
+| Plan check and per-group progress report                 |                                                                |
+| Save / load of a single plan (`my_plan.json`)            |                                                                |
 
+## How to run
 
-MVP
-* A cli application
-* 1. A welcome message describing our intention
-* 2. Ask the user
-     2.1. If they have a clue of where they're heading
-     2.2. If they'd like to take a quiz and be given a suggestion
-* 3. The user will see a list of Specializations (that are 3), specific Electives based on the degree and language of learning (ENG for now but probably all options after MVP)
-* 4. Give them the option to see the full list of swappable modules.
-* 5. After the initial interaction, we will show the user their ROADMAP according to their selections. I.E. if they choose to swap Applied Mathematics 2 for an Elective, their ROADMAP will look different.
+Requires Python 3.12 or newer.
 
+```bash
+# 1. Activate the virtual environment
+source .venv/bin/activate        # macOS / Linux
+.venv\Scripts\activate           # Windows
 
-TECHNICAL
-* 
+# 2. Start the planner
+python main.py
+```
 
-ROUGH IDEA OF HOW IT WILL LOOK
+The app reads its curriculum data from the `data/` folder on start-up. If a file is missing or broken it prints an error and stops.
 
+```
+studienplanung/
+├── main.py          # entry point and main menu
+├── planner/         # planning logic
+├── data/            # modules and specialisations
+├── tests/
+└── my_plan.json     # your saved plan (created on first save)
+```
 
----
+## Team
 
-## How to use the BIT Study Planner
+| Member            | GitHub           | User stories |
+| ----------------- | ---------------- | ------------ |
+| Hugo              | `zhurigo`        | _TBD_        |
+| Thalita dos Reis  | `ThalitadosReis` | _TBD_        |
+| Angelica Bertalli | _TBD_            | _TBD_        |
+
+## How it works
+
+A step-by-step walkthrough of a typical session.
 
 ### Step 1: Start and welcome
 
@@ -232,4 +251,9 @@ Plan saved to my_plan.json.
 Goodbye, and good luck with your studies!
 ```
 
-> **Note:** Specialisation module names and electives are placeholders until the official Curriculum 2025 lists are published.
+> **Note:** Specialisation module names and electives are placeholders until the official curriculum lists are published.
+
+## Sources
+
+- FHNW module descriptions: https://modulbeschreibungen.webapps.fhnw.ch/
+- FHNW Bachelor in Business Information Technology: https://www.fhnw.ch/en/business/degree-programmes/offerings/programmes/bachelor-in-business-information-technology
