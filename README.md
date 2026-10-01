@@ -8,34 +8,40 @@ In the BIT programme you pick one of three specialisations and four 3-ECTS elect
 
 ## What it does
 
-- **Suggests a specialisation**: take a short quiz, or skip it if you already know where you're heading.
+- **Shows the degree plan**: all modules per semester, filterable by group (e.g. Information Technology).
 - **Lets you explore** the three specialisations (Business Analytics and Data Science, Digital Business Management, Digital Trust) and the elective categories.
-- **Builds your plan**: one specialisation (6 modules, 36 ECTS) plus four 3-ECTS electives.
-- **Regenerates your roadmap** whenever you swap a module, so the semester-by-semester view always matches your choices.
-- **Checks and saves**: validates the plan against the curriculum, shows a per-group progress report, and saves to `my_plan.json`.
+- **Builds your plan**: one specialisation (6 modules, 36 ECTS) plus four 3-ECTS electives, with an ECTS counter that stops at 12.
+- **Lets you swap**: remove or replace an elective and the roadmap changes with it.
+- **Checks and saves**: warns about problems in the plan, shows a per-group progress report toward 180 ECTS, and saves to `my_plan.json`.
 
 ## Scope (MVP)
 
-| In                                                       | Out                                                            |
-| -------------------------------------------------------- | -------------------------------------------------------------- |
-| Console application (interactive, with input validation) | Graphical or web interface                                     |
-| Questionnaire-based specialisation suggestion            | Languages of instruction other than English                    |
-| Choosing one specialisation and four electives           | Official module lists (names are placeholders until published) |
-| Full 180-ECTS roadmap that updates on every swap         | Multiple users or accounts                                     |
-| Plan check and per-group progress report                 |                                                                |
-| Save / load of a single plan (`my_plan.json`)            |                                                                |
+| In                                                       | Out                                                                |
+| -------------------------------------------------------- | ------------------------------------------------------------------ |
+| Console application (interactive, with input validation) | Graphical or web interface                                         |
+| Browsing the degree plan, filtered by group              | Questionnaire-based specialisation suggestion (planned after MVP)  |
+| Choosing one specialisation and four electives           | Languages of instruction other than English                        |
+| Full 180-ECTS roadmap that updates on every swap         | Official module lists (names are placeholders until published)     |
+| Plan check and per-group progress report                 | Multiple users or accounts                                         |
+| Save / load of a single plan (`my_plan.json`)            |                                                                    |
 
 ## How to run
 
 Requires Python 3.12 or newer.
 
 ```bash
-# 1. Activate the virtual environment
+# 1. Create the virtual environment (first time only)
+python3 -m venv .venv
+
+# 2. Activate it
 source .venv/bin/activate        # macOS / Linux
 .venv\Scripts\activate           # Windows
 
-# 2. Start the planner
+# 3. Start the planner
 python main.py
+
+# Run the tests
+python -m unittest discover tests
 ```
 
 The app reads its curriculum data from the `data/` folder on start-up. If a file is missing or broken it prints an error and stops.
@@ -51,11 +57,27 @@ studienplanung/
 
 ## Team
 
-| Member            | GitHub           | User stories |
-| ----------------- | ---------------- | ------------ |
-| Hugo              | `zhurigo`        | _TBD_        |
-| Thalita dos Reis  | `ThalitadosReis` | _TBD_        |
-| Angelica Bertalli | _TBD_            | _TBD_        |
+| Member            | GitHub           | Area           | User stories |
+| ----------------- | ---------------- | -------------- | ------------ |
+| Angelica Bertalli | `angio-eng`      | Browse         | 1, 2, 3      |
+| Thalita dos Reis  | `ThalitadosReis` | Plan           | 4, 5, 6      |
+| Hugo              | `zhurigo`        | Check and save | 7, 8, 9      |
+
+## User stories
+
+Each team member implements three user stories. The last column shows which course acceptance criteria the story demonstrates.
+
+| Owner                 | #   | User story                                                                                                         | Course criteria shown          |
+| --------------------- | --- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------ |
+| Angelica (Browse)     | 1   | As a student, I want to see all modules per semester so I know what's coming.                                      | Interactive, file reading      |
+| Angelica (Browse)     | 2   | As a student, I want to filter modules by group (e.g. Information Technology) so I see where my ECTS come from.    | Interactive, input validation  |
+| Angelica (Browse)     | 3   | As a student, I want to explore the three specialisations so I can compare them.                                   | Interactive, file reading      |
+| Thalita (Plan)        | 4   | As a student, I want to choose one specialisation and have it stored in my plan.                                   | Input validation               |
+| Thalita (Plan)        | 5   | As a student, I want to pick electives with an ECTS counter so I don't go over 12.                                 | Input validation               |
+| Thalita (Plan)        | 6   | As a student, I want to remove or swap an elective so I can change my plan.                                        | Input validation               |
+| Hugo (Check and save) | 7   | As a student, I want the app to check my plan and warn me about problems.                                          | Data validation                |
+| Hugo (Check and save) | 8   | As a student, I want to save and load my plan so it's there next time.                                             | File writing and reading       |
+| Hugo (Check and save) | 9   | As a student, I want to see my planned ECTS per group and my progress toward 180.                                  | Interactive                    |
 
 ## How it works
 
