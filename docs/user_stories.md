@@ -1,7 +1,6 @@
 # studienplanung — User Stories
 
 **Team:** Angelica Bertalli (`angio-eng`), Thalita dos Reis (`ThalitadosReis`), Hugo (`zhurigo`)
-**Course:** Programming Foundations (BIT), AS 2026, Brugg
 
 Each team member implements three user stories. Every story follows the template
 *As a ⟨role⟩, I want ⟨goal⟩, so that ⟨benefit⟩* and has at least one acceptance criterion.
@@ -19,8 +18,6 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
 | 7   | Hugo     | Check and save | Data validation               |
 | 8   | Hugo     | Check and save | File writing and reading      |
 | 9   | Hugo     | Check and save | Interactive                   |
-
----
 
 ## Angelica — Browse
 
@@ -77,30 +74,26 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
   - **When** ___
   - **Then** ___
 
----
-
 ## Thalita — Plan
 
 ### US4: Choose a specialisation
 
-> As a student, I want to choose one specialisation and have it stored in my plan.
-
-<!-- Missing the "so that ..." part of the template -->
+> As a student, I want to choose one specialisation and have it stored in my plan, so that I can plan my electives around it.
 
 **Acceptance criteria**
 
-- **AC1** — _Happy path: no specialisation chosen yet, and the user picks a valid number (what is stored?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-- **AC2** — _Invalid input: a number outside 1–3 or text (what message, and does it ask again?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-- **AC3** — _Replacing: a specialisation is already chosen (confirm with y/n; what happens on each answer?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+- **AC1**
+  - **Given** I haven't picked a specialisation yet
+  - **When** I type `3` in "Choose specialisation"
+  - **Then** Digital Trust gets saved in my plan, and next time I get to open the menu it will show up as my current choice
+- **AC2**
+  - **Given** I'm in "Choose specialisation"
+  - **When** I type something wrong, like a word or an option that is not available, e.g. `5`
+  - **Then** the app will tell me to enter a number from 1 to 3 and let me try again, and nothing in my plan changes
+- **AC3**
+  - **Given** I already picked a specialisation, e.g. Digital Trust
+  - **When** I pick a different one
+  - **Then** it asks me first if I really want to replace it: `n` keeps Digital Trust, `y` swaps it for the new one
 
 ### US5: Pick electives with an ECTS counter
 
@@ -108,18 +101,18 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
 
 **Acceptance criteria**
 
-- **AC1** — _Happy path: an elective that still fits under 12 ECTS is added (what does the counter show?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-- **AC2** — _Limit: an elective that would push the total over 12 ECTS_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-- **AC3** — _Invalid input / duplicates: a wrong number, or an elective that's already in the plan_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+- **AC1**
+  - **Given** I have 6 of 12 ECTS of electives so far
+  - **When** I add a 3-ECTS elective, e.g. Spanish A1
+  - **Then** it is added and the counter goes up to 9/12
+- **AC2**
+  - **Given** I have 9 of 12 ECTS
+  - **When** I try to add a 6-ECTS elective
+  - **Then** the app doesn't add it and shows me why: it would take me to 15/12 ECTS and I only have 3 ECTS left. The counter stays at 9/12
+- **AC3**
+  - **Given** I'm looking at the electives in a category
+  - **When** I type a number that isn't on the list or pick one I already have
+  - **Then** the app tells me what's wrong and doesn't add anything
 
 ### US6: Remove or swap an elective
 
@@ -127,20 +120,18 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
 
 **Acceptance criteria**
 
-- **AC1** — _Happy path: an elective in the plan is removed (what happens to the counter?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-- **AC2** — _Nothing to remove: the plan has no electives yet_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-- **AC3** — _Invalid input: a number that isn't in the list of selected electives_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-
----
+- **AC1**
+  - **Given** I have Spanish A1 (3 ECTS) in my plan and I'm at 6/12
+  - **When** I remove Spanish A1
+  - **Then** it is removed from my plan and the counter will update to 3/12
+- **AC2**
+  - **Given** I don't have any electives yet
+  - **When** I go to "Remove an elective"
+  - **Then** the app tells me there's nothing that can be removed and takes me back to the electives menu
+- **AC3**
+  - **Given** I have Spanish A1 (3 ECTS) in my plan and I'm at 9/12
+  - **When** I swap Spanish A1 for the Spanish intensive course A1/A2 (6 ECTS)
+  - **Then** Spanish A1 is replaced by the intensive course and the counter goes up to 12/12
 
 ## Hugo — Check and save
 
