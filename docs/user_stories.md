@@ -28,13 +28,17 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
 **Acceptance criteria**
 
 - **AC1** — _Happy path: the degree plan is shown, grouped by semester (what does each line show?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** the modules are loaded from `data/`
+  - **When** I choose "View degree plan" from the main menu
+  - **Then** I can see all modules sorted by semester (1 to 8) with their name, group and ECTS
 - **AC2** — _Data comes from the file: what happens if the modules file is missing or can't be read?_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** `data/modules.json` is missing or contains invalid data
+  - **When** I start the app
+  - **Then** I see an error message with the file name and the app stops
+- **AC3**
+  - **Given** I am in "Explore specialisations"
+  - **When** I enter `0`
+  - **Then** I go back to the main menu
 
 ### US2: Filter modules by group
 
@@ -43,17 +47,18 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
 **Acceptance criteria**
 
 - **AC1** — _Happy path: a valid group number is entered (what is listed, and what total is shown?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** the degree plan is displayed
+  - **When** I choose 4 (IT)
+  - **Then** I only see the IT modules with their semester and ECTS
 - **AC2** — _Invalid input: a number outside the menu, or text instead of a number_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-- **AC3** — _Skip: the user presses Enter without choosing a group_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** the degree plan is shown
+  - **When** I enter a wrong number (e.g. `9`) or text (e.g. `abc`)
+  - **Then** I see the message "Please enter a number from 1 to 7." and I can try again
+- **AC3**
+  - **Given** the degree plan is show
+  - **When** I press Enter without typing anything
+  - **Then** I go back to the main menu without applying a filter
+
 
 ### US3: Explore the specialisations
 
@@ -62,17 +67,18 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
 **Acceptance criteria**
 
 - **AC1** — _Happy path: the user picks a specialisation (which details must appear?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
-- **AC2** — _Invalid input: a number outside 1–3 or text_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** I am in "Explore specialisations"
+  - **When** I choose `3`
+  - **Then** I can see the Digital Trust specialisation with its ECTS, semesters, modules and career options
+- **AC2** — _Invalid input: a number outsI am in "Explore specialisations"
+  - **Given** I am in "Explore specialisations"
+  - **When** I enter a number that is not between 0 and 3, or I enter text
+  - **Then** the app shows "Please enter a number from 0 to 3." and asks me to try again
+
 - **AC3** — _Going back: the user enters 0_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** I am in "Explore specialisations"
+  - **When** I enter `0`
+  - **Then** I will go back to the main menu
 
 ## Thalita — Plan
 
