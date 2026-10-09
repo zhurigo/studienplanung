@@ -1,16 +1,16 @@
 # studienplanung — BIT Study Planner
 
-An interactive command-line tool that helps FHNW Business Information Technology (BIT) students choose a specialisation and four electives, then generates a personal 180-ECTS study roadmap.
+An interactive command-line tool that helps FHNW Business Information Technology (BIT) students choose a specialisation and 12 ECTS of electives, then generates a personal 180-ECTS study roadmap.
 
 ## The problem
 
-In the BIT programme you pick one of three specialisations and four 3-ECTS electives, but the information needed to decide is spread across the FHNW programme page and many individual module descriptions. It is also hard to see how a single swap changes the whole 180-ECTS plan. This tool brings the choices into one place and keeps the plan consistent as you change it.
+In the BIT programme you pick one of three specialisations and 12 ECTS of electives (each elective is worth 3 or 6 ECTS, so 2–4 modules), but the information needed to decide is spread across the FHNW programme page and many individual module descriptions. It is also hard to see how a single swap changes the whole 180-ECTS plan. This tool brings the choices into one place and keeps the plan consistent as you change it.
 
 ## What it does
 
 - **Shows the degree plan**: all modules per semester, filterable by group (e.g. Information Technology).
 - **Lets you explore** the three specialisations (Business Analytics and Data Science, Digital Business Management, Digital Trust) and the elective categories.
-- **Builds your plan**: one specialisation (6 modules, 36 ECTS) plus four 3-ECTS electives, with an ECTS counter that stops at 12.
+- **Builds your plan**: one specialisation (6 modules, 36 ECTS) plus 12 ECTS of electives (3 or 6 ECTS each), with an ECTS counter that stops at 12.
 - **Lets you swap**: remove or replace an elective and the roadmap changes with it.
 - **Checks and saves**: warns about problems in the plan, shows a per-group progress report toward 180 ECTS, and saves to `my_plan.json`.
 
@@ -20,8 +20,8 @@ In the BIT programme you pick one of three specialisations and four 3-ECTS elect
 | -------------------------------------------------------- | ------------------------------------------------------------------ |
 | Console application (interactive, with input validation) | Graphical or web interface                                         |
 | Browsing the degree plan, filtered by group              | Questionnaire-based specialisation suggestion (planned after MVP)  |
-| Choosing one specialisation and four electives           | Languages of instruction other than English                        |
-| Full 180-ECTS roadmap that updates on every swap         | Official module lists (names are placeholders until published)     |
+| Choosing one specialisation and 12 ECTS of electives     | Languages of instruction other than English                        |
+| Full 180-ECTS roadmap that updates on every swap         | Official specialisation modules (names are placeholders)           |
 | Plan check and per-group progress report                 | Multiple users or accounts                                         |
 | Save / load of a single plan (`my_plan.json`)            |                                                                    |
 
@@ -50,7 +50,8 @@ The app reads its curriculum data from the `data/` folder on start-up. If a file
 studienplanung/
 ├── main.py          # entry point and main menu
 ├── planner/         # planning logic
-├── data/            # modules and specialisations
+├── data/            # modules, specialisations and electives
+├── docs/            # user stories with acceptance criteria
 ├── tests/
 └── my_plan.json     # your saved plan (created on first save)
 ```
@@ -65,14 +66,14 @@ studienplanung/
 
 ## User stories
 
-Each team member implements three user stories. The last column shows which course acceptance criteria the story demonstrates.
+Each team member implements three user stories. The last column shows which course requirement the story demonstrates. The acceptance criteria for every story are in [docs/user_stories.md](docs/user_stories.md).
 
-| Owner                 | #   | User story                                                                                                         | Course criteria shown          |
+| Owner                 | #   | User story                                                                                                         | Course requirement shown       |
 | --------------------- | --- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------ |
 | Angelica (Browse)     | 1   | As a student, I want to see all modules per semester so I know what's coming.                                      | Interactive, file reading      |
 | Angelica (Browse)     | 2   | As a student, I want to filter modules by group (e.g. Information Technology) so I see where my ECTS come from.    | Interactive, input validation  |
 | Angelica (Browse)     | 3   | As a student, I want to explore the three specialisations so I can compare them.                                   | Interactive, file reading      |
-| Thalita (Plan)        | 4   | As a student, I want to choose one specialisation and have it stored in my plan.                                   | Input validation               |
+| Thalita (Plan)        | 4   | As a student, I want to choose one specialisation and have it stored in my plan, so that I can plan my electives around it. | Input validation               |
 | Thalita (Plan)        | 5   | As a student, I want to pick electives with an ECTS counter so I don't go over 12.                                 | Input validation               |
 | Thalita (Plan)        | 6   | As a student, I want to remove or swap an elective so I can change my plan.                                        | Input validation               |
 | Hugo (Check and save) | 7   | As a student, I want the app to check my plan and warn me about problems.                                          | Data validation                |
@@ -92,7 +93,7 @@ The app loads the data files from the `data/` folder and shows how much it found
    Welcome to the BIT Study Planner
    FHNW School of Business · Curriculum 2026/2027
 ==============================================
-Loaded 34 modules and 3 specialisations.
+Loaded 28 modules, 3 specialisations and 24 electives.
 ```
 
 ### Step 2: Load a saved plan
@@ -189,11 +190,11 @@ Kept Digital Trust.
 
 ### Step 7: Plan electives
 
-Add or remove electives. The counter never goes above 12 ECTS, and you can't pick the same elective twice.
+Add, remove or swap electives. First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 3 or 6 ECTS each, so the number you pick varies (2 to 4). The counter never goes above 12 ECTS, and you can't pick the same elective twice.
 
 ```
 --- Plan electives ---
-Selected: 6/12 ECTS (Python, Entrepreneurship)
+Selected: 6/12 ECTS (German Basic A1, Italian A1)
 1. Add an elective
 2. Remove an elective
 0. Back
@@ -201,27 +202,26 @@ Choose (0-2): 1
 
 --- Categories ---
 1. Languages (10)
-2. Technology (5)
-3. Business and Management (4)
-4. Personal Skills (1)
-5. Job Reflection (1)
+2. Technology (7)
+3. Business and Management (5)
+4. Job Reflection (2)
 Choose a category (0 to go back): 1
 
 --- Languages ---
- 1. Spanish 1 (Beginner)       3 ECTS   HS
- 2. Spanish 2 (Intermediate)   3 ECTS   FS
- 3. French 1                   3 ECTS   HS
- 4. Italian 1                  3 ECTS   FS
- 5. German for Business 1      3 ECTS   FS
- 6. Russian 1                  3 ECTS   HS
- 7. Portuguese 1               3 ECTS   FS
- 8. Chinese 1                  3 ECTS   HS
- 9. Japanese 1                 3 ECTS   FS
-10. Arabic 1                   3 ECTS   HS
-Pick an elective (0 to go back): 12
+ 1. Chinese Basic Communication A1      3 ECTS   HS/FS   Olten, Windisch
+ 2. Chinese Basic Communication A2      3 ECTS   HS      Olten
+ 3. French B1-B2                        3 ECTS   HS      Olten
+ 4. German Basic A1                     3 ECTS   HS/FS   Olten
+ 5. Italian A1                          3 ECTS   HS      Basel, Windisch
+ 6. Japanese Basic A1.1                 3 ECTS   HS      Basel
+ 7. Spanish A1                          3 ECTS   HS/FS   Basel, Olten, Windisch
+ 8. Spanish A2                          3 ECTS   HS/FS   Olten, Windisch
+ 9. Spanish B1                          3 ECTS   HS/FS   Olten
+10. Spanish intensive course A1/A2      6 ECTS   FS      Olten, Windisch
+Pick an elective (0 to go back): 11
 Please enter a number from 0 to 10.
-Pick an elective (0 to go back): 1
-Added Spanish 1 (Beginner). Selected: 9/12 ECTS
+Pick an elective (0 to go back): 7
+Added Spanish A1. Selected: 9/12 ECTS
 ```
 
 ### Step 8: Check my plan
@@ -273,7 +273,7 @@ Plan saved to my_plan.json.
 Goodbye, and good luck with your studies!
 ```
 
-> **Note:** Specialisation module names and electives are placeholders until the official curriculum lists are published.
+> **Note:** Electives come from the FHNW module descriptions (HS26 and FS27), limited to regular BIT courses and language courses; ECTS values are rounded to 3 or 6 to match the current curriculum. Specialisation module names are placeholders until the official lists are published.
 
 ## Sources
 

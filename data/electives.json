@@ -4,245 +4,171 @@
     "curriculum": "Curriculum 2025",
     "academic_year": "Fall 2026/2027",
     "elective_ects_required": 12,
-    "note": "Entries with provisional=true are examples. Replace them with the real list from modulbeschreibungen.webapps.fhnw.ch."
+    "note": "BIT electives from the FHNW module descriptions (HS26 and FS27), limited to regular BIT courses and language courses. semester: HS = autumn, FS = spring, HS/FS = both. campus: where the classes take place (Online = remote option).",
+    "ects_note": "Every elective is worth 3 or 6 ECTS; old-curriculum values were rounded (5 -> 6, 4 -> 3, 2 -> 3). A plan needs exactly 12 elective ECTS: 4 x 3, 2 x 3 + 6 or 2 x 6."
   },
-  "categories": [
-    "Languages",
-    "Technology",
-    "Business and Management",
-    "Personal Skills",
-    "Job Reflection"
-  ],
-  "electives": [
-    {
-      "id": "LANG-ES1",
-      "name": "Spanish 1 (Beginner)",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "Spanish",
-      "semester": "HS",
-      "related_specialisations": [],
-      "provisional": true,
-      "level": "A1"
-    },
-    {
-      "id": "LANG-ES2",
-      "name": "Spanish 2 (Intermediate)",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "Spanish",
-      "semester": "FS",
-      "related_specialisations": [],
-      "provisional": true,
-      "level": "A2"
-    },
-    {
-      "id": "LANG-FR1",
-      "name": "French 1",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "French",
-      "semester": "HS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "LANG-IT1",
-      "name": "Italian 1",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "Italian",
-      "semester": "FS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "LANG-DE1",
-      "name": "German for Business 1",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "German",
-      "semester": "FS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "LANG-RU1",
-      "name": "Russian 1",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "Russian",
-      "semester": "HS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "LANG-PT1",
-      "name": "Portuguese 1",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "Portuguese",
-      "semester": "FS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "LANG-ZH1",
-      "name": "Chinese 1",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "Chinese",
-      "semester": "HS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "LANG-JA1",
-      "name": "Japanese 1",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "Japanese",
-      "semester": "FS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "LANG-AR1",
-      "name": "Arabic 1",
-      "category": "Languages",
-      "ects": 3,
-      "taught_in": "Arabic",
-      "semester": "HS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "TECH-AI",
-      "name": "AI Technologies",
-      "category": "Technology",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "HS",
-      "related_specialisations": [
-        "Business Analytics and Data Science",
-        "Digital Business Management"
-      ],
-      "provisional": true
-    },
-    {
-      "id": "TECH-PY",
-      "name": "Python",
-      "category": "Technology",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "FS",
-      "related_specialisations": [
-        "Business Analytics and Data Science"
-      ],
-      "provisional": true
-    },
-    {
-      "id": "TECH-BC",
-      "name": "Blockchain",
-      "category": "Technology",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "FS",
-      "related_specialisations": [
-        "Digital Trust"
-      ],
-      "provisional": true
-    },
-    {
-      "id": "TECH-UX",
-      "name": "User Experience (UX)",
-      "category": "Technology",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "HS",
-      "related_specialisations": [
-        "Digital Business Management"
-      ],
-      "provisional": true
-    },
-    {
-      "id": "TECH-AND",
-      "name": "Mobile Apps with Android",
-      "category": "Technology",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "FS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "BUS-SCRUM",
-      "name": "Agile Project Management with Scrum",
-      "category": "Business and Management",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "HS",
-      "related_specialisations": [
-        "Digital Business Management"
-      ],
-      "provisional": true
-    },
-    {
-      "id": "BUS-CONS",
-      "name": "Consulting",
-      "category": "Business and Management",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "FS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "BUS-ENT",
-      "name": "Entrepreneurship",
-      "category": "Business and Management",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "HS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "BUS-DMA",
-      "name": "Digital Marketing and Analytics",
-      "category": "Business and Management",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "FS",
-      "related_specialisations": [
-        "Business Analytics and Data Science"
-      ],
-      "provisional": true
-    },
-    {
-      "id": "SKILL-PRES",
-      "name": "Presentation and Public Speaking",
-      "category": "Personal Skills",
-      "ects": 3,
-      "taught_in": "English",
-      "semester": "HS",
-      "related_specialisations": [],
-      "provisional": true
-    },
-    {
-      "id": "JOB-REF",
-      "name": "Job Reflection",
-      "category": "Job Reflection",
-      "ects": 6,
-      "taught_in": "English",
-      "semester": "HS",
-      "related_specialisations": [],
-      "provisional": false,
-      "rules": {
-        "max_per_study_year": 1,
-        "max_total": 3,
-        "min_work_percentage": 50
+  "categories": {
+    "Languages": [
+      {
+        "id": "LANG-ZH-A1",
+        "name": "Chinese Basic Communication A1",
+        "ects": 3,
+        "semester": "HS/FS",
+        "campus": ["Olten", "Windisch"]
+      },
+      {
+        "id": "LANG-ZH-A2",
+        "name": "Chinese Basic Communication A2",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "LANG-FR-B1B2",
+        "name": "French B1-B2",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "LANG-DE-A1",
+        "name": "German Basic A1",
+        "ects": 3,
+        "semester": "HS/FS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "LANG-IT-A1",
+        "name": "Italian A1",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Basel", "Windisch"]
+      },
+      {
+        "id": "LANG-JA-A11",
+        "name": "Japanese Basic A1.1",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Basel"]
+      },
+      {
+        "id": "LANG-ES-A1",
+        "name": "Spanish A1",
+        "ects": 3,
+        "semester": "HS/FS",
+        "campus": ["Basel", "Olten", "Windisch"]
+      },
+      {
+        "id": "LANG-ES-A2",
+        "name": "Spanish A2",
+        "ects": 3,
+        "semester": "HS/FS",
+        "campus": ["Olten", "Windisch"]
+      },
+      {
+        "id": "LANG-ES-B1",
+        "name": "Spanish B1",
+        "ects": 3,
+        "semester": "HS/FS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "LANG-ES-INT",
+        "name": "Spanish intensive course A1/A2",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Olten", "Windisch"]
       }
-    }
-  ]
+    ],
+    "Technology": [
+      {
+        "id": "TECH-050721S1",
+        "name": "Agile Application Lifecycle Management",
+        "ects": 6,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "TECH-060704S1",
+        "name": "Analytics Project",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Windisch"]
+      },
+      {
+        "id": "TECH-050703S1",
+        "name": "Big, Semi- and Unstructured Data",
+        "ects": 6,
+        "semester": "HS",
+        "campus": ["Olten", "Windisch"]
+      },
+      {
+        "id": "TECH-050731S1",
+        "name": "Data Privacy",
+        "ects": 6,
+        "semester": "HS",
+        "campus": ["Basel", "Olten", "Online", "Windisch"]
+      },
+      {
+        "id": "TECH-060714S1",
+        "name": "Information Systems Auditing",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Basel", "Olten"]
+      },
+      {
+        "id": "TECH-050701S1",
+        "name": "Machine Learning with Python",
+        "ects": 6,
+        "semester": "HS",
+        "campus": ["Olten", "Windisch"]
+      },
+      {
+        "id": "TECH-050723S1",
+        "name": "Software Engineering",
+        "ects": 6,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "TECH-060702S1",
+        "name": "Time Series Analysis with R",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Windisch"]
+      }
+    ],
+    "Business and Management": [
+      {
+        "id": "BUS-061033S",
+        "name": "Digital Marketing",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "BUS-050713S1",
+        "name": "Strategic Digital Management",
+        "ects": 6,
+        "semester": "HS",
+        "campus": ["Basel", "Olten"]
+      }
+    ],
+    "Job Reflection": [
+      {
+        "id": "JOB-REFBP1",
+        "name": "Jobreflection 1",
+        "ects": 6,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "JOB-060693S1",
+        "name": "Reflection Job Experience 3",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Basel", "Windisch"]
+      }
+    ]
+  }
 }
