@@ -143,20 +143,22 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
 
 ### US7: Check my plan
 
-> As a student, I want the app to check my plan and warn me about problems.
-
-<!-- Missing the "so that ..." part of the template -->
+> As a student, I want the app to check my plan and warn me about problems, so that I can fix them before I finalise my plan.
 
 **Acceptance criteria**
 
 - **AC1** — _Complete plan: everything is filled in (what confirmation is shown?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** a plan where a specialisation is chosen, 12/12 elective ECTS are selected and every group meets its target (180/180 ECTS total)
+  - **When** I choose "Check my plan"
+  - **Then** the app shows no warnings and confirms "Your plan is complete (180/180 ECTS)."
 - **AC2** — _Incomplete plan: e.g. no specialisation or fewer than 12 elective ECTS (what warnings, with which numbers?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** a plan with no specialisation chosen, 9/12 elective ECTS and 177/180 total ECTS
+  - **When** I choose "Check my plan"
+  - **Then** the app lists each problem on its own line, e.g. "No specialisation chosen.", "Electives: 9/12 ECTS — 3 ECTS missing.", "Total: 177/180 ECTS — 3 ECTS missing."
+- **AC3** — _Empty plan: nothing chosen yet (does it crash?)_
+  - **Given** a brand-new plan with no specialisation and no electives
+  - **When** I choose "Check my plan"
+  - **Then** the app lists the missing items and does not crash
 
 ### US8: Save and load my plan
 
@@ -165,31 +167,33 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
 **Acceptance criteria**
 
 - **AC1** — _Save: the user saves (which file, and what must be in it?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** I have chosen the specialisation "Digital Trust" (id `DT`) and two electives
+  - **When** I choose "Save plan"
+  - **Then** the app writes `my_plan.json` containing the specialisation id and the ids of both electives, and confirms "Plan saved to my_plan.json."
 - **AC2** — _Load: the app starts and a saved plan exists (what is restored?)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** a valid `my_plan.json` exists from a previous session
+  - **When** I start the app and answer `y` to "A saved plan was found. Load it? (y/n):"
+  - **Then** my specialisation and electives are restored and shown, e.g. "Plan loaded: Digital Trust, 2 electives (6/12 ECTS)"
 - **AC3** — _Error case: no saved file yet, or the file is damaged_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** there is no `my_plan.json`, or the file exists but is damaged or unreadable
+  - **When** I start the app
+  - **Then** a missing file starts an empty plan without a load question, a damaged file shows a clear message, and the app does not crash in either case
 
 ### US9: Progress toward 180 ECTS
 
-> As a student, I want to see my planned ECTS per group and my progress toward 180.
-
-<!-- Missing the "so that ..." part of the template -->
+> As a student, I want to see my planned ECTS per group and my progress toward 180, so that I know how much is still missing.
 
 **Acceptance criteria**
 
 - **AC1** — _Happy path: the report shows each group's planned/required ECTS_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** a plan with a specialisation and some electives
+  - **When** I choose "Progress report"
+  - **Then** each group from `data/modules.json` is listed as planned/required ECTS, e.g. "Foundation 24/24", "BIT 33/33", "Electives 9/12"
 - **AC2** — _Total: the progress toward 180 ECTS is shown as a number + percentage/bar (check with an incomplete plan)_
-  - **Given** ___
-  - **When** ___
-  - **Then** ___
+  - **Given** my plan totals 177 ECTS
+  - **When** I choose "Progress report"
+  - **Then** the app shows the total as "177/180 ECTS (98%)" with a progress bar
+- **AC3** — _Update: the numbers follow the current plan_
+  - **Given** I have just added or removed an elective
+  - **When** I open the progress report again
+  - **Then** the per-group and total ECTS reflect the change
