@@ -11,8 +11,9 @@ In the BIT programme you pick one of three specialisations and 12 ECTS of electi
 - **Shows the degree plan**: all modules per semester, filterable by group (e.g. Information Technology).
 - **Lets you explore** the three specialisations (Business Analytics and Data Science, Digital Business Management, Digital Trust) and the elective categories.
 - **Builds your plan**: one specialisation (6 modules, 36 ECTS) plus 12 ECTS of electives (3 or 6 ECTS each), with an ECTS counter that stops at 12.
-- **Lets you swap**: remove or replace an elective and the roadmap changes with it.
-- **Checks and saves**: warns about problems in the plan, shows a per-group progress report toward 180 ECTS, and saves to `my_plan.json`.
+- **Lets you swap**: remove an elective and add another in its place (swap = remove, then add); the roadmap changes with it.
+- **Shows your roadmap**: your personal 180-ECTS plan per semester, with your specialisation and electives in place, empty elective slots, and a progress bar toward 180.
+- **Checks and saves**: warns about problems in the plan and saves it to `my_plan.json`.
 
 ## Scope (MVP)
 
@@ -21,8 +22,8 @@ In the BIT programme you pick one of three specialisations and 12 ECTS of electi
 | Console application (interactive, with input validation) | Graphical or web interface                                         |
 | Browsing the degree plan, filtered by group              | Questionnaire-based specialisation suggestion (planned after MVP)  |
 | Choosing one specialisation and 12 ECTS of electives     | Languages of instruction other than English                        |
-| Full 180-ECTS roadmap that updates on every swap         | Official specialisation modules (names are placeholders)           |
-| Plan check and per-group progress report                 | Multiple users or accounts                                         |
+| Full 180-ECTS roadmap per semester that updates with every change | Official specialisation modules (names are placeholders)           |
+| Plan check and personal roadmap                          | Multiple users or accounts                                         |
 | Save / load of a single plan (`my_plan.json`)            |                                                                    |
 
 ## How to run
@@ -70,15 +71,15 @@ Each team member implements three user stories. The last column shows which cour
 
 | Owner                 | #   | User story                                                                                                         | Course requirement shown       |
 | --------------------- | --- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------ |
-| Angelica (Browse)     | 1   | As a student, I want to see all modules per semester so I know what's coming.                                      | Interactive, file reading      |
-| Angelica (Browse)     | 2   | As a student, I want to filter modules by group (e.g. Information Technology) so I see where my ECTS come from.    | Interactive, input validation  |
-| Angelica (Browse)     | 3   | As a student, I want to explore the three specialisations so I can compare them.                                   | Interactive, file reading      |
+| Angelica (Browse)     | 1   | As a student, I want to see all modules per semester so that I know what's coming.                                      | Interactive, file reading      |
+| Angelica (Browse)     | 2   | As a student, I want to filter modules by group (e.g. Information Technology) so that I see where my ECTS come from.    | Interactive, input validation  |
+| Angelica (Browse)     | 3   | As a student, I want to explore the three specialisations so that I can compare them.                                   | Interactive, file reading      |
 | Thalita (Plan)        | 4   | As a student, I want to choose one specialisation and have it stored in my plan, so that I can plan my electives around it. | Input validation               |
-| Thalita (Plan)        | 5   | As a student, I want to pick electives with an ECTS counter so I don't go over 12.                                 | Input validation               |
-| Thalita (Plan)        | 6   | As a student, I want to remove or swap an elective so I can change my plan.                                        | Input validation               |
-| Hugo (Check and save) | 7   | As a student, I want the app to check my plan and warn me about problems, so that I can fix them before I finalise my plan. | Data validation                |
-| Hugo (Check and save) | 8   | As a student, I want to save and load my plan so it's there next time.                                             | File writing and reading       |
-| Hugo (Check and save) | 9   | As a student, I want to see my planned ECTS per group and my progress toward 180, so that I know how much is still missing. | Interactive                    |
+| Thalita (Plan)        | 5   | As a student, I want to pick electives with an ECTS counter so that I don't go over 12.                                 | Input validation               |
+| Thalita (Plan)        | 6   | As a student, I want to remove or swap an elective so that I can change my plan.                                        | Input validation               |
+| Hugo (Check and save) | 7   | As a student, I want the app to check my current plan (built in the app or loaded from `my_plan.json`) and warn me about problems, so that I can fix them before I finalise my plan. | Data validation                |
+| Hugo (Check and save) | 8   | As a student, I want to save and load my plan so that it is there next time.                                             | File writing and reading       |
+| Hugo (Check and save) | 9   | As a student, I want to see my personal 180-ECTS roadmap per semester, with my specialisation and electives in place, so that I can see how my choices fit into my studies. | Interactive                    |
 
 ## How it works
 
@@ -91,7 +92,7 @@ The app loads the data files from the `data/` folder and shows how much it found
 ```
 ==============================================
    Welcome to the BIT Study Planner
-   FHNW School of Business · Curriculum 2026/2027
+   FHNW School of Business · Academic year 2026/2027
 ==============================================
 Loaded 28 modules, 3 specialisations and 22 electives.
 ```
@@ -118,7 +119,7 @@ The main menu appears after every action. Enter the number of the option you wan
 3. Choose specialisation
 4. Plan electives
 5. Check my plan
-6. Progress report
+6. Roadmap
 7. Save plan
 0. Exit
 Choose an option (0-7): abc
@@ -190,7 +191,7 @@ Kept Digital Trust.
 
 ### Step 7: Plan electives
 
-Add, remove or swap electives. First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 3 or 6 ECTS each, so the number you pick varies (2 to 4). The counter never goes above 12 ECTS, and you can't pick the same elective twice.
+Add or remove electives — to swap, remove one elective and add another in its place (there is no separate swap action). First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 3 or 6 ECTS each, so the number you pick varies (2 to 4). The counter never goes above 12 ECTS, and you can't pick the same elective twice.
 
 ```
 --- Plan electives ---
@@ -226,30 +227,42 @@ Added Spanish A1. Selected: 9/12 ECTS
 
 ### Step 8: Check my plan
 
-Checks your plan and lists every problem, or confirms that it's complete.
+Checks your current plan and prints one line per problem, or confirms that the plan is complete.
 
 ```
 --- Plan check ---
-Specialisation: Digital Trust        OK
-Electives:      9/12 ECTS            1 slot still empty
-Total:          177/180 ECTS         3 ECTS missing
+Electives: 9/12 ECTS — 3 ECTS missing.
 
-2 warnings. Press Enter to return.
+1 warning. Press Enter to return.
 ```
 
-### Step 9: Progress report
-
-Shows your planned ECTS per group and a progress bar toward 180 ECTS.
+When nothing is wrong:
 
 ```
---- Progress report ---
-Foundation              24/24
-Business Admin.         21/21
-BIT                     33/33
-IT                      27/27
-Student Work            27/27
-Specialisation          36/36
-Electives                9/12
+--- Plan check ---
+Your plan is complete (180/180 ECTS).
+```
+
+### Step 9: Personal roadmap
+
+Shows your personal 180-ECTS roadmap per semester, with your specialisation and electives in place, plus a total progress bar toward 180 ECTS. The percentage and the bar length are rounded down (177/180 shows as 98%, and a 20-character bar holds 19 `#`).
+
+```
+--- Roadmap ---
+Semester 1
+  Applied Mathematics 1          Foundation            3 ECTS
+  Statistics 1                   Foundation            3 ECTS
+  Principles of Management       Business Admin.       6 ECTS
+  Digital Business               BIT                   6 ECTS
+  Programming Foundations        IT                    6 ECTS
+...
+Semesters 6-8 (specialisation)
+  Digital Trust modules                               36 ECTS
+Electives
+  German Basic A1                Elective              3 ECTS
+  Italian A1                     Elective              3 ECTS
+  Spanish A1                     Elective              3 ECTS
+  Elective slot 4 — empty
 
 Total  [###################-]  177/180 ECTS (98%)
 ```
@@ -259,7 +272,7 @@ Total  [###################-]  177/180 ECTS (98%)
 Saves your plan to `my_plan.json` so it's there next time you start the app.
 
 ```
-Plan saved to my_plan.json (Digital Trust, 3 electives).
+Plan saved to my_plan.json.
 ```
 
 ### Step 11: Exit
