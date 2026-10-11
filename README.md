@@ -76,9 +76,9 @@ Each team member implements three user stories. The last column shows which cour
 | Thalita (Plan)        | 4   | As a student, I want to choose one specialisation and have it stored in my plan, so that I can plan my electives around it. | Input validation               |
 | Thalita (Plan)        | 5   | As a student, I want to pick electives with an ECTS counter so I don't go over 12.                                 | Input validation               |
 | Thalita (Plan)        | 6   | As a student, I want to remove or swap an elective so I can change my plan.                                        | Input validation               |
-| Hugo (Check and save) | 7   | As a student, I want the app to check my plan and warn me about problems.                                          | Data validation                |
+| Hugo (Check and save) | 7   | As a student, I want the app to check my plan and warn me about problems, so that I can fix them before I finalise my plan. | Data validation                |
 | Hugo (Check and save) | 8   | As a student, I want to save and load my plan so it's there next time.                                             | File writing and reading       |
-| Hugo (Check and save) | 9   | As a student, I want to see my planned ECTS per group and my progress toward 180.                                  | Interactive                    |
+| Hugo (Check and save) | 9   | As a student, I want to see my planned ECTS per group and my progress toward 180, so that I know how much is still missing. | Interactive                    |
 
 ## How it works
 
@@ -93,7 +93,7 @@ The app loads the data files from the `data/` folder and shows how much it found
    Welcome to the BIT Study Planner
    FHNW School of Business · Curriculum 2026/2027
 ==============================================
-Loaded 28 modules, 3 specialisations and 24 electives.
+Loaded 28 modules, 3 specialisations and 22 electives.
 ```
 
 ### Step 2: Load a saved plan
@@ -168,7 +168,7 @@ Digital Trust (36 ECTS, semesters 6-8)
 Focus:     Cybersecurity, data protection, IS audit and compliance
 Modules:   6 modules x 6 ECTS (names provisional)
 Builds on: IT Security, Digital Law, Digital Ethics
-Careers:   Cybersecurity Consultant, Compliance Officer, IS Auditor
+Careers:   Cybersecurity Consultant, IS and IT Consultant, Compliance Officer, IS and IT Auditor
 ```
 
 ### Step 6: Choose specialisation
@@ -202,8 +202,8 @@ Choose (0-2): 1
 
 --- Categories ---
 1. Languages (10)
-2. Technology (7)
-3. Business and Management (5)
+2. Technology (8)
+3. Business and Management (2)
 4. Job Reflection (2)
 Choose a category (0 to go back): 1
 
