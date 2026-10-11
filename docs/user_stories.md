@@ -3,9 +3,9 @@
 **Team:** Angelica Bertalli (`angio-eng`), Thalita dos Reis (`ThalitadosReis`), Hugo (`zhurigo`)
 
 Each team member implements three user stories. Every story follows the template
-*As a ⟨role⟩, I want ⟨goal⟩, so that ⟨benefit⟩* and has at least one acceptance criterion.
+_As a ⟨role⟩, I want ⟨goal⟩, so that ⟨benefit⟩_ and has at least one acceptance criterion.
 
-Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, then ⟨expected result⟩*.
+Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, then ⟨expected result⟩_.
 
 | #   | Owner    | Area           | Course criteria shown         |
 | --- | -------- | -------------- | ----------------------------- |
@@ -36,7 +36,7 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
   - **When** I start the app
   - **Then** I see an error message with the file name and the app stops
 - **AC3**
-  - **Given** I am in "Explore specialisations"
+  - **Given** I am in "Explore specialisations" @angie-eng <!-- Does this belong here? Or should it be exclusive to US3? -->
   - **When** I enter `0`
   - **Then** I go back to the main menu
 
@@ -55,10 +55,9 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
   - **When** I enter a wrong number (e.g. `9`) or text (e.g. `abc`)
   - **Then** I see the message "Please enter a number from 1 to 7." and I can try again
 - **AC3**
-  - **Given** the degree plan is show
+  - **Given** the degree plan is shown
   - **When** I press Enter without typing anything
   - **Then** I go back to the main menu without applying a filter
-
 
 ### US3: Explore the specialisations
 
@@ -70,7 +69,7 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
   - **Given** I am in "Explore specialisations"
   - **When** I choose `3`
   - **Then** I can see the Digital Trust specialisation with its ECTS, semesters, modules and career options
-- **AC2** — _Invalid input: a number outsI am in "Explore specialisations"
+- **AC2** — _Invalid input: a number outs I am in "Explore specialisations" @angio-eng <!-- What do you mean here? I can see it's a typo but cound't make sense of it to correct it :) -->
   - **Given** I am in "Explore specialisations"
   - **When** I enter a number that is not between 0 and 3, or I enter text
   - **Then** the app shows "Please enter a number from 0 to 3." and asks me to try again
