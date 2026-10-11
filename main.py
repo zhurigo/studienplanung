@@ -16,4 +16,16 @@ What goes here:
 Keep this file short. The menu only calls functions from the planner package.
 """
 
-# TODO (team): write the welcome message and main menu loop here.
+
+def main():
+    print("Welcome to StudienPlan, your FHNW Specialization assistant.")
+    while True:
+        choice = input("Choose an option (0-7): ")
+        if choice == "0":
+            break
+        print(f"You chose {choice}")
+        print("Goodbye.")
+
+
+if __name__ == "__main__":
+    main()
