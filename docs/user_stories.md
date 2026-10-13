@@ -1,11 +1,11 @@
 # studienplanung — User Stories
 
-**Team:** Angelica Bertalli (`angio-eng`), Thalita dos Reis (`ThalitadosReis`), Hugo (`zhurigo`)
+**Team:** Angelica Bertalli (`angio-eng`), Thalita dos Reis (`ThalitadosReis`), Hugo Antero(`zhurigo`)
 
 Each team member implements three user stories. Every story follows the template
-*As a ⟨role⟩, I want ⟨goal⟩, so that ⟨benefit⟩* and has at least one acceptance criterion.
+_As a ⟨role⟩, I want ⟨goal⟩, so that ⟨benefit⟩_ and has at least one acceptance criterion.
 
-Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, then ⟨expected result⟩*.
+Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, then ⟨expected result⟩_.
 
 | #   | Owner    | Area           | Course criteria shown         |
 | --- | -------- | -------------- | ----------------------------- |
@@ -58,7 +58,6 @@ Acceptance criteria are written as *Given ⟨situation⟩, when ⟨action⟩, th
   - **Given** the degree plan is show
   - **When** I press Enter without typing anything
   - **Then** I go back to the main menu without applying a filter
-
 
 ### US3: Explore the specialisations
 
