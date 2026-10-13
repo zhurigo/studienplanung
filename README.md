@@ -241,6 +241,8 @@ When nothing is wrong:
 ```
 --- Plan check ---
 Your plan is complete (180/180 ECTS).
+
+Press Enter to return.
 ```
 
 ### Step 9: Personal roadmap

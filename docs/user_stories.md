@@ -200,7 +200,7 @@ An elective **slot** is 3 ECTS: a 6-ECTS elective fills two slots, and the four 
 - **AC1** — _Layout: the roadmap lists all 180 ECTS by semester (1–8)_
   - **Given** a current plan
   - **When** I choose "Roadmap"
-  - **Then** each semester is listed with its modules and ECTS, my chosen specialisation appears in semesters 6–8, and my electives are listed in their own Electives section
+  - **Then** every semester is listed with its modules and ECTS, my chosen specialisation is shown as one block for semesters 6–8 (36 ECTS, since module names are provisional), and my electives are listed in their own Electives section
 - **AC2** — _Slots: empty elective slots are visible_
   - **Given** a plan with only 2 of the 4 elective slots filled
   - **When** I open the roadmap
