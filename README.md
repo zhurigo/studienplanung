@@ -17,14 +17,14 @@ In the BIT programme you pick one of three specialisations and 12 ECTS of electi
 
 ## Scope (MVP)
 
-| In                                                       | Out                                                                |
-| -------------------------------------------------------- | ------------------------------------------------------------------ |
-| Console application (interactive, with input validation) | Graphical or web interface                                         |
-| Browsing the degree plan, filtered by group              | Questionnaire-based specialisation suggestion (planned after MVP)  |
-| Choosing one specialisation and 12 ECTS of electives     | Languages of instruction other than English                        |
-| Full 180-ECTS roadmap per semester that updates with every change | Official specialisation modules (names are placeholders)           |
-| Plan check and personal roadmap                          | Multiple users or accounts                                         |
-| Save / load of a single plan (`my_plan.json`)            |                                                                    |
+| In                                                                | Out                                                               |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Console application (interactive, with input validation)          | Graphical or web interface                                        |
+| Browsing the degree plan, filtered by group                       | Questionnaire-based specialisation suggestion (planned after MVP) |
+| Choosing one specialisation and 12 ECTS of electives              | Languages of instruction other than English                       |
+| Full 180-ECTS roadmap per semester that updates with every change | Official specialisation modules (names are placeholders)          |
+| Plan check and personal roadmap                                   | Multiple users or accounts                                        |
+| Save / load of a single plan (`my_plan.json`)                     |                                                                   |
 
 ## How to run
 
@@ -63,23 +63,23 @@ studienplanung/
 | ----------------- | ---------------- | -------------- | ------------ |
 | Angelica Bertalli | `angio-eng`      | Browse         | 1, 2, 3      |
 | Thalita dos Reis  | `ThalitadosReis` | Plan           | 4, 5, 6      |
-| Hugo              | `zhurigo`        | Check and save | 7, 8, 9      |
+| Hugo Antero       | `zhurigo`        | Check and save | 7, 8, 9      |
 
 ## User stories
 
 Each team member implements three user stories. The last column shows which course requirement the story demonstrates. The acceptance criteria for every story are in [docs/user_stories.md](docs/user_stories.md).
 
-| Owner                 | #   | User story                                                                                                         | Course requirement shown       |
-| --------------------- | --- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------ |
-| Angelica (Browse)     | 1   | As a student, I want to see all modules per semester so that I know what's coming.                                      | Interactive, file reading      |
-| Angelica (Browse)     | 2   | As a student, I want to filter modules by group (e.g. Information Technology) so that I see where my ECTS come from.    | Interactive, input validation  |
-| Angelica (Browse)     | 3   | As a student, I want to explore the three specialisations so that I can compare them.                                   | Interactive, file reading      |
-| Thalita (Plan)        | 4   | As a student, I want to choose one specialisation and have it stored in my plan, so that I can plan my electives around it. | Input validation               |
-| Thalita (Plan)        | 5   | As a student, I want to pick electives with an ECTS counter so that I don't go over 12.                                 | Input validation               |
-| Thalita (Plan)        | 6   | As a student, I want to remove or swap an elective so that I can change my plan.                                        | Input validation               |
-| Hugo (Check and save) | 7   | As a student, I want the app to check my current plan (built in the app or loaded from `my_plan.json`) and warn me about problems, so that I can fix them before I finalise my plan. | Data validation                |
-| Hugo (Check and save) | 8   | As a student, I want to save and load my plan so that it is there next time.                                             | File writing and reading       |
-| Hugo (Check and save) | 9   | As a student, I want to see my personal 180-ECTS roadmap per semester, with my specialisation and electives in place, so that I can see how my choices fit into my studies. | Interactive                    |
+| Owner                 | #   | User story                                                                                                                                                                           | Course requirement shown      |
+| --------------------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------- |
+| Angelica (Browse)     | 1   | As a student, I want to see all modules per semester so that I know what's coming.                                                                                                   | Interactive, file reading     |
+| Angelica (Browse)     | 2   | As a student, I want to filter modules by group (e.g. Information Technology) so that I see where my ECTS come from.                                                                 | Interactive, input validation |
+| Angelica (Browse)     | 3   | As a student, I want to explore the three specialisations so that I can compare them.                                                                                                | Interactive, file reading     |
+| Thalita (Plan)        | 4   | As a student, I want to choose one specialisation and have it stored in my plan, so that I can plan my electives around it.                                                          | Input validation              |
+| Thalita (Plan)        | 5   | As a student, I want to pick electives with an ECTS counter so that I don't go over 12.                                                                                              | Input validation              |
+| Thalita (Plan)        | 6   | As a student, I want to remove or swap an elective so that I can change my plan.                                                                                                     | Input validation              |
+| Hugo (Check and save) | 7   | As a student, I want the app to check my current plan (built in the app or loaded from `my_plan.json`) and warn me about problems, so that I can fix them before I finalise my plan. | Data validation               |
+| Hugo (Check and save) | 8   | As a student, I want to save and load my plan so that it is there next time.                                                                                                         | File writing and reading      |
+| Hugo (Check and save) | 9   | As a student, I want to see my personal 180-ECTS roadmap per semester, with my specialisation and electives in place, so that I can see how my choices fit into my studies.          | Interactive                   |
 
 ## How it works
 
