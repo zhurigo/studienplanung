@@ -1,6 +1,6 @@
 # studienplanung — User Stories
 
-**Team:** Angelica Bertalli (`angio-eng`), Thalita dos Reis (`ThalitadosReis`), Hugo Antero(`zhurigo`)
+**Team:** Angelica Bertalli (`angio-eng`), Thalita dos Reis (`ThalitadosReis`), Hugo Antero (`zhurigo`)
 
 Each team member implements three user stories. Every story follows the template
 _As a ⟨role⟩, I want ⟨goal⟩, so that ⟨benefit⟩_ and has at least one acceptance criterion.
