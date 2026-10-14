@@ -27,18 +27,14 @@ Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, th
 
 **Acceptance criteria**
 
-- **AC1** — _Happy path: the degree plan is shown, grouped by semester (what does each line show?)_
+- **AC1** — _Happy path: the degree plan is shown, grouped by semester_
   - **Given** the modules are loaded from `data/`
   - **When** I choose "View degree plan" from the main menu
   - **Then** I can see all modules sorted by semester (1 to 8) with their name, group and ECTS
-- **AC2** — _Data comes from the file: what happens if the modules file is missing or can't be read?_
+- **AC2** — _Data comes from the file_
   - **Given** `data/modules.json` is missing or contains invalid data
   - **When** I start the app
   - **Then** I see an error message with the file name and the app stops
-- **AC3**
-  - **Given** I am in "Explore specialisations"
-  - **When** I enter `0`
-  - **Then** I go back to the main menu
 
 ### US2: Filter modules by group
 
@@ -46,7 +42,7 @@ Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, th
 
 **Acceptance criteria**
 
-- **AC1** — _Happy path: a valid group number is entered (what is listed, and what total is shown?)_
+- **AC1** — _Happy path: a valid group number is entered_
   - **Given** the degree plan is displayed
   - **When** I choose 4 (IT)
   - **Then** I only see the IT modules with their semester and ECTS
@@ -55,7 +51,7 @@ Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, th
   - **When** I enter a wrong number (e.g. `9`) or text (e.g. `abc`)
   - **Then** I see the message "Please enter a number from 1 to 7." and I can try again
 - **AC3**
-  - **Given** the degree plan is show
+  - **Given** the degree plan is shown
   - **When** I press Enter without typing anything
   - **Then** I go back to the main menu without applying a filter
 
@@ -65,15 +61,14 @@ Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, th
 
 **Acceptance criteria**
 
-- **AC1** — _Happy path: the user picks a specialisation (which details must appear?)_
+- **AC1** — _Happy path: the user picks a specialisation_
   - **Given** I am in "Explore specialisations"
   - **When** I choose `3`
   - **Then** I can see the Digital Trust specialisation with its ECTS, semesters, modules and career options
-- **AC2** — _Invalid input: a number outsI am in "Explore specialisations"
+- **AC2** — _Invalid input: a number outside 0-3_
   - **Given** I am in "Explore specialisations"
   - **When** I enter a number that is not between 0 and 3, or I enter text
   - **Then** the app shows "Please enter a number from 0 to 3." and asks me to try again
-
 - **AC3** — _Going back: the user enters 0_
   - **Given** I am in "Explore specialisations"
   - **When** I enter `0`
@@ -148,7 +143,7 @@ Swapping is done by removing an elective and adding another in its place — the
 
 **Acceptance criteria**
 
-- **AC1** — _Valid plan: everything is filled in and consistent (what confirmation is shown?)_
+- **AC1** — _Valid plan: everything is filled in and consistent_
   - **Given** a current plan with a known specialisation, 12/12 elective ECTS and no duplicate electives
   - **When** I choose "Check my plan"
   - **Then** the app shows no warnings and confirms "Your plan is complete (180/180 ECTS)."
@@ -171,11 +166,11 @@ Swapping is done by removing an elective and adding another in its place — the
 
 **Acceptance criteria**
 
-- **AC1** — _Save: the user saves (which file, and what must be in it?)_
+- **AC1** — _Save: the user saves_
   - **Given** I have chosen the specialisation "Digital Trust" (id `DT`) and two electives
   - **When** I choose "Save plan"
   - **Then** the app writes `my_plan.json` containing the specialisation id and the ids of both electives, and confirms "Plan saved to my_plan.json."
-- **AC2** — _Load: the app starts and a saved plan exists (what is restored?)_
+- **AC2** — _Load: the app starts and a saved plan exists_
   - **Given** a valid `my_plan.json` exists from a previous session
   - **When** I start the app and answer `y` to "A saved plan was found. Load it? (y/n):"
   - **Then** my specialisation and electives are restored and shown, e.g. "Plan loaded: Digital Trust, 2 electives (6/12 ECTS)"
