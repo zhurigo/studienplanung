@@ -4,8 +4,9 @@
     "curriculum": "Curriculum 2025",
     "academic_year": "Fall 2026/2027",
     "elective_ects_required": 12,
+    "ects_allowed": [2, 3, 5, 6],
     "note": "BIT electives from the FHNW module descriptions (HS26 and FS27), limited to regular BIT courses and language courses. semester: HS = autumn, FS = spring, HS/FS = both. campus: where the classes take place (Online = remote option).",
-    "ects_note": "Every elective is worth 3 or 6 ECTS; old-curriculum values were rounded (5 -> 6, 4 -> 3, 2 -> 3). A plan needs exactly 12 elective ECTS: 4 x 3, 2 x 3 + 6 or 2 x 6."
+    "ects_note": "Official rule (Sandra Koller, Head of BIT Brugg-Windisch, 2026-10-15): electives of different sizes may be combined — 2, 3, 5 or 6 ECTS — as long as the plan reaches 12 ECTS. German-taught electives count, and language modules count even when no module type is stated. NOTE: the ECTS values below are currently simplified to 3 or 6 (old-curriculum values rounded: 5 -> 6, 4 -> 3, 2 -> 3); restore the true values from the FHNW module descriptions when available. A plan needs exactly 12 elective ECTS."
   },
   "categories": {
     "Languages": [

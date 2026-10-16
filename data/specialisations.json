@@ -1,6 +1,6 @@
 {
   "info": {
-    "note": "Module names are provisional: official Curriculum 2025 names not yet published. Edit this file when they are."
+    "note": "Placeholder structure per Sandra Koller (Head of BIT Brugg-Windisch, 2026-10-15): specialisation module structures are still being finalised with the coordinators; final lists (names, ECTS, semesters) are expected early 2027, in time for module registration. Modules below follow the recommended placeholder pattern 6 + 6 + 6 + 6 + 3 + 3 = 30 ECTS; the remaining 6 ECTS come from modules of other specialisations, or from a Job Reflection (6 ECTS) for part-time students working >=50% continuously — only one Job Reflection can count toward specialisation credits. Mark these modules as provisional in the app."
   },
   "specialisations": [
     {
@@ -13,35 +13,50 @@
         8
       ],
       "ects": 36,
+      "core_ects": 30,
+      "remaining_ects": 6,
       "modules": [
         {
           "name": "AI / Machine Learning",
           "ects": 6,
+          "semester": "autumn",
+          "mandatory": true,
           "provisional": true
         },
         {
           "name": "Big Data",
           "ects": 6,
+          "semester": "autumn",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "Python / R",
           "ects": 6,
+          "semester": "spring",
+          "mandatory": true,
           "provisional": true
         },
         {
           "name": "Web Analytics",
           "ects": 6,
+          "semester": "spring",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "BADS Module 5",
-          "ects": 6,
+          "ects": 3,
+          "semester": "autumn",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "BADS Module 6",
-          "ects": 6,
+          "ects": 3,
+          "semester": "spring",
+          "mandatory": false,
+          "block_week": true,
           "provisional": true
         }
       ],
@@ -70,35 +85,50 @@
         8
       ],
       "ects": 36,
+      "core_ects": 30,
+      "remaining_ects": 6,
       "modules": [
         {
           "name": "Digital Innovation and Business Models",
           "ects": 6,
+          "semester": "autumn",
+          "mandatory": true,
           "provisional": true
         },
         {
           "name": "Business Analysis and Process Design",
           "ects": 6,
+          "semester": "autumn",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "Agile Project Management",
           "ects": 6,
+          "semester": "spring",
+          "mandatory": true,
           "provisional": true
         },
         {
           "name": "Business Architecture and IT Infrastructure",
           "ects": 6,
+          "semester": "spring",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "Business AI",
-          "ects": 6,
+          "ects": 3,
+          "semester": "autumn",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "Technology Management",
-          "ects": 6,
+          "ects": 3,
+          "semester": "spring",
+          "mandatory": false,
+          "block_week": true,
           "provisional": true
         }
       ],
@@ -126,35 +156,50 @@
         8
       ],
       "ects": 36,
+      "core_ects": 30,
+      "remaining_ects": 6,
       "modules": [
         {
           "name": "Cybersecurity Management",
           "ects": 6,
+          "semester": "autumn",
+          "mandatory": true,
           "provisional": true
         },
         {
           "name": "Data Protection and Privacy",
           "ects": 6,
+          "semester": "autumn",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "IS Auditing and Compliance",
           "ects": 6,
+          "semester": "spring",
+          "mandatory": true,
           "provisional": true
         },
         {
           "name": "DT Module 4",
           "ects": 6,
+          "semester": "spring",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "DT Module 5",
-          "ects": 6,
+          "ects": 3,
+          "semester": "autumn",
+          "mandatory": false,
           "provisional": true
         },
         {
           "name": "DT Module 6",
-          "ects": 6,
+          "ects": 3,
+          "semester": "spring",
+          "mandatory": false,
+          "block_week": true,
           "provisional": true
         }
       ],
