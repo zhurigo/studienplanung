@@ -7,11 +7,7 @@
       "id": "BADS",
       "name": "Business Analytics and Data Science",
       "focus": "Data analysis, AI and machine learning, big data, web analytics",
-      "semesters": [
-        6,
-        7,
-        8
-      ],
+      "semesters": [6, 7, 8],
       "ects": 36,
       "core_ects": 30,
       "remaining_ects": 6,
@@ -79,11 +75,7 @@
       "id": "DBM",
       "name": "Digital Business Management",
       "focus": "Digital business models, process design, agile projects, business AI",
-      "semesters": [
-        6,
-        7,
-        8
-      ],
+      "semesters": [6, 7, 8],
       "ects": 36,
       "core_ects": 30,
       "remaining_ects": 6,
@@ -150,11 +142,7 @@
       "id": "DT",
       "name": "Digital Trust",
       "focus": "Cybersecurity, data protection, IS audit and compliance",
-      "semesters": [
-        6,
-        7,
-        8
-      ],
+      "semesters": [6, 7, 8],
       "ects": 36,
       "core_ects": 30,
       "remaining_ects": 6,
@@ -203,11 +191,7 @@
           "provisional": true
         }
       ],
-      "builds_on": [
-        "IT Security",
-        "Digital Law",
-        "Digital Ethics"
-      ],
+      "builds_on": ["IT Security", "Digital Law", "Digital Ethics"],
       "careers": [
         "Cybersecurity Consultant",
         "IS and IT Consultant",
