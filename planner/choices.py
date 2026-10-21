@@ -42,3 +42,12 @@ def ask_yes_no(prompt):
         print("Please enter y or n.")
 
 
+# --- US4: choose a specialisation ---
+
+def choose_specialisation(plan, specialisations):
+    """Story 4: let the student pick one specialisation for their plan."""
+    # 1. Find the name of the current choice (the plan only stores the id)
+    current = plan.specialisation_id
+    for specialisation in specialisations:
+        if specialisation.id == plan.specialisation_id:
+            current = specialisation.name
