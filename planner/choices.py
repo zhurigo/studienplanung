@@ -51,3 +51,11 @@ def choose_specialisation(plan, specialisations):
     for specialisation in specialisations:
         if specialisation.id == plan.specialisation_id:
             current = specialisation.name
+
+    # 2. Show the current choice and the list
+    print("--- Choose specialisation ---")
+    if current is not None:
+        print(f"Current choice: {current}")
+    count = len(specialisations)
+    for index in range(count):
+        print(f"{index + 1}. {specialisations[index].name}")
