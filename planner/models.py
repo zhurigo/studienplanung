@@ -8,7 +8,7 @@ Classes to write:
   Module          name, semester, group, ects, project_based
   Specialisation  id, name, focus, modules, builds_on, careers
   Elective        id, name, category, ects, semester, campus
-  StudentPlan     specialisation (one or none), electives (list)
+  StudentPlan     specialisation_id (one or none), electives (list)
 
 StudentPlan needs, for example:
   - choosing / replacing the specialisation     (story 4, Thalita)
