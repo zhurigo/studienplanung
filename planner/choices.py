@@ -59,3 +59,7 @@ def choose_specialisation(plan, specialisations):
     count = len(specialisations)
     for index in range(count):
         print(f"{index + 1}. {specialisations[index].name}")
+
+    # 3. Ask for a valid number (lists start at 0, the menu at 1)
+    number = ask_number(f"Your choice (1-{count}): ", 1, count)
+    choice = specialisations[number - 1]
