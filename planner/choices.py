@@ -17,4 +17,28 @@ The rules themselves (limits, no doubles) live in StudentPlan in models.py.
 This file only asks the questions and shows the answers.
 """
 
-# TODO (Thalita): write the menus for stories 4, 5 and 6.
+# --- Input validation helpers ---
+
+def ask_number(prompt, low, high):
+    """Ask until the user types a whole number from low to high."""
+    while True:
+        answer = input(prompt).strip()
+        # isdigit() first, so int() never gets text like "abc"
+        if answer.isdigit():
+            number = int(answer)
+            if number >= low and number <= high:
+                return number
+        print(f"Please enter a number from {low} to {high}.")
+
+
+def ask_yes_no(prompt):
+    """Ask until the user types y or n. Returns True for y."""
+    while True:
+        answer = input(prompt).strip().lower()
+        if answer == "y":
+            return True
+        if answer == "n":
+            return False
+        print("Please enter y or n.")
+
+
