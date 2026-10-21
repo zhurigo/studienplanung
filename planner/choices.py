@@ -68,3 +68,10 @@ def choose_specialisation(plan, specialisations):
     if plan.specialisation_id == choice.id:
         print(f"{choice.name} is already your specialisation.")
         return
+
+    # 5. A different one is already chosen: confirm before replacing
+    if current is not None:
+        replace = ask_yes_no(f"Replace {current} with {choice.name}? (y/n): ")
+        if not replace:
+            print(f"Kept {current}.")
+            return
