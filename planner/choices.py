@@ -75,3 +75,7 @@ def choose_specialisation(plan, specialisations):
         if not replace:
             print(f"Kept {current}.")
             return
+
+    # 6. Save the choice in the plan
+    plan.choose_specialisation(choice.id)
+    print(f"Specialisation set to {choice.name}.")
