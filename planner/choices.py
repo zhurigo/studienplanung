@@ -63,3 +63,8 @@ def choose_specialisation(plan, specialisations):
     # 3. Ask for a valid number (lists start at 0, the menu at 1)
     number = ask_number(f"Your choice (1-{count}): ", 1, count)
     choice = specialisations[number - 1]
+
+    # 4. Same as before: nothing to change
+    if plan.specialisation_id == choice.id:
+        print(f"{choice.name} is already your specialisation.")
+        return
