@@ -44,6 +44,11 @@ def ask_yes_no(prompt):
 
 # --- US4: choose a specialisation ---
 
+# NOTE (Thalita, US4): this menu is ready, but it can only run once the team's parts are done. It needs:
+#   - models.py: a Specialisation with an id and a name, and a StudentPlan that stores specialisation_id and has a choose_specialisation method
+#   - data_loader.py: to give this menu the list of specialisations
+#   - main.py: to call this menu for option 3, always with the same plan, so my choice is still there the next time I open the menu
+
 def choose_specialisation(plan, specialisations):
     """Story 4: let the student pick one specialisation for their plan."""
     # 1. Find the name of the current choice (the plan only stores the id)
