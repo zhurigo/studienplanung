@@ -16,7 +16,15 @@ What goes here:
 Keep this file short. The menu only calls functions from the planner package.
 """
 
-from planner.data_loader import load_electives, load_modules, load_specialisations
+from planner.choices import choose_specialisation
+from planner.data_loader import (
+    load_electives,
+    load_groups,
+    load_modules,
+    load_specialisations,
+)
+from planner.display import show_degree_plan
+from planner.models import StudentPlan
 from planner.prompts import ask_number, ask_yes_no
 
 
@@ -55,6 +63,7 @@ def main():
     print("=======================================================")
 
     # Step 1: load the data files (stops with an error if one is missing or broken)
+    groups = load_groups()
     modules = load_modules()
     specialisations = load_specialisations()
     electives = load_electives()
@@ -62,12 +71,31 @@ def main():
 
     # Step 2: offer to load a saved plan (will be added later)
 
+    # One plan for the whole session, so choices are kept between menus
+    plan = StudentPlan()
+
     # Step 3: the menu comes back after every action, until the user picks 0
     while True:
         show_main_menu()
         choice = ask_number("Choose an option (0-7): ", 0, 7)
         if choice == 0:
             break
+
+        # Open the option the student chose (pass = not written yet)
+        if choice == 1:
+            show_degree_plan(modules, groups)
+        elif choice == 2:
+            pass  # US3 (Angelica): explore specialisations
+        elif choice == 3:
+            choose_specialisation(plan, specialisations)
+        elif choice == 4:
+            pass  # US5 + US6 (Thalita): plan electives
+        elif choice == 5:
+            pass  # US7 (Hugo): check my plan
+        elif choice == 6:
+            pass  # US9 (Hugo): roadmap
+        elif choice == 7:
+            pass  # US8 (Hugo): save plan
     print("Goodbye.")
 
 if __name__ == "__main__":
