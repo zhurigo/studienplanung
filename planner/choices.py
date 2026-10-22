@@ -15,31 +15,10 @@ Input to validate:
 
 The rules themselves (limits, no doubles) live in StudentPlan in models.py.
 This file only asks the questions and shows the answers.
+The input helpers (ask_menu, ask_yes_no) are in prompts.py.
 """
 
-# --- Input validation helpers ---
-
-def ask_number(prompt, low, high):
-    """Ask until the user types a whole number from low to high."""
-    while True:
-        answer = input(prompt).strip()
-        # isdigit() first, so int() never gets text like "abc"
-        if answer.isdigit():
-            number = int(answer)
-            if number >= low and number <= high:
-                return number
-        print(f"Please enter a number from {low} to {high}.")
-
-
-def ask_yes_no(prompt):
-    """Ask until the user types y or n. Returns True for y."""
-    while True:
-        answer = input(prompt).strip().lower()
-        if answer == "y":
-            return True
-        if answer == "n":
-            return False
-        print("Please enter y or n.")
+from planner.prompts import ask_menu, ask_yes_no
 
 
 # --- US4: choose a specialisation ---
@@ -61,12 +40,15 @@ def choose_specialisation(plan, specialisations):
     print("--- Choose specialisation ---")
     if current is not None:
         print(f"Current choice: {current}")
-    count = len(specialisations)
-    for index in range(count):
-        print(f"{index + 1}. {specialisations[index].name}")
+    names = []
+    for specialisation in specialisations:
+        names.append(specialisation.name)
 
-    # 3. Ask for a valid number (lists start at 0, the menu at 1)
-    number = ask_number(f"Your choice (1-{count}): ", 1, count)
+    # 3. Ask for a valid number, 0 goes back without changing anything
+    number = ask_menu(names)
+    if number == 0:
+        return
+    # lists start at 0, the menu at 1
     choice = specialisations[number - 1]
 
     # 4. Same as before: nothing to change
