@@ -16,7 +16,13 @@ What goes here:
 Keep this file short. The menu only calls functions from the planner package.
 """
 
-from planner.data_loader import load_electives, load_modules, load_specialisations
+from planner.data_loader import (
+    load_electives,
+    load_groups,
+    load_modules,
+    load_specialisations,
+)
+from planner.display import show_degree_plan
 from planner.prompts import ask_number, ask_yes_no
 
 
@@ -55,6 +61,7 @@ def main():
     print("=======================================================")
 
     # Step 1: load the data files (stops with an error if one is missing or broken)
+    groups = load_groups()
     modules = load_modules()
     specialisations = load_specialisations()
     electives = load_electives()
@@ -68,6 +75,8 @@ def main():
         choice = ask_number("Choose an option (0-7): ", 0, 7)
         if choice == 0:
             break
+        if choice == 1:
+            show_degree_plan(modules, groups)
     print("Goodbye.")
 
 if __name__ == "__main__":
