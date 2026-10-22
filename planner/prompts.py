@@ -11,8 +11,25 @@ Menus (built on the basic questions):
   show_menu    print a numbered list with 0 at the bottom (Back or Exit)
   ask_menu     show_menu with 0. Back, then ask for a number
 
+Colours (so messages look the same in every menu):
+  CURRENT  cyan    what is chosen now, or kept
+  SUCCESS  green   something was saved or changed
+  WARNING  yellow  check your answer: "Please enter ..." or nothing changed
+  ERROR    orange  a problem, like a missing file
+  RESET    back to the normal colour, put it at the end of every coloured text
+
 The error messages live only here, so the wording is the same in every menu.
 """
+
+
+# --- Colours ---
+
+# Codes that tell the terminal to change the text colour
+CURRENT = "\033[36m"
+SUCCESS = "\033[32m"
+WARNING = "\033[33m"
+ERROR = "\033[38;5;208m"
+RESET = "\033[0m"
 
 
 # --- Basic questions ---
@@ -26,7 +43,7 @@ def ask_number(prompt, low, high):
             number = int(answer)
             if number >= low and number <= high:
                 return number
-        print(f"Please enter a number from {low} to {high}.")
+        print(f"{WARNING}Please enter a number from {low} to {high}.{RESET}")
 
 
 def ask_yes_no(prompt):
@@ -37,7 +54,7 @@ def ask_yes_no(prompt):
             return True
         if answer == "n":
             return False
-        print("Please enter y or n.")
+        print(f"{WARNING}Please enter y or n.{RESET}")
 
 
 # --- Menus ---
