@@ -45,6 +45,7 @@ def show_header(title):
     print("-" * 55)
     print(f"{title:^55}")
     print("-" * 55)
+    print()
 
 
 # --- Basic questions ---
@@ -61,7 +62,7 @@ def ask_number(prompt, low, high):
             if number >= low and number <= high:
                 return number
         print()
-        print(f"{BOLD}{WARNING}Please enter a number from {low} to {high}.{RESET}")
+        print(f"{WARNING}! Please enter a number from {low} to {high}{RESET}")
 
 
 def ask_yes_no(prompt):
@@ -75,7 +76,7 @@ def ask_yes_no(prompt):
         if answer == "n":
             return False
         print()
-        print(f"{BOLD}{WARNING}Please enter y or n.{RESET}")
+        print(f"{WARNING}! Please enter y or n{RESET}")
 
 
 # --- Menus ---

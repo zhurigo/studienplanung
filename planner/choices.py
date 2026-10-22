@@ -53,7 +53,7 @@ def choose_specialisation(plan, specialisations):
         # 4. Same as before: say so and ask again
         if plan.specialisation_id == choice.id:
             print()
-            print(f"{WARNING}{choice.name} is already your specialisation.{RESET}")
+            print(f"{WARNING}! {choice.name} is already your specialisation.{RESET}")
         else:
             break
 
@@ -62,10 +62,10 @@ def choose_specialisation(plan, specialisations):
         replace = ask_yes_no(f"Replace {current} with {choice.name}? (y/n): ")
         if not replace:
             print()
-            print(f"{CURRENT}Kept {current}.{RESET}")
+            print(f"{CURRENT}→ Kept {current}.{RESET}")
             return
 
     # 6. Save the choice in the plan
     plan.choose_specialisation(choice.id)
     print()
-    print(f"{SUCCESS}Specialisation set to {choice.name}.{RESET}")
+    print(f"{SUCCESS}→ Specialisation set to {choice.name}.{RESET}")

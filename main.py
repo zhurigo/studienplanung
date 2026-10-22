@@ -25,7 +25,7 @@ from planner.data_loader import (
 )
 from planner.display import show_degree_plan
 from planner.models import StudentPlan
-from planner.prompts import ask_number, ask_yes_no, show_header
+from planner.prompts import ERROR, RESET, SUCCESS, ask_number, ask_yes_no, show_header
 from planner.storage import StorageError, load_plan, save_plan
 
 
@@ -92,7 +92,8 @@ def main():
     try:
         saved = load_plan(electives)
     except StorageError as error:
-        print(error)
+        print()
+        print(f"{ERROR}→ {error}{RESET}")
         saved = None
 
     # One plan for the whole session, so choices are kept between menus
@@ -101,7 +102,8 @@ def main():
     if saved is not None:
         if ask_yes_no("A saved plan was found. Load it? (y/n): "):
             plan = saved
-            print(plan_summary(plan, specialisations))
+            print()
+            print(f"{SUCCESS}→ {plan_summary(plan, specialisations)}{RESET}")
 
     # Step 3: the menu comes back after every action, until the user picks 0
     while True:
@@ -113,14 +115,16 @@ def main():
                 try:
                     save_plan(plan)
                 except StorageError as error:
-                    print(error)
+                    print()
+                    print(f"{ERROR}→ {error}{RESET}")
                 else:
-                    print("Plan saved to my_plan.json.")
+                    print()
+                    print(f"{SUCCESS}→ Plan saved to my_plan.json.{RESET}")
             break
 
         # Open the option the student chose (pass = not written yet)
         if choice == 1:
-            show_degree_plan(modules, groups)
+            show_degree_plan(modules, groups, plan, specialisations)
         elif choice == 2:
             pass  # US3 (Angelica): explore specialisations
         elif choice == 3:
@@ -138,9 +142,11 @@ def main():
             try:
                 save_plan(plan)
             except StorageError as error:
-                print(error)
+                print()
+                print(f"{ERROR}→ {error}{RESET}")
             else:
-                print("Plan saved to my_plan.json.")
+                print()
+                print(f"{SUCCESS}→ Plan saved to my_plan.json.{RESET}")
                 unsaved = False
     print()
     print("Goodbye.")
