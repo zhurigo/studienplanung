@@ -7,16 +7,20 @@ Basic questions:
   ask_number   ask until the answer is a whole number in a range
   ask_yes_no   ask until the answer is y or n
 
+Headers:
+  show_header  print a title in a box, to start a new screen
+
 Menus (built on the basic questions):
   show_menu    print a numbered list with 0 at the bottom (Back or Exit)
   ask_menu     show_menu with 0. Back, then ask for a number
 
 Colours (so messages look the same in every menu):
-  CURRENT  cyan    what is chosen now, or kept
+  CURRENT  cyan    the current choice and what was kept
+  BOLD     bold    questions and messages
   SUCCESS  green   something was saved or changed
   WARNING  yellow  check your answer: "Please enter ..." or nothing changed
   ERROR    orange  a problem, like a missing file
-  RESET    back to the normal colour, put it at the end of every coloured text
+  RESET    back to normal (no colour, no bold), put it at the end of every coloured or bold text
 
 The error messages live only here, so the wording is the same in every menu.
 """
@@ -26,10 +30,21 @@ The error messages live only here, so the wording is the same in every menu.
 
 # Codes that tell the terminal to change the text colour
 CURRENT = "\033[36m"
+BOLD = "\033[1m"
 SUCCESS = "\033[32m"
 WARNING = "\033[33m"
 ERROR = "\033[38;5;208m"
 RESET = "\033[0m"
+
+
+# --- Headers ---
+
+def show_header(title):
+    """Print an empty line, then the title centred between two lines."""
+    print()
+    print("-" * 55)
+    print(f"{title:^55}")
+    print("-" * 55)
 
 
 # --- Basic questions ---
@@ -37,24 +52,30 @@ RESET = "\033[0m"
 def ask_number(prompt, low, high):
     """Ask until the user types a whole number from low to high."""
     while True:
-        answer = input(prompt).strip()
+        # Every question gets an empty line above it and is bold
+        print()
+        answer = input(f"{BOLD}{prompt}{RESET}").strip()
         # isdigit() first, so int() never gets text like "abc"
         if answer.isdigit():
             number = int(answer)
             if number >= low and number <= high:
                 return number
-        print(f"{WARNING}Please enter a number from {low} to {high}.{RESET}")
+        print()
+        print(f"{BOLD}{WARNING}Please enter a number from {low} to {high}.{RESET}")
 
 
 def ask_yes_no(prompt):
     """Ask until the user types y or n. Returns True for y."""
     while True:
-        answer = input(prompt).strip().lower()
+        # Every question gets an empty line above it and is bold
+        print()
+        answer = input(f"{BOLD}{prompt}{RESET}").strip().lower()
         if answer == "y":
             return True
         if answer == "n":
             return False
-        print(f"{WARNING}Please enter y or n.{RESET}")
+        print()
+        print(f"{BOLD}{WARNING}Please enter y or n.{RESET}")
 
 
 # --- Menus ---

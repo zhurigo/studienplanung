@@ -25,7 +25,7 @@ from planner.data_loader import (
 )
 from planner.display import show_degree_plan
 from planner.models import StudentPlan
-from planner.prompts import ask_number, ask_yes_no
+from planner.prompts import ask_number, ask_yes_no, show_header
 
 
 # --- Helpers ---
@@ -42,8 +42,7 @@ def count_items(items):
 
 def show_main_menu():
     """Print the main menu, with 0. Exit at the bottom."""
-    print()
-    print("--- Main menu ---")
+    show_header("Main menu")
     print("1. View degree plan")
     print("2. Explore specialisations")
     print("3. Choose specialisation")
@@ -58,8 +57,10 @@ def show_main_menu():
 
 def main():
     print("=======================================================")
+    print()
     print("           Welcome to the BIT Study Planner")
     print("   FHNW School of Business · Academic year 2026/2027")
+    print()
     print("=======================================================")
 
     # Step 1: load the data files (stops with an error if one is missing or broken)
@@ -67,6 +68,7 @@ def main():
     modules = load_modules()
     specialisations = load_specialisations()
     electives = load_electives()
+    print()
     print(f"Loaded {count_items(modules)} modules, {count_items(specialisations)} specialisations and {count_items(electives)} electives.")
 
     # Step 2: offer to load a saved plan (will be added later)
@@ -96,6 +98,7 @@ def main():
             pass  # US9 (Hugo): roadmap
         elif choice == 7:
             pass  # US8 (Hugo): save plan
+    print()
     print("Goodbye.")
 
 if __name__ == "__main__":

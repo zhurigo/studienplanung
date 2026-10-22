@@ -18,7 +18,7 @@ This file only asks the questions and shows the answers.
 The input helpers (ask_menu, ask_yes_no) are in prompts.py.
 """
 
-from planner.prompts import CURRENT, RESET, SUCCESS, WARNING, ask_menu, ask_yes_no
+from planner.prompts import CURRENT, RESET, SUCCESS, WARNING, ask_menu, ask_yes_no, show_header
 
 
 # --- US4: choose a specialisation ---
@@ -38,10 +38,10 @@ def choose_specialisation(plan, specialisations):
     # Stay in this menu until the student picks a new one or 0
     while True:
         # 2. Show the current choice and the list
-        print()
-        print("--- Choose specialisation ---")
+        show_header("Choose specialisation")
         if current is not None:
             print(f"Current choice: {CURRENT}{current}{RESET}")
+            print()
 
         # 3. Ask for a valid number, 0 goes back without changing anything
         number = ask_menu(names)
@@ -52,6 +52,7 @@ def choose_specialisation(plan, specialisations):
 
         # 4. Same as before: say so and ask again
         if plan.specialisation_id == choice.id:
+            print()
             print(f"{WARNING}{choice.name} is already your specialisation.{RESET}")
         else:
             break
@@ -60,9 +61,11 @@ def choose_specialisation(plan, specialisations):
     if current is not None:
         replace = ask_yes_no(f"Replace {current} with {choice.name}? (y/n): ")
         if not replace:
+            print()
             print(f"{CURRENT}Kept {current}.{RESET}")
             return
 
     # 6. Save the choice in the plan
     plan.choose_specialisation(choice.id)
+    print()
     print(f"{SUCCESS}Specialisation set to {choice.name}.{RESET}")
