@@ -4,15 +4,15 @@ An interactive command-line tool that helps FHNW Business Information Technology
 
 ## The problem
 
-In the BIT programme you pick one of three specialisations and 12 ECTS of electives (each elective is worth 3 or 6 ECTS, so 2–4 modules), but the information needed to decide is spread across the FHNW programme page and many individual module descriptions. It is also hard to see how a single swap changes the whole 180-ECTS plan. This tool brings the choices into one place and keeps the plan consistent as you change it.
+In the BIT programme you pick one of three specialisations and 12 ECTS of electives (each elective is worth 2, 3, 5 or 6 ECTS, so the number you pick varies), but the information needed to decide is spread across the FHNW programme page and many individual module descriptions. It is also hard to see how a single swap changes the whole 180-ECTS plan. This tool brings the choices into one place and keeps the plan consistent as you change it.
 
 ## What it does
 
 - **Shows the degree plan**: all modules per semester, filterable by group (e.g. Information Technology).
 - **Lets you explore** the three specialisations (Business Analytics and Data Science, Digital Business Management, Digital Trust) and the elective categories.
-- **Builds your plan**: one specialisation (6 modules, 36 ECTS) plus 12 ECTS of electives (3 or 6 ECTS each), with an ECTS counter that stops at 12.
+- **Builds your plan**: one specialisation (36 ECTS — 30 core modules plus 6 flexible) plus 12 ECTS of electives (any mix of 2, 3, 5 or 6 ECTS), with an ECTS counter that stops at 12.
 - **Lets you swap**: remove an elective and add another in its place (swap = remove, then add); the roadmap changes with it.
-- **Shows your roadmap**: your personal 180-ECTS plan per semester, with your specialisation and electives in place, empty elective slots, and a progress bar toward 180.
+- **Shows your roadmap**: your personal 180-ECTS plan per semester, with your specialisation and electives in place, the remaining elective ECTS flagged as still to fill, and a progress bar toward 180.
 - **Checks and saves**: warns about problems in the plan and saves it to `my_plan.json`.
 
 ## Scope (MVP)
@@ -167,7 +167,8 @@ Pick one to see details (0 to go back): 3
 
 Digital Trust (36 ECTS, semesters 6-8)
 Focus:     Cybersecurity, data protection, IS audit and compliance
-Modules:   6 modules x 6 ECTS (names provisional)
+Modules:   4 x 6 + 2 x 3 ECTS = 30 core (names provisional)
+Flexible:  6 ECTS from other specialisations or a Job Reflection
 Builds on: IT Security, Digital Law, Digital Ethics
 Careers:   Cybersecurity Consultant, IS and IT Consultant, Compliance Officer, IS and IT Auditor
 ```
@@ -191,7 +192,7 @@ Kept Digital Trust.
 
 ### Step 7: Plan electives
 
-Add or remove electives — to swap, remove one elective and add another in its place (there is no separate swap action). First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 3 or 6 ECTS each, so the number you pick varies (2 to 4). The counter never goes above 12 ECTS, and you can't pick the same elective twice.
+Add or remove electives — to swap, remove one elective and add another in its place (there is no separate swap action). First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 2, 3, 5 or 6 ECTS each, so the number you pick varies — the total must reach exactly 12 ECTS. The counter never goes above 12 ECTS, and you can't pick the same elective twice.
 
 ```
 --- Plan electives ---
@@ -264,7 +265,7 @@ Electives
   German Basic A1                Elective              3 ECTS
   Italian A1                     Elective              3 ECTS
   Spanish A1                     Elective              3 ECTS
-  Elective slot 4 — empty
+  Electives: 9/12 ECTS — 3 ECTS missing.
 
 Total  [###################-]  177/180 ECTS (98%)
 ```
@@ -288,7 +289,7 @@ Plan saved to my_plan.json.
 Goodbye, and good luck with your studies!
 ```
 
-> **Note:** Electives come from the FHNW module descriptions (HS26 and FS27), limited to regular BIT courses and language courses; ECTS values are rounded to 3 or 6 to match the current curriculum. Specialisation module names are placeholders until the official lists are published.
+> **Note:** Electives come from the FHNW module descriptions (HS26 and FS27), limited to regular BIT and language courses. The official rule allows 2, 3, 5 or 6 ECTS; the values here are still rounded to 3/6 pending the source data. Specialisation modules are placeholders following the programme's recommended structure (30 core + 6 flexible, per the BIT administration); the official lists are expected early 2027.
 
 ## Sources
 
