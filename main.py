@@ -17,7 +17,10 @@ Keep this file short. The menu only calls functions from the planner package.
 """
 
 from planner.data_loader import load_electives, load_modules, load_specialisations
+from planner.prompts import ask_number, ask_yes_no
 
+
+# --- Helpers ---
 
 def count_items(items):
     """Count the items in a list, one by one."""
@@ -26,6 +29,24 @@ def count_items(items):
         total = total + 1
     return total
 
+
+# --- Main menu ---
+
+def show_main_menu():
+    """Print the main menu, with 0. Exit at the bottom."""
+    print()
+    print("--- Main menu ---")
+    print("1. View degree plan")
+    print("2. Explore specialisations")
+    print("3. Choose specialisation")
+    print("4. Plan electives")
+    print("5. Check my plan")
+    print("6. Roadmap")
+    print("7. Save plan")
+    print("0. Exit")
+
+
+# --- Program ---
 
 def main():
     print("=======================================================")
@@ -39,13 +60,15 @@ def main():
     electives = load_electives()
     print(f"Loaded {count_items(modules)} modules, {count_items(specialisations)} specialisations and {count_items(electives)} electives.")
 
-    while True:
-        choice = input("Choose an option (0-7): ")
-        if choice == "0":
-            break
-        print(f"You chose {choice}")
-    print("Goodbye.")
+    # Step 2: offer to load a saved plan (will be added later)
 
+    # Step 3: the menu comes back after every action, until the user picks 0
+    while True:
+        show_main_menu()
+        choice = ask_number("Choose an option (0-7): ", 0, 7)
+        if choice == 0:
+            break
+    print("Goodbye.")
 
 if __name__ == "__main__":
     main()
