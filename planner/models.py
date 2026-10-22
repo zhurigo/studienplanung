@@ -65,7 +65,8 @@ class StudentPlan:
         self.specialisation_id = None
         self.electives = []
 
-# NOTE (Thalita, US4): my choose_specialisation method goes in StudentPlan, but I can only add it once the team has written the class. Until then, the menu in choices.py crashes at step 6 (plan.choose_specialisation(...)). This is the method:
-#
-#     def choose_specialisation(self, specialisation_id):
-#         self.specialisation_id = specialisation_id
+    # --- US4 (Thalita) ---
+
+    def choose_specialisation(self, specialisation_id):
+        """Save the chosen specialisation, replacing any earlier one."""
+        self.specialisation_id = specialisation_id
