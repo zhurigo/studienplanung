@@ -12,12 +12,15 @@ from planner.models import Elective, StudentPlan
 from planner.rules import check_plan
 
 
-def make_elective(elective_id, ects):
+def make_elective(elective_id: str, ects: int) -> Elective:
     """A catalogue elective with the fields the checks read."""
     return Elective(elective_id, elective_id, "Languages", ects, "HS/FS", [])
 
 
-def make_plan(specialisation_id="DT", electives=None):
+def make_plan(
+    specialisation_id: str | None = "DT",
+    electives: list[Elective] | None = None,
+) -> StudentPlan:
     """A plan with the given specialisation and electives."""
     plan = StudentPlan()
     plan.specialisation_id = specialisation_id
