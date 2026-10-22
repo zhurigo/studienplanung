@@ -19,7 +19,51 @@ StudentPlan needs, for example:
 Useful: classes, or @dataclass from the dataclasses module
 """
 
-# TODO (team + Thalita): write the classes.
+# --- Data from the files ---
+
+class Module:
+    """One module of the degree plan (from data/modules.json)."""
+
+    def __init__(self, name, semester, group, ects, project_based):
+        self.name = name
+        self.semester = semester
+        self.group = group
+        self.ects = ects
+        self.project_based = project_based
+        
+class Specialisation:
+    """One of the three specialisations (from data/specialisations.json)."""
+
+    def __init__(self, id, name, focus, modules, builds_on, careers):
+        self.id = id
+        self.name = name
+        self.focus = focus
+        self.modules = modules
+        self.builds_on = builds_on
+        self.careers = careers
+
+
+class Elective:
+    """One elective module (from data/electives.json)."""
+
+    def __init__(self, id, name, category, ects, semester, campus):
+        self.id = id
+        self.name = name
+        self.category = category
+        self.ects = ects
+        self.semester = semester
+        self.campus = campus
+
+
+# --- The student's choices ---
+
+class StudentPlan:
+    """The student's plan: one specialisation (or none) and a list of electives."""
+
+    def __init__(self):
+        # Nothing is chosen yet when the program starts
+        self.specialisation_id = None
+        self.electives = []
 
 # NOTE (Thalita, US4): my choose_specialisation method goes in StudentPlan, but I can only add it once the team has written the class. Until then, the menu in choices.py crashes at step 6 (plan.choose_specialisation(...)). This is the method:
 #
