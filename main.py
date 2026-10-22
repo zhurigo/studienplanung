@@ -16,9 +16,29 @@ What goes here:
 Keep this file short. The menu only calls functions from the planner package.
 """
 
+from planner.data_loader import load_electives, load_modules, load_specialisations
+
+
+def count_items(items):
+    """Count the items in a list, one by one."""
+    total = 0
+    for item in items:
+        total = total + 1
+    return total
+
 
 def main():
-    print("Welcome to the BIT Study Planner")
+    print("=======================================================")
+    print("           Welcome to the BIT Study Planner")
+    print("   FHNW School of Business · Academic year 2026/2027")
+    print("=======================================================")
+
+    # Step 1: load the data files (stops with an error if one is missing or broken)
+    modules = load_modules()
+    specialisations = load_specialisations()
+    electives = load_electives()
+    print(f"Loaded {count_items(modules)} modules, {count_items(specialisations)} specialisations and {count_items(electives)} electives.")
+
     while True:
         choice = input("Choose an option (0-7): ")
         if choice == "0":

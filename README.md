@@ -90,10 +90,10 @@ A step-by-step walkthrough of a typical session.
 The app loads the data files from the `data/` folder and shows how much it found. If a file is missing or broken, it prints an error and stops.
 
 ```
-==============================================
-   Welcome to the BIT Study Planner
+=======================================================
+           Welcome to the BIT Study Planner
    FHNW School of Business · Academic year 2026/2027
-==============================================
+=======================================================
 Loaded 28 modules, 3 specialisations and 22 electives.
 ```
 
