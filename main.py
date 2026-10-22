@@ -25,7 +25,7 @@ from planner.data_loader import (
 )
 from planner.display import show_degree_plan
 from planner.models import StudentPlan
-from planner.prompts import ask_number, ask_yes_no
+from planner.prompts import ask_number, ask_yes_no, show_header
 from planner.storage import StorageError, load_plan, save_plan
 
 
