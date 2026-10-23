@@ -87,7 +87,7 @@ def main():
     specialisations = load_specialisations()
     electives = load_electives()
     print()
-    print(f"Loaded {count_items(modules)} modules, {count_items(specialisations)} specialisations and {count_items(electives)} electives.")
+    print(f"Loaded {count_items(modules)} modules, {count_items(specialisations)} specialisations and {count_items(electives)} electives")
 
     # Step 2: offer to load a saved plan (US8)
     try:

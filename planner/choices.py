@@ -20,7 +20,6 @@ The input helpers (ask_menu, ask_yes_no) are in prompts.py.
 
 from planner.prompts import CURRENT, RESET, ask_menu, ask_yes_no, show_header, show_kept, show_success, show_warning
 
-
 # --- US4: choose a specialisation ---
 
 def choose_specialisation(plan, specialisations):

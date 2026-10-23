@@ -101,7 +101,7 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
                 colour = ""
                 if module.group in GROUP_COLOURS:
                     colour = GROUP_COLOURS[module.group]
-                print(f"  {colour}{module.name:<{width}}{label:<22}"
+                print(f"{colour}{module.name:<{width}}{label:<22}"
                       f"{module.ects:>1} ECTS{RESET}")
 
         # The chosen specialisation's modules, in light blue
@@ -109,7 +109,7 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
             colour = GROUP_COLOURS["Specialisation"]
             if chosen:
                 for module in placed[semester]:
-                    print(f"  {colour}{module['name']:<{width}}{'Specialisation':<22}"
+                    print(f"{colour}{module['name']:<{width}}{'Specialisation':<22}"
                           f"{module['ects']:>1} ECTS{RESET}")
             else:
                 # Nothing chosen yet: one placeholder row for the 12 ECTS slot
