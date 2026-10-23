@@ -53,7 +53,7 @@ Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, th
 - **AC3**
   - **Given** the degree plan is shown
   - **When** I press Enter without typing anything
-  - **Then** I go back to the main menu without applying a filter
+  - **Then** the filter is skipped and the degree plan stays on screen; `0` returns to the main menu
 
 ### US3: Explore the specialisations
 
@@ -89,7 +89,7 @@ Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, th
 - **AC2**
   - **Given** I'm in "Choose specialisation"
   - **When** I type something wrong, like a word or an option that is not available, e.g. `5`
-  - **Then** the app will tell me to enter a number from 1 to 3 and let me try again, and nothing in my plan changes
+  - **Then** the app will tell me to enter a number from 0 to 3 and let me try again, and nothing in my plan changes
 - **AC3**
   - **Given** I already picked a specialisation, e.g. Digital Trust
   - **When** I pick a different one
@@ -108,7 +108,7 @@ Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, th
 - **AC2**
   - **Given** I have 9 of 12 ECTS
   - **When** I try to add a 6-ECTS elective
-  - **Then** the app doesn't add it and shows me why: it would take me to 15/12 ECTS and I only have 3 ECTS left. The counter stays at 9/12
+  - **Then** the app doesn't add it and shows me why: `That would make 15/12 ECTS — you can add at most 3 more ECTS.` The counter stays at 9/12
 - **AC3**
   - **Given** I'm looking at the electives in a category
   - **When** I type a number that isn't on the list or pick one I already have
@@ -129,7 +129,7 @@ Swapping is done by removing an elective and adding another in its place — the
 - **AC2**
   - **Given** I don't have any electives yet
   - **When** I go to "Remove an elective"
-  - **Then** the app tells me there's nothing that can be removed and takes me back to the electives menu
+  - **Then** the app tells me `You have no electives to remove.` and takes me back to the electives menu
 - **AC3**
   - **Given** I have Spanish A1 (3 ECTS) in my plan and I'm at 9/12
   - **When** I swap Spanish A1 for the Spanish intensive course A1/A2 (6 ECTS) by removing it and adding the intensive course
@@ -158,7 +158,7 @@ Swapping is done by removing an elective and adding another in its place — the
 - **AC4** — _Duplicates and over-limit: the plan lists the same elective twice, or more than 12 elective ECTS_
   - **Given** a current plan with one elective listed twice, or 15/12 elective ECTS
   - **When** I choose "Check my plan"
-  - **Then** the app warns "Elective listed twice: Spanish A1" and/or "Electives: 15/12 ECTS — 3 ECTS over the limit"
+  - **Then** the app warns "Elective listed twice: Spanish A1" and/or "Electives: 15/12 ECTS — 3 ECTS over the limit."
 
 ### US8: Save and load my plan
 
@@ -173,7 +173,7 @@ Swapping is done by removing an elective and adding another in its place — the
 - **AC2** — _Load: the app starts and a saved plan exists_
   - **Given** a valid `my_plan.json` exists from a previous session
   - **When** I start the app and answer `y` to "A saved plan was found. Load it? (y/n):"
-  - **Then** my specialisation and electives are restored and shown, e.g. "Plan loaded: Digital Trust, 2 electives (6/12 ECTS)"
+  - **Then** my specialisation and electives are restored and shown, e.g. "Plan loaded: Digital Trust, 2 electives (6/12 ECTS)."
 - **AC3** — _Error case: no saved file yet, or the file is damaged_
   - **Given** there is no `my_plan.json`, or the file exists but is damaged or unreadable
   - **When** I start the app
@@ -187,7 +187,7 @@ Swapping is done by removing an elective and adding another in its place — the
 
 > As a student, I want to see my personal 180-ECTS roadmap per semester, with my specialisation and electives in place, so that I can see how my choices fit into my studies.
 
-An elective **slot** is 3 ECTS: a 6-ECTS elective fills two slots, and the four slots together are the 12 elective ECTS.
+Electives can be worth 2, 3, 5 or 6 ECTS, so the number you pick varies; the roadmap shows how much of the 12 elective ECTS is still open.
 
 **Acceptance criteria**
 
@@ -195,10 +195,10 @@ An elective **slot** is 3 ECTS: a 6-ECTS elective fills two slots, and the four 
   - **Given** a current plan
   - **When** I choose "Roadmap"
   - **Then** every semester is listed with its modules and ECTS, my chosen specialisation is shown as one block for semesters 6–8 (36 ECTS, since module names are provisional), and my electives are listed in their own Electives section
-- **AC2** — _Slots: empty elective slots are visible_
-  - **Given** a plan with only 2 of the 4 elective slots filled
+- **AC2** — _Remaining electives: the open ECTS are visible_
+  - **Given** a plan with 9/12 elective ECTS
   - **When** I open the roadmap
-  - **Then** the remaining elective slots are shown as empty, e.g. "Elective slot 3 — empty"
+  - **Then** the Electives section ends with "Electives: 9/12 ECTS — 3 ECTS missing."
 - **AC3** — _Reacts to changes: the roadmap follows the current plan_
   - **Given** I have just changed my specialisation or an elective
   - **When** I open the roadmap again

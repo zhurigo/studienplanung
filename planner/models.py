@@ -61,7 +61,7 @@ class StudentPlan:
     """The student's plan: one specialisation (or none) and a list of electives."""
 
     def __init__(self):
-        # Nothing is chosen yet when the program starts
+        # Nothing is chosen when the program starts
         self.specialisation_id = None
         self.electives = []
 

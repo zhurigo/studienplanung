@@ -12,9 +12,11 @@ from planner.models import Elective, StudentPlan
 from planner.rules import check_plan
 
 
-def make_elective(elective_id: str, ects: int) -> Elective:
+def make_elective(elective_id: str, ects: int,
+                  name: str | None = None) -> Elective:
     """A catalogue elective with the fields the checks read."""
-    return Elective(elective_id, elective_id, "Languages", ects, "HS/FS", [])
+    return Elective(elective_id, name or elective_id, "Languages",
+                    ects, "HS/FS", [])
 
 
 def make_plan(
@@ -61,17 +63,17 @@ class CheckPlanTests(unittest.TestCase):
 
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
-        self.assertEqual(len(problems), 1)
-        self.assertIn("No specialisation chosen", problems[0])
+        self.assertEqual(problems, ["No specialisation chosen."])
 
     def test_too_few_ects(self):
         plan = make_plan(electives=[self.german, self.french, self.spanish])
 
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
-        self.assertEqual(len(problems), 1)
-        self.assertIn("9 of 12 ECTS", problems[0])
-        self.assertIn("3 ECTS missing", problems[0])
+        self.assertEqual(
+            problems,
+            ["Electives: 9/12 ECTS — 3 ECTS missing."],
+        )
 
     def test_too_many_ects(self):
         plan = make_plan(
@@ -80,9 +82,10 @@ class CheckPlanTests(unittest.TestCase):
 
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
-        self.assertEqual(len(problems), 1)
-        self.assertIn("15 of 12 ECTS", problems[0])
-        self.assertIn("3 ECTS too many", problems[0])
+        self.assertEqual(
+            problems,
+            ["Electives: 15/12 ECTS — 3 ECTS over the limit."],
+        )
 
     def test_unknown_elective(self):
         ghost = make_elective("LANG-XX", 0)
@@ -90,15 +93,18 @@ class CheckPlanTests(unittest.TestCase):
 
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
-        self.assertIn("Unknown elective ID 'LANG-XX'.", problems)
+        self.assertEqual(problems, ["Unknown elective id: LANG-XX"])
 
-    def test_duplicate_elective(self):
-        plan = make_plan(electives=[self.tech, self.tech])
+    def test_duplicate_elective_uses_its_name(self):
+        cloud = make_elective("TECH-01", 6, "Cloud Computing")
+        plan = make_plan(electives=[cloud, cloud])
 
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
-        self.assertEqual(len(problems), 1)
-        self.assertIn("appears 2 times", problems[0])
+        self.assertEqual(
+            problems,
+            ["Elective listed twice: Cloud Computing"],
+        )
 
     def test_unknown_specialisation(self):
         plan = make_plan(specialisation_id="XX",
@@ -106,15 +112,17 @@ class CheckPlanTests(unittest.TestCase):
 
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
-        self.assertEqual(len(problems), 1)
-        self.assertIn("Unknown specialisation ID 'XX'.", problems[0])
+        self.assertEqual(problems, ["Unknown specialisation id: XX"])
 
     def test_empty_plan_reports_both_problems(self):
         plan = make_plan(specialisation_id=None)
 
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
-        self.assertEqual(len(problems), 2)
+        self.assertEqual(problems, [
+            "No specialisation chosen.",
+            "Electives: 0/12 ECTS — 12 ECTS missing.",
+        ])
 
 
 if __name__ == "__main__":

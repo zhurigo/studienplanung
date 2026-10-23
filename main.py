@@ -52,7 +52,7 @@ def plan_summary(plan, specialisations):
 
     count = len(plan.electives)
     word = "elective" if count == 1 else "electives"
-    return f"Plan loaded: {name}, {count} {word} ({ects}/12 ECTS)"
+    return f"Plan loaded: {name}, {count} {word} ({ects}/12 ECTS)."
 
 
 # --- Main menu ---
@@ -115,7 +115,7 @@ def main():
                 except StorageError as error:
                     show_error(error)
                 else:
-                    show_success("Plan saved to my_plan.json")
+                    show_success("Plan saved to my_plan.json.")
             break
 
         # Open the option the student chose (pass = not written yet)
@@ -140,7 +140,7 @@ def main():
             except StorageError as error:
                 show_error(error)
             else:
-                show_success("Plan saved to my_plan.json")
+                show_success("Plan saved to my_plan.json.")
                 unsaved = False
     print()
     print("Goodbye.")

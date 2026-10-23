@@ -39,10 +39,10 @@ def check_plan(plan, specialisations, electives):
 
     # 1. A specialisation is chosen, and it exists
     if plan.specialisation_id is None:
-        problems.append("No specialisation chosen yet. Use option 3.")
+        problems.append("No specialisation chosen.")
     elif plan.specialisation_id not in known_specialisations:
         problems.append(
-            f"Unknown specialisation ID '{plan.specialisation_id}'."
+            f"Unknown specialisation id: {plan.specialisation_id}"
         )
 
     # 2. The electives add up to exactly 12 ECTS
@@ -50,29 +50,31 @@ def check_plan(plan, specialisations, electives):
     if total < REQUIRED_ELECTIVE_ECTS:
         missing = REQUIRED_ELECTIVE_ECTS - total
         problems.append(
-            f"Electives: {total} of {REQUIRED_ELECTIVE_ECTS} ECTS"
-            f" - {missing} ECTS missing."
+            f"Electives: {total}/{REQUIRED_ELECTIVE_ECTS} ECTS"
+            f" — {missing} ECTS missing."
         )
     elif total > REQUIRED_ELECTIVE_ECTS:
         extra = total - REQUIRED_ELECTIVE_ECTS
         problems.append(
-            f"Electives: {total} of {REQUIRED_ELECTIVE_ECTS} ECTS"
-            f" - {extra} ECTS too many."
+            f"Electives: {total}/{REQUIRED_ELECTIVE_ECTS} ECTS"
+            f" — {extra} ECTS over the limit."
         )
 
     # 3. Every elective id exists in the catalogue
     for elective in plan.electives:
         if elective.id not in known_electives:
-            problems.append(f"Unknown elective ID '{elective.id}'.")
+            problems.append(f"Unknown elective id: {elective.id}")
 
     # 4. No elective is chosen twice
     counts = {}
+    names = {}
     for elective in plan.electives:
         counts[elective.id] = counts.get(elective.id, 0) + 1
+        names[elective.id] = elective.name
     for elective_id, count in counts.items():
         if count > 1:
             problems.append(
-                f"Elective '{elective_id}' appears {count} times."
+                f"Elective listed twice: {names[elective_id]}"
             )
 
     return problems
