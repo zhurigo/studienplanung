@@ -70,3 +70,12 @@ class StudentPlan:
     def choose_specialisation(self, specialisation_id):
         """Save the chosen specialisation, replacing any earlier one."""
         self.specialisation_id = specialisation_id
+
+    # --- US5 (Thalita) ---
+
+    def total_elective_ects(self):
+        """Add up the ECTS of all chosen electives."""
+        total = 0
+        for elective in self.electives:
+            total = total + elective.ects
+        return total
