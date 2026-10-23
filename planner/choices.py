@@ -38,7 +38,7 @@ def choose_specialisation(plan, specialisations):
     # Stay in this menu until the student picks a new one or 0
     while True:
         # 2. Show the current choice and the list
-        show_header("Choose specialisation")
+        show_header("Choose specialisation", "Your specialisation fills semesters 6 to 8")
         if current is not None:
             print(f"Current choice: {CURRENT}{current}{RESET}")
             print()
