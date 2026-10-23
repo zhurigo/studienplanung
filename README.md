@@ -32,7 +32,7 @@ Requires Python 3.12 or newer.
 
 ```bash
 # 1. Create the virtual environment (first time only)
-python3 -m venv .venv
+python3.12 -m venv .venv
 
 # 2. Activate it
 source .venv/bin/activate        # macOS / Linux
