@@ -122,3 +122,16 @@ def add_elective(plan, electives_by_category):
         return
     # lists start at 0, the menu at 1
     category = categories[number - 1]
+
+    # 3. List the electives in that category: name, ECTS, semester and campus
+    show_header(category, "HS = autumn, FS = spring. Pick one to add it")
+    electives = electives_by_category[category]
+    options = []
+    for elective in electives:
+        campus = ""
+        for place in elective.campus:
+            if campus != "":
+                campus = campus + ", "
+            campus = campus + place
+        # :<40 pads the name to 40 characters, so the columns line up
+        options.append(f"{elective.name:<40}{elective.ects} ECTS   {elective.semester:<8}{campus}")
