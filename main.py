@@ -124,7 +124,7 @@ def main():
 
         # Open the option the student chose (pass = not written yet)
         if choice == 1:
-            show_degree_plan(modules, groups, plan, specialisations)
+            show_degree_plan(modules, groups)
         elif choice == 2:
             pass  # US3 (Angelica): explore specialisations
         elif choice == 3:
