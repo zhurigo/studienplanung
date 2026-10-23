@@ -38,7 +38,7 @@ def _read_json(filename):
 
 def _wrong_shape(filename):
     """Build the error for a file that is JSON but not what we expect."""
-    return DataError(f"data/{filename} is not in the expected format.")
+    return DataError(f"Could not read data/{filename} — stopping.")
 
 
 def load_groups():

@@ -19,13 +19,7 @@ Keep this file short. The menu only calls functions from the planner package.
 import sys
 
 from planner.choices import choose_specialisation, plan_electives
-from planner.data_loader import (
-    electives_by_category,
-    load_electives,
-    load_groups,
-    load_modules,
-    load_specialisations,
-)
+from planner.data_loader import DataError, electives_by_category, load_all
 from planner.display import show_degree_plan
 from planner.models import StudentPlan
 from planner.prompts import ask_number, ask_yes_no, show_error, show_header, show_success
@@ -84,10 +78,11 @@ def main():
     print("=======================================================")
 
     # Step 1: load the data files (stops with an error if one is missing or broken)
-    groups = load_groups()
-    modules = load_modules()
-    specialisations = load_specialisations()
-    electives = load_electives()
+    try:
+        groups, modules, specialisations, electives = load_all()
+    except DataError as error:
+        show_error(error)
+        sys.exit(1)
     print()
     print(f"Loaded {count_items(modules)} modules, {count_items(specialisations)} specialisations and {count_items(electives)} electives")
 
