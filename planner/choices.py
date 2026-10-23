@@ -43,7 +43,7 @@ def choose_specialisation(plan, specialisations):
             print()
 
         # 3. Ask for a valid number, 0 goes back without changing anything
-        number = ask_menu(names)
+        number = ask_menu(names, "Pick one (0 to go back): ")
         if number == 0:
             return
         # lists start at 0, the menu at 1

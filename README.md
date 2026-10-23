@@ -32,7 +32,7 @@ Requires Python 3.12 or newer.
 
 ```bash
 # 1. Create the virtual environment (first time only)
-python3 -m venv .venv
+python3.12 -m venv .venv
 
 # 2. Activate it
 source .venv/bin/activate        # macOS / Linux
@@ -183,9 +183,9 @@ Current choice: Digital Trust
 1. Business Analytics and Data Science
 2. Digital Business Management
 3. Digital Trust
-Your choice (1-3): 5
-Please enter a number from 1 to 3.
-Your choice (1-3): 1
+Pick one (0 to go back): 5
+Please enter a number from 0 to 3.
+Pick one (0 to go back): 1
 Replace Digital Trust with Business Analytics and Data Science? (y/n): n
 Kept Digital Trust.
 ```
@@ -286,7 +286,7 @@ If you changed something since the last save, the app offers to save first.
 Choose an option (0-7): 0
 You have unsaved changes. Save now? (y/n): y
 Plan saved to my_plan.json.
-Goodbye, and good luck with your studies!
+Goodbye.
 ```
 
 > **Note:** Electives come from the FHNW module descriptions (HS26 and FS27), limited to regular BIT and language courses. The official rule allows 2, 3, 5 or 6 ECTS; the values here are still rounded to 3/6 pending the source data. Specialisation modules are placeholders following the programme's recommended structure (30 core + 6 flexible, per the BIT administration); the official lists are expected early 2027.

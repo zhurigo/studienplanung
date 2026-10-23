@@ -101,7 +101,7 @@ def ask_number(prompt, low, high):
             number = int(answer)
             if number >= low and number <= high:
                 return number
-        show_warning(f"Please enter a number from {low} to {high}")
+        show_warning(f"Please enter a number from {low} to {high}.")
 
 
 def ask_yes_no(prompt):
@@ -114,7 +114,7 @@ def ask_yes_no(prompt):
             return True
         if answer == "n":
             return False
-        show_warning("Please enter y or n")
+        show_warning("Please enter y or n.")
 
 
 # --- Menus ---
@@ -132,7 +132,9 @@ def show_menu(options, last_option):
     return number
 
 
-def ask_menu(options):
+def ask_menu(options, prompt=None):
     """Show options with 0. Back and ask for one. Returns the number, 0 means back."""
     highest = show_menu(options, "Back")
-    return ask_number(f"Your choice (0-{highest}): ", 0, highest)
+    if prompt is None:
+        prompt = f"Your choice (0-{highest}): "
+    return ask_number(prompt, 0, highest)

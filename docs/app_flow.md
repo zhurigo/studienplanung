@@ -172,6 +172,7 @@ Domain warnings are statements of fact.
 | Back hint | `(0 to go back)` in the prompt, not a separate line | `Pick an elective (0 to go back):` |
 | Duplicate | `That elective is already in your plan.` | |
 | Over the limit | `That would make {total}/12 ECTS — you can add at most {left} more ECTS.` | `That would make 15/12 ECTS — you can add at most 3 more ECTS.` |
+| Over the limit (check) | `Electives: {total}/12 ECTS — {extra} ECTS over the limit.` | `Electives: 15/12 ECTS — 3 ECTS over the limit.` |
 | Missing electives | `Electives: {x}/12 ECTS — {y} ECTS missing.` | `Electives: 9/12 ECTS — 3 ECTS missing.` |
 | No specialisation | `No specialisation chosen.` | |
 | Unknown id | `Unknown elective id: {id}` / `Unknown specialisation id: {id}` | |
@@ -249,5 +250,5 @@ No re-submission is needed; these land in the README and the story file together
 - [ ] `python main.py` boots, loads all three data files, shows the menu
 - [ ] every menu option reaches a function and returns without a traceback
 - [ ] all 15 alternate flows in §6 behave as written
-- [ ] this file and README agree
-- [ ] user-story edits from §7 applied
+- [x] this file and README agree
+- [x] user-story edits from §7 applied
