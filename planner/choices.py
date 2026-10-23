@@ -115,3 +115,10 @@ def add_elective(plan, electives_by_category):
             count = count + 1
         categories.append(category)
         options.append(f"{category} ({count})")
+
+    # 2. Ask for a category, 0 goes back without changing anything
+    number = ask_menu(options)
+    if number == 0:
+        return
+    # lists start at 0, the menu at 1
+    category = categories[number - 1]
