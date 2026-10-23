@@ -53,7 +53,7 @@ one function per option and comes back.
 |---|---|---|---|---|
 | — (start-up) | load curriculum data | `data_loader.load_all()` | `planner/data_loader.py` | Hugo (shared) |
 | — (start-up) | offer saved plan | `main.offer_load()` → `storage.load_plan()` | `main.py`, `storage.py` | Hugo |
-| 1 | View degree plan | `display.show_degree_plan(modules, groups)` | `planner/display.py` | Angelica |
+| 1 | View degree plan | `display.show_degree_plan(modules, groups, plan, specialisations)` | `planner/display.py` | Angelica |
 | 2 | Explore specialisations | `display.explore_specialisations(specs)` | `planner/display.py` | Angelica |
 | 3 | Choose specialisation | `choices.choose_specialisation(plan, specs)` | `planner/choices.py` | Thalita |
 | 4 | Plan electives | `choices.plan_electives(plan, electives_by_category)` | `planner/choices.py` | Thalita |
@@ -70,7 +70,8 @@ change and the menu text cannot drift from the behaviour.
 
 ### Shared prompt helpers
 
-Put in `planner/ui.py` (new, shared — Thalita writes it with the menu work):
+Put in `planner/prompts.py` (shared — Thalita wrote it with the menu work). It
+holds `ask_number`, `ask_yes_no`, `pause`, `ask_menu` and the `show_*` messages:
 
 ```python
 ask_number(prompt, low, high)   -> int      # loops until valid; "0" allowed if low == 0

@@ -6,6 +6,7 @@ Owner: Thalita (moved here from choices.py so the whole team can use them)
 Basic questions:
   ask_number   ask until the answer is a whole number in a range
   ask_yes_no   ask until the answer is y or n
+  pause        wait for Enter, so an output screen can be read
 
 Headers:
   show_header  print a title in a box, to start a new screen,
@@ -115,6 +116,12 @@ def ask_yes_no(prompt):
         if answer == "n":
             return False
         show_warning("Please enter y or n.")
+
+
+def pause(prompt="Press Enter to return. "):
+    """Wait for Enter so the screen can be read. Returns nothing."""
+    print()
+    input(f"{BOLD}{prompt}{RESET}")
 
 
 # --- Menus ---

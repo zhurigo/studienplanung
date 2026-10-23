@@ -9,7 +9,7 @@ import unittest
 from contextlib import redirect_stdout
 from unittest.mock import patch
 
-from planner.prompts import ask_number, ask_yes_no
+from planner.prompts import ask_number, ask_yes_no, pause
 
 
 class PromptWordingTests(unittest.TestCase):
@@ -31,6 +31,15 @@ class PromptWordingTests(unittest.TestCase):
 
         self.assertFalse(answer)
         self.assertIn("Please enter y or n.", output.getvalue())
+
+    def test_pause_accepts_any_input_once(self):
+        with patch("builtins.input", return_value="xyz") as mocked:
+            with redirect_stdout(io.StringIO()):
+                result = pause()
+
+        self.assertIsNone(result)
+        self.assertEqual(mocked.call_count, 1)
+        self.assertIn("Press Enter to return.", mocked.call_args.args[0])
 
 
 if __name__ == "__main__":
