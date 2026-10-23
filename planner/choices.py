@@ -91,3 +91,11 @@ def plan_electives(plan, electives_by_category):
         print(selected_line(plan))
         print()
         number = ask_menu(["Add an elective", "Remove an elective"])
+
+        # 2. Open the action the student chose (pass = not written yet)
+        if number == 0:
+            return
+        if number == 1:
+            pass  # US5 (Thalita): add an elective
+        elif number == 2:
+            pass  # US6 (Thalita): remove an elective
