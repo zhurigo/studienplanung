@@ -250,5 +250,5 @@ No re-submission is needed; these land in the README and the story file together
 - [ ] `python main.py` boots, loads all three data files, shows the menu
 - [ ] every menu option reaches a function and returns without a traceback
 - [ ] all 15 alternate flows in §6 behave as written
-- [x] this file and README agree
+- [x] README and §5 wording agree
 - [x] user-story edits from §7 applied

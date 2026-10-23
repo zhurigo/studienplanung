@@ -16,6 +16,8 @@ What goes here:
 Keep this file short. The menu only calls functions from the planner package.
 """
 
+import sys
+
 from planner.choices import choose_specialisation, plan_electives
 from planner.data_loader import (
     electives_by_category,
@@ -150,4 +152,9 @@ def main():
     print("Goodbye.")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (KeyboardInterrupt, EOFError):
+        print()
+        print("Goodbye.")
+        sys.exit(0)
