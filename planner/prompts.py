@@ -10,6 +10,12 @@ Basic questions:
 Headers:
   show_header  print a title in a box, to start a new screen
 
+Messages (empty line, colour and symbol in one call):
+  show_kept     cyan   → nothing changed, the current choice was kept
+  show_success  green  → something was saved or changed
+  show_warning  yellow ! check your answer, like "Please enter ..."
+  show_error    orange ✗ a problem, like a missing file
+
 Menus (built on the basic questions):
   show_menu    print a numbered list with 0 at the bottom (Back or Exit)
   ask_menu     show_menu with 0. Back, then ask for a number
@@ -21,6 +27,8 @@ Colours (so messages look the same in every menu):
   WARNING  yellow  check your answer: "Please enter ..." or nothing changed
   ERROR    orange  a problem, like a missing file
   RESET    back to normal (no colour, no bold), put it at the end of every coloured or bold text
+
+Use the show_ messages instead of printing CURRENT, SUCCESS, WARNING or ERROR yourself.
 
 The error messages live only here, so the wording is the same in every menu.
 """
@@ -48,6 +56,32 @@ def show_header(title):
     print()
 
 
+# --- Messages ---
+
+def show_kept(message):
+    """Print an empty line, then the message in cyan with →."""
+    print()
+    print(f"{CURRENT}→ {message}{RESET}")
+
+
+def show_success(message):
+    """Print an empty line, then the message in green with →."""
+    print()
+    print(f"{SUCCESS}→ {message}{RESET}")
+
+
+def show_warning(message):
+    """Print an empty line, then the message in yellow with !."""
+    print()
+    print(f"{WARNING}! {message}{RESET}")
+
+
+def show_error(message):
+    """Print an empty line, then the message in orange with ✗."""
+    print()
+    print(f"{ERROR}✗ {message}{RESET}")
+
+
 # --- Basic questions ---
 
 def ask_number(prompt, low, high):
@@ -61,8 +95,7 @@ def ask_number(prompt, low, high):
             number = int(answer)
             if number >= low and number <= high:
                 return number
-        print()
-        print(f"{WARNING}! Please enter a number from {low} to {high}{RESET}")
+        show_warning(f"Please enter a number from {low} to {high}")
 
 
 def ask_yes_no(prompt):
@@ -75,8 +108,7 @@ def ask_yes_no(prompt):
             return True
         if answer == "n":
             return False
-        print()
-        print(f"{WARNING}! Please enter y or n{RESET}")
+        show_warning("Please enter y or n")
 
 
 # --- Menus ---
