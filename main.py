@@ -25,7 +25,7 @@ from planner.data_loader import (
 )
 from planner.display import show_degree_plan
 from planner.models import StudentPlan
-from planner.prompts import ERROR, RESET, SUCCESS, ask_number, ask_yes_no, show_header
+from planner.prompts import ask_number, ask_yes_no, show_error, show_header, show_success
 from planner.storage import StorageError, load_plan, save_plan
 
 
@@ -92,8 +92,7 @@ def main():
     try:
         saved = load_plan(electives)
     except StorageError as error:
-        print()
-        print(f"{ERROR}→ {error}{RESET}")
+        show_error(error)
         saved = None
 
     # One plan for the whole session, so choices are kept between menus
@@ -102,8 +101,7 @@ def main():
     if saved is not None:
         if ask_yes_no("A saved plan was found. Load it? (y/n): "):
             plan = saved
-            print()
-            print(f"{SUCCESS}→ {plan_summary(plan, specialisations)}{RESET}")
+            show_success(plan_summary(plan, specialisations))
 
     # Step 3: the menu comes back after every action, until the user picks 0
     while True:
@@ -115,11 +113,9 @@ def main():
                 try:
                     save_plan(plan)
                 except StorageError as error:
-                    print()
-                    print(f"{ERROR}→ {error}{RESET}")
+                    show_error(error)
                 else:
-                    print()
-                    print(f"{SUCCESS}→ Plan saved to my_plan.json.{RESET}")
+                    show_success("Plan saved to my_plan.json")
             break
 
         # Open the option the student chose (pass = not written yet)
@@ -142,11 +138,9 @@ def main():
             try:
                 save_plan(plan)
             except StorageError as error:
-                print()
-                print(f"{ERROR}→ {error}{RESET}")
+                show_error(error)
             else:
-                print()
-                print(f"{SUCCESS}→ Plan saved to my_plan.json.{RESET}")
+                show_success("Plan saved to my_plan.json")
                 unsaved = False
     print()
     print("Goodbye.")
