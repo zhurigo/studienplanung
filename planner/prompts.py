@@ -8,7 +8,8 @@ Basic questions:
   ask_yes_no   ask until the answer is y or n
 
 Headers:
-  show_header  print a title in a box, to start a new screen
+  show_header  print a title in a box, to start a new screen,
+               with an optional short description under it
 
 Messages (empty line, colour and symbol in one call):
   show_kept     cyan   → nothing changed, the current choice was kept
@@ -26,7 +27,8 @@ Colours (so messages look the same in every menu):
   SUCCESS  green   something was saved or changed
   WARNING  yellow  check your answer: "Please enter ..." or nothing changed
   ERROR    orange  a problem, like a missing file
-  RESET    back to normal (no colour, no bold), put it at the end of every coloured or bold text
+  ITALIC   italic  the short description under a header
+  RESET   back to normal (no colour, no bold, no italics), put it at the end of every coloured or bold text
 
 Use the show_ messages instead of printing CURRENT, SUCCESS, WARNING or ERROR yourself.
 
@@ -38,21 +40,25 @@ The error messages live only here, so the wording is the same in every menu.
 
 # Codes that tell the terminal to change the text colour
 CURRENT = "\033[36m"
-BOLD = "\033[1m"
 SUCCESS = "\033[32m"
 WARNING = "\033[33m"
 ERROR = "\033[38;5;208m"
 RESET = "\033[0m"
+BOLD = "\033[1m"
+ITALIC = "\033[3m"
 
 
 # --- Headers ---
 
-def show_header(title):
-    """Print an empty line, then the title centred between two lines."""
+def show_header(title, description=""):
+    """Print an empty line, then the title centred between two lines.
+    If there is a description, print it centred in italics right under the box."""
     print()
     print("-" * 55)
     print(f"{title:^55}")
     print("-" * 55)
+    if description != "":
+        print(f"\033[2m{ITALIC}{description:^55}{RESET}")
     print()
 
 
