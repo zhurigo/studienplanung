@@ -16,8 +16,9 @@ What goes here:
 Keep this file short. The menu only calls functions from the planner package.
 """
 
-from planner.choices import choose_specialisation
+from planner.choices import choose_specialisation, plan_electives
 from planner.data_loader import (
+    electives_by_category,
     load_electives,
     load_groups,
     load_modules,
@@ -129,7 +130,10 @@ def main():
             if plan.specialisation_id != before:
                 unsaved = True
         elif choice == 4:
-            pass  # US5 + US6 (Thalita): plan electives
+            before = plan.electives.copy()
+            plan_electives(plan, electives_by_category(electives))
+            if plan.electives != before:
+                unsaved = True
         elif choice == 5:
             pass  # US7 (Hugo): check my plan
         elif choice == 6:
