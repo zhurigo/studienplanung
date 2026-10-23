@@ -135,3 +135,9 @@ def add_elective(plan, electives_by_category):
             campus = campus + place
         # :<40 pads the name to 40 characters, so the columns line up
         options.append(f"{elective.name:<40}{elective.ects} ECTS   {elective.semester:<8}{campus}")
+
+    # 4. Ask for an elective, 0 goes back without changing anything
+    number = ask_menu(options)
+    if number == 0:
+        return
+    elective = electives[number - 1]
