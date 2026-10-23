@@ -96,6 +96,22 @@ def plan_electives(plan, electives_by_category):
         if number == 0:
             return
         if number == 1:
-            pass  # US5 (Thalita): add an elective
+            add_elective(plan, electives_by_category)
         elif number == 2:
             pass  # US6 (Thalita): remove an elective
+
+
+# --- US5: add an elective ---
+
+def add_elective(plan, electives_by_category):
+    """Story 5: pick a category, then an elective to add to the plan."""
+    # 1. List the categories with how many electives each one has
+    show_header("Categories", "Pick a category to see its electives")
+    categories = []
+    options = []
+    for category in electives_by_category:
+        count = 0
+        for elective in electives_by_category[category]:
+            count = count + 1
+        categories.append(category)
+        options.append(f"{category} ({count})")
