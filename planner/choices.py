@@ -66,3 +66,28 @@ def choose_specialisation(plan, specialisations):
     # 6. Save the choice in the plan
     plan.choose_specialisation(choice.id)
     show_success(f"Specialisation set to {choice.name}.")
+
+
+# --- US5 + US6: plan electives ---
+
+def selected_line(plan):
+    """The counter line, e.g. 'Selected: 6/12 ECTS (German Basic A1, Italian A1)'."""
+    line = f"Selected: {plan.total_elective_ects()}/12 ECTS"
+    names = ""
+    for elective in plan.electives:
+        if names != "":
+            names = names + ", "
+        names = names + elective.name
+    if names != "":
+        line = line + f" ({names})"
+    return line
+
+
+def plan_electives(plan, electives_by_category):
+    """Stories 5 and 6: add or remove electives until the student picks 0."""
+    while True:
+        # 1. Show the counter and the two actions
+        show_header("Plan electives", "Your electives must add up to exactly 12 ECTS")
+        print(selected_line(plan))
+        print()
+        number = ask_menu(["Add an elective", "Remove an elective"])
