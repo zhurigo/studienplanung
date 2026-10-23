@@ -9,6 +9,9 @@ User stories:
 
 US1 is implemented here. US2 (the group filter) and US3 (the specialisation
 screen) are still to write.
+
+Added by Thalita (Plan, US4):
+  - the chosen specialisation's modules in semesters 6 to 8 (place_specialisation)
 """
 
 from planner.prompts import RESET, show_header
@@ -27,13 +30,56 @@ GROUP_COLOURS = {
 }
 
 
-def show_degree_plan(modules, groups):
-    """US1: print every module, grouped by semester 1 to 8."""
+# --- Specialisation modules in semesters 6 to 8 (Thalita, US4) ---
+
+def place_specialisation(specialisation):
+    """Sort the specialisation modules into semesters 6, 7 and 8.
+
+    Part-time starts in autumn, so semester 7 is autumn and 6 and 8 are spring.
+    Autumn modules go in 7. Spring modules fill 6 up to 12 ECTS, the rest go in 8.
+    """
+    placed = {6: [], 7: [], 8: []}
+    spring_ects = 0
+    for module in specialisation.modules:
+        if module["semester"] == "autumn":
+            placed[7].append(module)
+        elif spring_ects + module["ects"] <= 12:
+            placed[6].append(module)
+            spring_ects = spring_ects + module["ects"]
+        else:
+            placed[8].append(module)
+    return placed
+
+
+# --- US1: the degree plan ---
+
+def show_degree_plan(modules, groups, plan=None, specialisations=None):
+    """US1: print every module, grouped by semester 1 to 8.
+
+    If the plan has a specialisation, its modules are shown in semesters 6 to 8.
+    """
     # The rows show the short group label ("BIT"), but the data stores the
     # long name ("Business Information Technology"), so build a lookup.
     shorts = {}
     for group in groups:
         shorts[group["name"]] = group["short"]
+
+    # Find the chosen specialisation and place its modules
+    placed = {6: [], 7: [], 8: []}
+    chosen = False
+    if plan is not None and specialisations is not None:
+        for specialisation in specialisations:
+            if specialisation.id == plan.specialisation_id:
+                placed = place_specialisation(specialisation)
+                chosen = True
+
+    # All names in the plan, to find the longest one
+    names = []
+    for module in modules:
+        names.append(module.name)
+    for semester in placed:
+        for module in placed[semester]:
+            names.append(module["name"])
 
     # Wide enough for the longest module name, never narrower than 31.
     longest = 0
@@ -57,3 +103,15 @@ def show_degree_plan(modules, groups):
                     colour = GROUP_COLOURS[module.group]
                 print(f"  {colour}{module.name:<{width}}{label:<22}"
                       f"{module.ects:>1} ECTS{RESET}")
+
+        # The chosen specialisation's modules, in light blue
+        if semester in placed:
+            colour = GROUP_COLOURS["Specialisation"]
+            if chosen:
+                for module in placed[semester]:
+                    print(f"  {colour}{module['name']:<{width}}{'Specialisation':<22}"
+                          f"{module['ects']:>1} ECTS{RESET}")
+            else:
+                # Nothing chosen yet: one placeholder row for the 12 ECTS slot
+                print(f"  {colour}{'(choose a specialisation)':<{width}}{'Specialisation':<22}"
+                      f"12 ECTS{RESET}")
