@@ -105,38 +105,41 @@ def plan_electives(plan, electives_by_category):
 def add_elective(plan, electives_by_category):
     """Story 5: pick a category, then an elective to add to the plan."""
     # 1. List the categories with how many electives each one has
-    show_header("Categories", "Pick a category to see its electives")
     categories = []
-    options = []
+    category_options = []
     for category in electives_by_category:
         count = 0
         for elective in electives_by_category[category]:
             count = count + 1
         categories.append(category)
-        options.append(f"{category} ({count})")
+        category_options.append(f"{category} ({count})")
 
-    # 2. Ask for a category, 0 goes back without changing anything
-    number = ask_menu(options)
-    if number == 0:
-        return
-    # lists start at 0, the menu at 1
-    category = categories[number - 1]
+    # Stay here until the student picks an elective, or 0 in the categories
+    while True:
+        # 2. Ask for a category, 0 goes back to Plan electives
+        show_header("Categories", "Pick a category to see its electives")
+        number = ask_menu(category_options)
+        if number == 0:
+            return
+        # lists start at 0, the menu at 1
+        category = categories[number - 1]
 
-    # 3. List the electives in that category: name, ECTS, semester and campus
-    show_header(category, "HS = autumn, FS = spring. Pick one to add it")
-    electives = electives_by_category[category]
-    options = []
-    for elective in electives:
-        campus = ""
-        for place in elective.campus:
-            if campus != "":
-                campus = campus + ", "
-            campus = campus + place
-        # :<40 pads the name to 40 characters, so the columns line up
-        options.append(f"{elective.name:<40}{elective.ects} ECTS   {elective.semester:<8}{campus}")
+        # 3. List the electives in that category: name, ECTS, semester and campus
+        show_header(category, "HS = autumn, FS = spring. Pick one to add it")
+        electives = electives_by_category[category]
+        options = []
+        for elective in electives:
+            campus = ""
+            for place in elective.campus:
+                if campus != "":
+                    campus = campus + ", "
+                campus = campus + place
+            # :<40 pads the name to 40 characters, so the columns line up
+            options.append(f"{elective.name:<40}{elective.ects} ECTS   {elective.semester:<8}{campus}")
 
-    # 4. Ask for an elective, 0 goes back without changing anything
-    number = ask_menu(options)
-    if number == 0:
-        return
+        # 4. Ask for an elective, 0 goes back to the categories
+        number = ask_menu(options)
+        if number != 0:
+            break
+
     elective = electives[number - 1]
