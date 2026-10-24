@@ -14,7 +14,7 @@ Added by Thalita (Plan, US4):
   - the chosen specialisation's modules in semesters 6 to 8 (place_specialisation)
 """
 
-from planner.prompts import RESET, show_header
+from planner.prompts import RESET, ask_menu, pause, show_header
 
 
 # --- Group colours, the same as in the FHNW module overview ---
@@ -138,3 +138,32 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
                 print(
              f"  S{module.semester}  {module.name}  {module.ects}"
              f" ECTS")
+
+def explore_specialisations(specialisations):
+    """Show the specialisation and let the student pick one."""
+    names = []
+    for specialisation in specialisations:
+        names.append(specialisation.name)
+    while True:
+        show_header("Explore specialisations")
+        number = ask_menu(
+            names,
+            "Pick one to see details (0 to go back): "
+        )
+        if number == 0:
+            return
+        specialisation = specialisations[number -1]
+        show_header(specialisation.name)
+        print(specialisation.focus)
+        placed = place_specialisation(specialisation)
+        total_ects = 0
+        for semester in placed:
+            print(f"\nSemester {semester}")
+            for module in placed[semester]:
+                print(f" {module['name']} - {module['ects']} ECTS")
+                total_ects = total_ects + module["ects"]
+        print(f"\nTotal: {total_ects} ECTS")
+        print("\nPossible careers:")
+        for career in specialisation.careers:
+            print(f" - {career}")
+        pause() 

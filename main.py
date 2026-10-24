@@ -20,7 +20,7 @@ import sys
 
 from planner.choices import choose_specialisation, plan_electives
 from planner.data_loader import DataError, electives_by_category, load_all
-from planner.display import show_degree_plan
+from planner.display import explore_specialisations, show_degree_plan
 from planner.models import StudentPlan
 from planner.prompts import ask_number, ask_yes_no, show_error, show_header, show_success
 from planner.storage import StorageError, load_plan, save_plan
@@ -120,7 +120,7 @@ def main():
         if choice == 1:
             show_degree_plan(modules, groups, plan, specialisations)
         elif choice == 2:
-            pass  # US3 (Angelica): explore specialisations
+            explore_specialisations(specialisations)
         elif choice == 3:
             before = plan.specialisation_id
             choose_specialisation(plan, specialisations)
