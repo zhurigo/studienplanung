@@ -114,4 +114,27 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
             else:
                 # Nothing chosen: one placeholder row for the 12 ECTS slot
                 print(f"  {colour}{'(choose a specialisation)':<{width}}{'Specialisation':<22}"
-                      f"12 ECTS{RESET}")
+                      f"12 ECTS{RESET}") 
+    print("filter by group?")
+    for number, group in enumerate(groups, start=1):
+        print(f"{number}. {group['short']}")
+    while True:
+        answer = input(
+            "Enter a group number, or press Enter to skip (0 to go back): "
+        ).strip()
+        if answer == "0":
+            return
+        if answer == "":
+            break
+        if answer.isdigit() and 1 <= int(answer) <= len(groups):
+            break
+        print(f"Please enter a number from 1 to {len(groups)}.")
+    if answer != "":
+        selected_group = groups[int(answer) -1]
+        print()
+        print(f"{selected_group['name']} ({selected_group['ects']} ECTS)")
+        for module in modules:
+            if module.group == selected_group["name"]:
+                print(
+             f"  S{module.semester}  {module.name}  {module.ects}"
+             f" ECTS")
