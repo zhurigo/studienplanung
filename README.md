@@ -192,7 +192,7 @@ Kept Digital Trust.
 
 ### Step 7: Plan electives
 
-Add or remove electives — to swap, remove one elective and add another in its place (there is no separate swap action). First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 2, 3, 5 or 6 ECTS each, so the number you pick varies — the total must reach exactly 12 ECTS. The counter never goes above 12 ECTS, and you can't pick the same elective twice. To add or remove several electives at once, type their numbers separated by commas or spaces, e.g. `7, 9` or `7 9`.
+Add or remove electives — to swap, remove one elective and add another in its place (there is no separate swap action). First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 2, 3, 5 or 6 ECTS each, so the number you pick varies — the total must reach exactly 12 ECTS. The counter never goes above 12 ECTS, and you can't pick the same elective twice. To add or remove several electives at once, type their numbers separated by commas or spaces, e.g. `7, 9` or `7 9`. If an elective doesn't fit, the app also offers to swap it straight away for one you already have.
 
 ```
 --- Plan electives ---
@@ -225,6 +225,22 @@ Please enter a number from 0 to 10.
 Pick an elective (0 to go back): 7, 9
 Added Spanish A1. Selected: 9/12 ECTS
 Added Spanish B1. Selected: 12/12 ECTS
+```
+
+When an elective doesn't fit, you can swap it for one you already have (`n` keeps your plan as it is):
+
+```
+Pick an elective (0 to go back): 10
+That would make 15/12 ECTS — you can add at most 3 more ECTS.
+Swap Spanish intensive course A1/A2 for one of your electives? (y/n): y
+
+Selected: 9/12 ECTS (German Basic A1, Italian A1, Spanish A1)
+1. German Basic A1                      3 ECTS
+2. Italian A1                           3 ECTS
+3. Spanish A1                           3 ECTS
+0. Back
+Pick an elective to swap out (0 to go back): 3
+Swapped Spanish A1 for Spanish intensive course A1/A2. Selected: 12/12 ECTS
 ```
 
 ### Step 8: Check my plan

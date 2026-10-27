@@ -118,7 +118,7 @@ Acceptance criteria are written as _Given ⟨situation⟩, when ⟨action⟩, th
 
 > As a student, I want to remove or swap an elective so that I can change my plan.
 
-Swapping is done by removing an elective and adding another in its place — there is no separate "swap" action.
+Swapping is done by removing an elective and adding another in its place — there is no separate "swap" action. When a new elective doesn't fit, the app also offers to swap it straight away for one already in the plan.
 
 **Acceptance criteria**
 
@@ -134,6 +134,10 @@ Swapping is done by removing an elective and adding another in its place — the
   - **Given** I have Spanish A1 (3 ECTS) in my plan and I'm at 9/12
   - **When** I swap Spanish A1 for the Spanish intensive course A1/A2 (6 ECTS) by removing it and adding the intensive course
   - **Then** Spanish A1 is replaced by the intensive course and the counter goes up to 12/12
+- **AC4**
+  - **Given** I have Spanish A1 (3 ECTS) in my plan and I'm at 9/12
+  - **When** I try to add the Spanish intensive course A1/A2 (6 ECTS), answer `y` to `Swap Spanish intensive course A1/A2 for one of your electives? (y/n):` and pick Spanish A1
+  - **Then** Spanish A1 is replaced by the intensive course and the counter goes up to 12/12; `n` keeps my plan as it was
 
 ## Hugo — Check and save
 
