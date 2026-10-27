@@ -5,6 +5,7 @@ Owner: Thalita (moved here from choices.py so the whole team can use them)
 
 Basic questions:
   ask_number   ask until the answer is a whole number in a range
+  ask_numbers  like ask_number, but several numbers at once ("5, 6" or "5 6")
   ask_yes_no   ask until the answer is y or n
   pause        wait for Enter, so an output screen can be read
 
@@ -102,6 +103,30 @@ def ask_number(prompt, low, high):
             number = int(answer)
             if number >= low and number <= high:
                 return number
+        show_warning(f"Please enter a number from {low} to {high}.")
+
+
+def ask_numbers(prompt, low, high):
+    """Ask until the user types one or more numbers from low to high,
+    split by commas or spaces, e.g. "5, 6" or "5 6". Returns them as a list."""
+    while True:
+        # Every question gets an empty line above it and is bold
+        print()
+        answer = input(f"{BOLD}{prompt}{RESET}")
+
+        # 1. Turn commas into spaces, then split into single words
+        words = answer.replace(",", " ").split()
+
+        # 2. Every word must be a number in range, and there must be at least one
+        numbers = []
+        all_valid = True
+        for word in words:
+            if word.isdigit() and int(word) >= low and int(word) <= high:
+                numbers.append(int(word))
+            else:
+                all_valid = False
+        if all_valid and numbers != []:
+            return numbers
         show_warning(f"Please enter a number from {low} to {high}.")
 
 
