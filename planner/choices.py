@@ -15,10 +15,10 @@ Input to validate:
 
 The rules themselves (limits, no doubles) live in StudentPlan in models.py.
 This file only asks the questions and shows the answers.
-The input helpers (ask_menu, ask_yes_no) are in prompts.py.
+The input helpers (ask_menu, ask_numbers, ask_yes_no) are in prompts.py.
 """
 
-from planner.prompts import CURRENT, RESET, ask_menu, ask_yes_no, show_header, show_kept, show_success, show_warning
+from planner.prompts import CURRENT, RESET, ask_menu, ask_numbers, ask_yes_no, show_header, show_kept, show_menu, show_success, show_warning
 
 # --- US4: choose a specialisation ---
 
@@ -89,7 +89,7 @@ def plan_electives(plan, electives_by_category):
         show_header("Plan electives", "Your electives must add up to exactly 12 ECTS")
         print(selected_line(plan))
         print()
-        number = ask_menu(["Add an elective", "Remove an elective"])
+        number = ask_menu(["Add an elective", "Remove an elective"], "Choose (0-2): ")
 
         # 2. Open the action the student chose (pass = not written yet)
         if number == 0:
@@ -103,7 +103,7 @@ def plan_electives(plan, electives_by_category):
 # --- US5: add an elective ---
 
 def add_elective(plan, electives_by_category):
-    """Story 5: pick a category, then an elective to add to the plan."""
+    """Story 5: pick a category, then one or more electives to add to the plan."""
     # 1. List the categories with how many electives each one has
     categories = []
     category_options = []
@@ -114,19 +114,18 @@ def add_elective(plan, electives_by_category):
         categories.append(category)
         category_options.append(f"{category} ({count})")
 
-    # Stay here until the student picks an elective, or 0 in the categories
+    # Stay here until the student picks electives, or 0 in the categories
     while True:
         # 2. Ask for a category, 0 goes back to Plan electives
         show_header("Categories", "Pick a category to see its electives")
-        number = ask_menu(category_options)
+        number = ask_menu(category_options, "Choose a category (0 to go back): ")
         if number == 0:
             return
         # lists start at 0, the menu at 1
         category = categories[number - 1]
-
-        # 3. List the electives in that category: name, ECTS, semester and campus
-        show_header(category, "HS = autumn, FS = spring. Pick one to add it")
         electives = electives_by_category[category]
+
+        # 3. Make one line per elective: name, ECTS, semester and campus
         options = []
         for elective in electives:
             campus = ""
@@ -137,9 +136,33 @@ def add_elective(plan, electives_by_category):
             # :<40 pads the name to 40 characters, so the columns line up
             options.append(f"{elective.name:<40}{elective.ects} ECTS   {elective.semester:<8}{campus}")
 
-        # 4. Ask for an elective, 0 goes back to the categories
-        number = ask_menu(options)
-        if number != 0:
+        # 4. Show the list, 0 goes back to the categories
+        show_header(category, "HS = autumn, FS = spring. Pick one or more, e.g. 5, 6")
+        highest = show_menu(options, "Back")
+        numbers = ask_numbers("Pick an elective (0 to go back): ", 0, highest)
+        if 0 not in numbers:
             break
 
-    elective = electives[number - 1]
+    # 5. Try to add each one, in the order they were typed
+    for number in numbers:
+        try_to_add(plan, electives[number - 1])
+
+def try_to_add(plan, elective):
+    """Story 5: add the elective, or say why it can't be added."""
+    # 1. Already in the plan: say so and add nothing
+    if plan.has_elective(elective.id):
+        show_warning(f"{elective.name} is already in your plan.")
+        return
+
+    # 2. Too many ECTS: say how many are still free and add nothing
+    if elective.ects > plan.ects_left():
+        new_total = plan.total_elective_ects() + elective.ects
+        if plan.ects_left() == 0:
+            show_warning(f"That would make {new_total}/12 ECTS — you cannot add anything else.")
+        else:
+            show_warning(f"That would make {new_total}/12 ECTS — you can add at most {plan.ects_left()} more ECTS.")
+        return
+
+    # 3. Add it and show the new counter
+    plan.add_elective(elective)
+    show_success(f"Added {elective.name}. Selected: {plan.total_elective_ects()}/12 ECTS")

@@ -79,3 +79,23 @@ class StudentPlan:
         for elective in self.electives:
             total = total + elective.ects
         return total
+
+    def ects_left(self):
+        """How many elective ECTS can still be added before reaching 12."""
+        return 12 - self.total_elective_ects()
+
+    def has_elective(self, elective_id):
+        """True if the elective is already in the plan."""
+        for elective in self.electives:
+            if elective.id == elective_id:
+                return True
+        return False
+
+    def add_elective(self, elective):
+        """Add the elective if it is new and fits in 12 ECTS. Returns True if added."""
+        if self.has_elective(elective.id):
+            return False
+        if elective.ects > self.ects_left():
+            return False
+        self.electives.append(elective)
+        return True
