@@ -83,6 +83,14 @@ def selected_line(plan):
     return line
 
 
+def chosen_options(plan):
+    """One line per elective in the plan: name and ECTS."""
+    options = []
+    for elective in plan.electives:
+        options.append(f"{elective.name:<40}{elective.ects} ECTS")
+    return options
+
+
 def plan_electives(plan, electives_by_category):
     """Stories 5 and 6: add or remove electives until the student picks 0."""
     while True:
@@ -92,13 +100,13 @@ def plan_electives(plan, electives_by_category):
         print()
         number = ask_menu(["Add an elective", "Remove an elective"], "Choose (0-2): ")
 
-        # 2. Open the action the student chose (pass = not written yet)
+        # 2. Open the action the student chose
         if number == 0:
             return
         if number == 1:
             add_elective(plan, electives_by_category)
         elif number == 2:
-            pass  # US6 (Thalita): remove an elective
+            remove_elective(plan)
 
 
 # --- US5: add an elective ---
@@ -171,3 +179,34 @@ def try_to_add(plan, elective):
     # 3. Add it and show the new counter
     plan.add_elective(elective)
     show_success(f"Added {elective.name}. Selected: {plan.total_elective_ects()}/12 ECTS")
+
+
+# --- US6: remove or swap an elective ---
+
+def remove_elective(plan):
+    """Story 6: remove one or more electives from the plan."""
+    # 1. Nothing to remove: say so and go back to Plan electives
+    if plan.electives == []:
+        show_warning("You have no electives to remove.")
+        return
+
+    # 2. List the chosen electives with their ECTS
+    show_header("Remove an elective", "Pick one or more, e.g. 1, 2")
+    print(selected_line(plan))
+    print()
+    highest = show_menu(chosen_options(plan), "Back")
+    numbers = ask_numbers("Pick an elective to remove (0 to go back): ", 0, highest)
+    if 0 in numbers:
+        return
+
+    # 3. Find the electives first, because removing one changes the numbers of the others
+    chosen = []
+    for number in numbers:
+        elective = plan.electives[number - 1]
+        if elective not in chosen:
+            chosen.append(elective)
+
+    # 4. Remove them and show the new counter
+    for elective in chosen:
+        plan.remove_elective(elective.id)
+        show_success(f"Removed {elective.name}. Selected: {plan.total_elective_ects()}/12 ECTS")

@@ -99,3 +99,12 @@ class StudentPlan:
             return False
         self.electives.append(elective)
         return True
+
+    # --- US6 (Thalita) ---
+
+    def remove_elective(self, elective_id):
+        """Remove the elective with this id from the plan."""
+        for elective in self.electives:
+            if elective.id == elective_id:
+                self.electives.remove(elective)
+                return
