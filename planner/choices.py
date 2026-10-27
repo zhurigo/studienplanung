@@ -77,8 +77,9 @@ def selected_line(plan):
         if names != "":
             names = names + ", "
         names = names + elective.name
+    # The chosen electives are shown in the "current" colour
     if names != "":
-        line = line + f" ({names})"
+        line = line + f" ({CURRENT}{names}{RESET})"
     return line
 
 
@@ -134,7 +135,11 @@ def add_elective(plan, electives_by_category):
                     campus = campus + ", "
                 campus = campus + place
             # :<40 pads the name to 40 characters, so the columns line up
-            options.append(f"{elective.name:<40}{elective.ects} ECTS   {elective.semester:<8}{campus}")
+            line = f"{elective.name:<40}{elective.ects} ECTS   {elective.semester:<8}{campus}"
+            # Electives already in the plan get the "current" colour
+            if plan.has_elective(elective.id):
+                line = f"{CURRENT}{line}{RESET}"
+            options.append(line)
 
         # 4. Show the list, 0 goes back to the categories
         show_header(category, "HS = autumn, FS = spring. Pick one or more, e.g. 5, 6")
