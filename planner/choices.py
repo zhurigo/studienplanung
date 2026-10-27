@@ -5,7 +5,7 @@ Owner: Thalita (Plan)
 User stories:
   4. Choose one specialisation, confirm before replacing  (Step 6)
   5. Add an elective: first pick a category, then a module (Step 7)
-  6. Remove an elective                                    (Step 7)
+  6. Remove or swap an elective                            (Step 7)
 
 Input to validate:
   - numbers must be in range, letters are rejected
@@ -95,7 +95,7 @@ def plan_electives(plan, electives_by_category):
     """Stories 5 and 6: add or remove electives until the student picks 0."""
     while True:
         # 1. Show the counter and the two actions
-        show_header("Plan electives", "Your electives must add up to exactly 12 ECTS")
+        show_header("Plan electives", "Must add up to 12 ECTS. Swap one if it doesn't fit")
         print(selected_line(plan))
         print()
         number = ask_menu(["Add an elective", "Remove an elective"], "Choose (0-2): ")
@@ -167,13 +167,14 @@ def try_to_add(plan, elective):
         show_warning(f"{elective.name} is already in your plan.")
         return
 
-    # 2. Too many ECTS: say how many are still free and add nothing
+    # 2. Too many ECTS: say how many are still free, then offer a swap
     if elective.ects > plan.ects_left():
         new_total = plan.total_elective_ects() + elective.ects
         if plan.ects_left() == 0:
             show_warning(f"That would make {new_total}/12 ECTS — you cannot add anything else.")
         else:
             show_warning(f"That would make {new_total}/12 ECTS — you can add at most {plan.ects_left()} more ECTS.")
+        offer_swap(plan, elective)
         return
 
     # 3. Add it and show the new counter
@@ -210,3 +211,30 @@ def remove_elective(plan):
     for elective in chosen:
         plan.remove_elective(elective.id)
         show_success(f"Removed {elective.name}. Selected: {plan.total_elective_ects()}/12 ECTS")
+
+
+def offer_swap(plan, elective):
+    """Story 6: the new elective doesn't fit, so offer to swap it for one in the plan."""
+    # 1. Ask first, n keeps the plan as it is
+    if not ask_yes_no(f"Swap {elective.name} for one of your electives? (y/n): "):
+        return
+
+    # 2. Ask which elective to swap out
+    print()
+    print(selected_line(plan))
+    print()
+    number = ask_menu(chosen_options(plan), "Pick an elective to swap out (0 to go back): ")
+    if number == 0:
+        return
+    old = plan.electives[number - 1]
+
+    # 3. Still too many ECTS without the old one: say so and change nothing
+    new_total = plan.total_elective_ects() - old.ects + elective.ects
+    if new_total > 12:
+        show_warning(f"Swapping out {old.name} would still make {new_total}/12 ECTS.")
+        return
+
+    # 4. Swap them and show the new counter
+    plan.remove_elective(old.id)
+    plan.add_elective(elective)
+    show_success(f"Swapped {old.name} for {elective.name}. Selected: {plan.total_elective_ects()}/12 ECTS")
