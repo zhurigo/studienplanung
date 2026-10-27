@@ -192,7 +192,7 @@ Kept Digital Trust.
 
 ### Step 7: Plan electives
 
-Add or remove electives — to swap, remove one elective and add another in its place (there is no separate swap action). First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 2, 3, 5 or 6 ECTS each, so the number you pick varies — the total must reach exactly 12 ECTS. The counter never goes above 12 ECTS, and you can't pick the same elective twice.
+Add or remove electives — to swap, remove one elective and add another in its place (there is no separate swap action). First pick a category, then a module; each elective shows its ECTS, semester (HS = autumn, FS = spring) and campus. Electives are worth 2, 3, 5 or 6 ECTS each, so the number you pick varies — the total must reach exactly 12 ECTS. The counter never goes above 12 ECTS, and you can't pick the same elective twice. To add or remove several electives at once, type their numbers separated by commas or spaces, e.g. `7, 9` or `7 9`.
 
 ```
 --- Plan electives ---
@@ -222,8 +222,9 @@ Choose a category (0 to go back): 1
 10. Spanish intensive course A1/A2      6 ECTS   FS      Olten, Windisch
 Pick an elective (0 to go back): 11
 Please enter a number from 0 to 10.
-Pick an elective (0 to go back): 7
+Pick an elective (0 to go back): 7, 9
 Added Spanish A1. Selected: 9/12 ECTS
+Added Spanish B1. Selected: 12/12 ECTS
 ```
 
 ### Step 8: Check my plan
