@@ -133,4 +133,14 @@ def roadmap_total(plan, modules, specialisations):
     return total
 
 
+def progress_bar(total):
+    """Return a bar like [###---], rounded down and at most BAR_WIDTH long."""
+    filled = total * BAR_WIDTH // TOTAL_ECTS
+    # A hand-edited my_plan.json can go above 180 ECTS
+    if filled > BAR_WIDTH:
+        filled = BAR_WIDTH
+    empty = BAR_WIDTH - filled
+    return "[" + "#" * filled + "-" * empty + "]"
+
+
 # TODO (Hugo): write the roadmap function.
