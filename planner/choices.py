@@ -69,18 +69,25 @@ def choose_specialisation(plan, specialisations):
 
 # --- US5 + US6: plan electives ---
 
+def ects_bar(plan):
+    """A second message line with one block per ECTS, e.g. '   ▰▰▰▰▰▰▰▰▰▱▱▱  9/12 ECTS'.
+    Indented 3 spaces, so it lines up under the text after the emoji."""
+    used = plan.total_elective_ects()
+    return f"\n   {'▰' * used}{'▱' * plan.ects_left()}  {used}/12 ECTS"
+
+
 def selected_line(plan):
-    """The counter line, e.g. 'Selected: 6/12 ECTS (German Basic A1, Italian A1)'."""
-    line = f"Selected: {plan.total_elective_ects()}/12 ECTS"
-    names = ""
+    """The counter line, e.g. 'Selected: 6/12 ECTS'."""
+    return f"Selected: {BOLD}{plan.total_elective_ects()}/12 ECTS{RESET}"
+
+
+def show_selected(plan):
+    """The counter, then the chosen electives as a bullet list in the "current" colour."""
+    print(selected_line(plan))
+    if plan.electives == []:
+        print("  • none yet")
     for elective in plan.electives:
-        if names != "":
-            names = names + ", "
-        names = names + elective.name
-    # The chosen electives are shown in the "current" colour
-    if names != "":
-        line = line + f" ({CURRENT}{names}{RESET})"
-    return line
+        print(f"  • {elective.name:<40}{elective.ects} ECTS")
 
 
 def chosen_options(plan):
@@ -96,7 +103,7 @@ def plan_electives(plan, electives_by_category):
     while True:
         # 1. Show the counter and the two actions
         show_header("Plan electives", "Must add up to 12 ECTS. Swap one if it doesn't fit")
-        print(selected_line(plan))
+        show_selected(plan)
         print()
         number = ask_menu(["Add an elective", "Remove an elective"])
 
@@ -179,7 +186,7 @@ def try_to_add(plan, elective):
 
     # 3. Add it and show the new counter
     plan.add_elective(elective)
-    show_success(f"Added {elective.name}. Selected: {plan.total_elective_ects()}/12 ECTS")
+    show_success(f"Added {elective.name}{ects_bar(plan)}")
 
 
 # --- US6: remove or swap an elective ---
@@ -210,7 +217,7 @@ def remove_elective(plan):
     # 4. Remove them and show the new counter
     for elective in chosen:
         plan.remove_elective(elective.id)
-        show_success(f"Removed {elective.name}. Selected: {plan.total_elective_ects()}/12 ECTS")
+        show_success(f"Removed {elective.name}{ects_bar(plan)}")
 
 
 def offer_swap(plan, elective):
@@ -221,7 +228,7 @@ def offer_swap(plan, elective):
 
     # 2. Ask which elective to swap out
     print()
-    print(selected_line(plan))
+    print(f"Which elective would you like to swap for {BOLD}{elective.name}{RESET}?")
     print()
     number = ask_menu(chosen_options(plan))
     if number == 0:
@@ -237,4 +244,4 @@ def offer_swap(plan, elective):
     # 4. Swap them and show the new counter
     plan.remove_elective(old.id)
     plan.add_elective(elective)
-    show_success(f"Swapped {old.name} for {elective.name}. Selected: {plan.total_elective_ects()}/12 ECTS")
+    show_success(f"Swapped {old.name} for {elective.name}{ects_bar(plan)}")
