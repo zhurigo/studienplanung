@@ -35,6 +35,9 @@ BAR_WIDTH = 20
 # The name column is never narrower than this, like in the degree plan
 MIN_NAME_WIDTH = 31
 
+# The label column is 22 wide, as on the degree-plan screen
+LABEL_WIDTH = 22
+
 
 # --- Wording shared by US7 and US9 ---
 
@@ -166,4 +169,55 @@ def name_width(names):
     return max(MIN_NAME_WIDTH, longest + 3)
 
 
-# TODO (Hugo): write the roadmap function.
+def show_roadmap(plan, modules, groups, specialisations):
+    """Print the plan as a roadmap from semester 1 to 8."""
+    shorts = {}
+    for group in groups:
+        shorts[group["name"]] = group["short"]
+
+    specialisation = find_specialisation(plan, specialisations)
+
+    names = []
+    for module in modules:
+        names.append(module.name)
+    for elective in plan.electives:
+        names.append(elective.name)
+    if specialisation is not None:
+        names.append(specialisation.name + " modules")
+    width = name_width(names)
+
+    show_header("Roadmap")
+    for semester in range(1, 9):
+        if semester > 1:
+            print()
+        print(f"Semester {semester}")
+        for module in modules:
+            if module.semester == semester:
+                label = shorts.get(module.group, module.group)
+                print(f"  {module.name:<{width}}{label:<{LABEL_WIDTH}}"
+                      f"{module.ects} ECTS")
+
+    print()
+    print("Semesters 6-8 (specialisation)")
+    if specialisation is not None:
+        print(f"  {specialisation.name + ' modules':<{width}}"
+              f"{'':<{LABEL_WIDTH}}{SPECIALISATION_ECTS:>2} ECTS")
+    else:
+        print("  Specialisation — not chosen yet")
+
+    print()
+    print("Electives")
+    for elective in plan.electives:
+        print(f"  {elective.name:<{width}}{'Elective':<{LABEL_WIDTH}}"
+              f"{elective.ects} ECTS")
+    line = elective_line(plan.total_elective_ects())
+    if line is not None:
+        print(f"  {line}")
+
+    total = roadmap_total(plan, modules, specialisations)
+    percent = total * 100 // TOTAL_ECTS
+    print()
+    print(f"Total  {progress_bar(total)}  {total}/{TOTAL_ECTS} ECTS "
+          f"({percent}%)")
+
+    pause()
