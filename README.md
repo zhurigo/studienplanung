@@ -248,7 +248,9 @@ Swapped Spanish A1 for Spanish intensive course A1/A2. Selected: 12/12 ECTS
 Checks your current plan and prints one line per problem, or confirms that the plan is complete.
 
 ```
---- Plan check ---
+-------------------------------------------------------
+                       Plan check
+-------------------------------------------------------
 Electives: 9/12 ECTS — 3 ECTS missing.
 
 1 warning. Press Enter to return.
@@ -257,7 +259,9 @@ Electives: 9/12 ECTS — 3 ECTS missing.
 When nothing is wrong:
 
 ```
---- Plan check ---
+-------------------------------------------------------
+                       Plan check
+-------------------------------------------------------
 Your plan is complete (180/180 ECTS).
 
 Press Enter to return.

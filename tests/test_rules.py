@@ -5,11 +5,14 @@ Owner: Hugo (Check and save)
 Run with:  python -m unittest discover tests
 """
 
+import io
 import unittest
+from contextlib import redirect_stdout
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from planner.models import Elective, StudentPlan
-from planner.rules import check_plan
+from planner.rules import check_plan, show_plan_check
 
 
 def make_elective(elective_id: str, ects: int,
@@ -123,6 +126,59 @@ class CheckPlanTests(unittest.TestCase):
             "No specialisation chosen.",
             "Electives: 0/12 ECTS — 12 ECTS missing.",
         ])
+
+
+class ShowPlanCheckTests(unittest.TestCase):
+    """US7 screen: the header, the problems and the pause prompt."""
+
+    def setUp(self):
+        self.specialisations = [SimpleNamespace(id="DT")]
+        self.german = make_elective("LANG-DE-A1", 3)
+        self.spanish = make_elective("LANG-ES-A1", 3)
+        self.tech = make_elective("TECH-01", 6)
+        self.business = make_elective("BIZ-01", 6)
+        self.catalogue = [
+            self.german, self.spanish, self.tech, self.business,
+        ]
+
+    def run_check(self, plan):
+        """Run the screen with a mocked Enter and captured stdout."""
+        with patch("builtins.input", return_value="") as mocked:
+            with redirect_stdout(io.StringIO()) as output:
+                show_plan_check(
+                    plan, self.specialisations, self.catalogue
+                )
+        return output.getvalue(), mocked
+
+    def test_complete_plan_confirms_180(self):
+        plan = make_plan(electives=[self.tech, self.business])
+
+        output, mocked = self.run_check(plan)
+
+        self.assertIn("Your plan is complete (180/180 ECTS).", output)
+        self.assertEqual(mocked.call_count, 1)
+        self.assertIn("Press Enter to return.",
+                      mocked.call_args.args[0])
+
+    def test_one_problem_uses_singular_warning(self):
+        plan = make_plan(specialisation_id=None,
+                         electives=[self.tech, self.business])
+
+        output, mocked = self.run_check(plan)
+
+        self.assertIn("No specialisation chosen.", output)
+        self.assertIn("1 warning. Press Enter to return.",
+                      mocked.call_args.args[0])
+
+    def test_two_problems_use_plural_warnings(self):
+        plan = make_plan(specialisation_id=None)
+
+        output, mocked = self.run_check(plan)
+
+        self.assertIn("No specialisation chosen.", output)
+        self.assertIn("Electives: 0/12 ECTS — 12 ECTS missing.", output)
+        self.assertIn("2 warnings. Press Enter to return.",
+                      mocked.call_args.args[0])
 
 
 if __name__ == "__main__":

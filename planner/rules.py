@@ -6,7 +6,7 @@ User stories:
   7. Check my plan and list every problem            (Step 8)
   9. Personal 180-ECTS roadmap per semester          (Step 9)
 
-US7 checks — return a list of warning texts; an empty list means the plan is OK:
+US7 checks — return warning texts; an empty list means the plan is OK:
   - a specialisation is chosen
   - electives reach 12 ECTS
   - no unknown specialisation or elective ids (my_plan.json can be hand-edited)
@@ -19,6 +19,8 @@ bar toward 180 (rounded down).
 
 Both US7 and US9 live in this file.
 """
+
+from planner.prompts import pause, show_header, show_success, show_warning
 
 # A complete plan needs exactly this many elective ECTS
 # (data/electives.json: info.elective_ects_required)
@@ -78,6 +80,26 @@ def check_plan(plan, specialisations, electives):
             )
 
     return problems
+
+
+def show_plan_check(plan, specialisations, electives):
+    """US7: print every problem with the plan, then wait for Enter."""
+    problems = check_plan(plan, specialisations, electives)
+
+    show_header("Plan check")
+    if not problems:
+        show_success("Your plan is complete (180/180 ECTS).")
+        pause()
+        return
+
+    for problem in problems:
+        show_warning(problem)
+
+    if len(problems) == 1:
+        prompt = "1 warning. Press Enter to return. "
+    else:
+        prompt = f"{len(problems)} warnings. Press Enter to return. "
+    pause(prompt)
 
 
 # --- US9: personal 180-ECTS roadmap ---

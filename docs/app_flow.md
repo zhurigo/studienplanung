@@ -57,7 +57,7 @@ one function per option and comes back.
 | 2 | Explore specialisations | `display.explore_specialisations(specs)` | `planner/display.py` | Angelica |
 | 3 | Choose specialisation | `choices.choose_specialisation(plan, specs)` | `planner/choices.py` | Thalita |
 | 4 | Plan electives | `choices.plan_electives(plan, electives_by_category)` | `planner/choices.py` | Thalita |
-| 5 | Check my plan | `rules.check_plan(plan)` | `planner/rules.py` | Hugo |
+| 5 | Check my plan | `rules.show_plan_check(plan, specialisations, electives)` (calls `rules.check_plan`) | `planner/rules.py` | Hugo |
 | 6 | Roadmap | `rules.show_roadmap(plan, modules, specs)` | `planner/rules.py` | Hugo |
 | 7 | Save plan | `storage.save_plan(plan)` | `planner/storage.py` | Hugo |
 | 0 | Exit | `main.offer_save_if_dirty(plan)` | `main.py` | Hugo |
