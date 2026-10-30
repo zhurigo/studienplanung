@@ -272,20 +272,25 @@ Press Enter to return.
 Shows your personal 180-ECTS roadmap per semester, with your specialisation and electives in place, plus a total progress bar toward 180 ECTS. The percentage and the bar length are rounded down (177/180 shows as 98%, and a 20-character bar holds 19 `#`).
 
 ```
---- Roadmap ---
+-------------------------------------------------------
+                        Roadmap
+-------------------------------------------------------
+
 Semester 1
-  Applied Mathematics 1          Foundation            3 ECTS
-  Statistics 1                   Foundation            3 ECTS
-  Principles of Management       Business Admin.       6 ECTS
-  Digital Business               BIT                   6 ECTS
-  Programming Foundations        IT                    6 ECTS
+  Applied Mathematics 1                       Foundation             3 ECTS
+  Statistics 1                                Foundation             3 ECTS
+  Principles of Management                    Business Admin.        6 ECTS
+  Digital Business                            BIT                    6 ECTS
+  Programming Foundations                     IT                     6 ECTS
 ...
+
 Semesters 6-8 (specialisation)
-  Digital Trust modules                               36 ECTS
+  Digital Trust modules                                             36 ECTS
+
 Electives
-  German Basic A1                Elective              3 ECTS
-  Italian A1                     Elective              3 ECTS
-  Spanish A1                     Elective              3 ECTS
+  German Basic A1                             Elective               3 ECTS
+  Italian A1                                  Elective               3 ECTS
+  Spanish A1                                  Elective               3 ECTS
   Electives: 9/12 ECTS — 3 ECTS missing.
 
 Total  [###################-]  177/180 ECTS (98%)

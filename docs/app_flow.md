@@ -58,7 +58,7 @@ one function per option and comes back.
 | 3 | Choose specialisation | `choices.choose_specialisation(plan, specs)` | `planner/choices.py` | Thalita |
 | 4 | Plan electives | `choices.plan_electives(plan, electives_by_category)` | `planner/choices.py` | Thalita |
 | 5 | Check my plan | `rules.show_plan_check(plan, specialisations, electives)` (calls `rules.check_plan`) | `planner/rules.py` | Hugo |
-| 6 | Roadmap | `rules.show_roadmap(plan, modules, specs)` | `planner/rules.py` | Hugo |
+| 6 | Roadmap | `rules.show_roadmap(plan, modules, groups, specialisations)` | `planner/rules.py` | Hugo |
 | 7 | Save plan | `storage.save_plan(plan)` | `planner/storage.py` | Hugo |
 | 0 | Exit | `main.offer_save_if_dirty(plan)` | `main.py` | Hugo |
 
@@ -229,14 +229,15 @@ No re-submission is needed; these land in the README and the story file together
 
 ## 8. Open questions
 
-- **`Q:` Roadmap total when no specialisation is chosen.** US9 AC5 says the
-  roadmap still renders, but the total is undefined: 144/180, or 180 with the
-  specialisation counted as planned? Decide before US9.
-- **`Q:` `data/modules.json` still has `slots`** with 4 × 3-ECTS electives and
-  12 ECTS of specialisation per semester. That contradicts 2/3/5/6 electives
-  and the 30 + 6 structure. Proposal: stop reading `slots` for electives and
-  compute the remainder from `total_elective_ects()`; keep the specialisation
-  block at 36 ECTS for the roadmap.
+- **✅ Roadmap total when no specialisation is chosen — decided.** The 36 ECTS
+  are not counted: US9 shows the core modules plus electives only, e.g.
+  132 + 9 = 141/180 (78%), and the specialisation block reads
+  "Specialisation — not chosen yet". A chosen but unknown id is treated the
+  same way.
+- **✅ `data/modules.json` still has `slots` — decided.** No code reads `slots`
+  any more. The roadmap computes from the module list and
+  `total_elective_ects()`, keeps the specialisation as one 36-ECTS block, and
+  takes the remaining-ECTS wording from `elective_line()`.
 - **`Q:` `ects_allowed` vs. actual data.** The rule allows 2/3/5/6, the data
   still stores 3/6. The code must follow the data, not the rule, until
   `electives.json` is corrected.

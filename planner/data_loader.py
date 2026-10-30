@@ -49,14 +49,14 @@ def load_groups():
     """
     data = _read_json("modules.json")
     try:
-        return [
-            {
+        groups = []
+        for entry in data["groups"]:
+            groups.append({
                 "name": entry["name"],
                 "short": entry["short"],
                 "ects": entry["ects"],
-            }
-            for entry in data["groups"]
-        ]
+            })
+        return groups
     except (KeyError, TypeError):
         raise _wrong_shape("modules.json")
 
@@ -65,16 +65,16 @@ def load_modules():
     """Return all 28 modules, in file order (US1, US2, US9)."""
     data = _read_json("modules.json")
     try:
-        return [
-            Module(
+        modules = []
+        for entry in data["modules"]:
+            modules.append(Module(
                 name=entry["name"],
                 semester=entry["semester"],
                 group=entry["group"],
                 ects=entry["ects"],
                 project_based=entry.get("project_based", False),
-            )
-            for entry in data["modules"]
-        ]
+            ))
+        return modules
     except (KeyError, TypeError):
         raise _wrong_shape("modules.json")
 
@@ -83,17 +83,17 @@ def load_specialisations():
     """Return the three specialisations, in file order (US3, US4)."""
     data = _read_json("specialisations.json")
     try:
-        return [
-            Specialisation(
+        specialisations = []
+        for entry in data["specialisations"]:
+            specialisations.append(Specialisation(
                 id=entry["id"],
                 name=entry["name"],
                 focus=entry["focus"],
                 modules=entry.get("modules", []),
                 builds_on=entry.get("builds_on", []),
                 careers=entry.get("careers", []),
-            )
-            for entry in data["specialisations"]
-        ]
+            ))
+        return specialisations
     except (KeyError, TypeError):
         raise _wrong_shape("specialisations.json")
 
@@ -130,7 +130,10 @@ def electives_by_category(electives):
 
 def electives_by_id(electives):
     """Return {id: Elective} for lookups (US7, storage)."""
-    return {elective.id: elective for elective in electives}
+    by_id = {}
+    for elective in electives:
+        by_id[elective.id] = elective
+    return by_id
 
 
 def load_all():

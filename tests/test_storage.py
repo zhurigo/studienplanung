@@ -45,9 +45,12 @@ class StorageTests(unittest.TestCase):
         save_plan(self.make_plan(), self.path)
         loaded = load_plan(self.catalogue, self.path)
 
+        loaded_ids = []
+        for elective in loaded.electives:
+            loaded_ids.append(elective.id)
+
         self.assertEqual(loaded.specialisation_id, "DT")
-        self.assertEqual([e.id for e in loaded.electives],
-                         ["LANG-DE-A1", "LANG-ES-A1"])
+        self.assertEqual(loaded_ids, ["LANG-DE-A1", "LANG-ES-A1"])
 
     def test_missing_file_returns_none(self):
         self.assertIsNone(load_plan(self.catalogue, self.path))

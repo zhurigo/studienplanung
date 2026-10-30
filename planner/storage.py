@@ -40,10 +40,13 @@ def _damaged():
 def save_plan(plan, path=PLAN_FILE):
     """Write the plan's ids to my_plan.json (US8, save)."""
     path = Path(path)
+    elective_ids = []
+    for elective in plan.electives:
+        elective_ids.append(elective.id)
     data = {
         "version": 1,
         "specialisation": plan.specialisation_id,
-        "electives": [elective.id for elective in plan.electives],
+        "electives": elective_ids,
     }
 
     # Write to a temporary file first, then swap it in, so a failed write

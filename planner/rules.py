@@ -14,8 +14,9 @@ US7 checks — return warning texts; an empty list means the plan is OK:
   - no more than 12 elective ECTS
 
 US9 renders the personal 180-ECTS roadmap: the plan per semester with the
-specialisation and electives in place, empty elective slots, and a progress
-bar toward 180 (rounded down).
+specialisation and electives in place, the remaining elective ECTS, and a
+progress bar toward 180 (rounded down). The elective wording is shared with
+US7 through elective_line.
 
 Both US7 and US9 live in this file.
 """
@@ -65,10 +66,13 @@ def check_plan(plan, specialisations, electives):
     problems = []
 
     # Sets of the ids that actually exist, so each lookup is one line
-    known_specialisations = {
-        specialisation.id for specialisation in specialisations
-    }
-    known_electives = {elective.id for elective in electives}
+    known_specialisations = set()
+    for specialisation in specialisations:
+        known_specialisations.add(specialisation.id)
+
+    known_electives = set()
+    for elective in electives:
+        known_electives.add(elective.id)
 
     # 1. A specialisation is chosen, and it exists
     if plan.specialisation_id is None:
@@ -79,7 +83,7 @@ def check_plan(plan, specialisations, electives):
         )
 
     # 2. The electives add up to exactly 12 ECTS
-    total = sum(elective.ects for elective in plan.electives)
+    total = plan.total_elective_ects()
     line = elective_line(total)
     if line is not None:
         problems.append(line)
@@ -195,7 +199,7 @@ def show_roadmap(plan, modules, groups, specialisations):
             if module.semester == semester:
                 label = shorts.get(module.group, module.group)
                 print(f"  {module.name:<{width}}{label:<{LABEL_WIDTH}}"
-                      f"{module.ects} ECTS")
+                      f"{module.ects:>2} ECTS")
 
     print()
     print("Semesters 6-8 (specialisation)")
@@ -209,7 +213,7 @@ def show_roadmap(plan, modules, groups, specialisations):
     print("Electives")
     for elective in plan.electives:
         print(f"  {elective.name:<{width}}{'Elective':<{LABEL_WIDTH}}"
-              f"{elective.ects} ECTS")
+              f"{elective.ects:>2} ECTS")
     line = elective_line(plan.total_elective_ects())
     if line is not None:
         print(f"  {line}")
