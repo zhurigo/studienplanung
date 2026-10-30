@@ -18,7 +18,7 @@ This file only asks the questions and shows the answers.
 The input helpers (ask_menu, ask_numbers, ask_yes_no) are in prompts.py.
 """
 
-from planner.prompts import CURRENT, RESET, ask_menu, ask_numbers, ask_yes_no, show_header, show_kept, show_menu, show_success, show_warning
+from planner.prompts import CURRENT, BOLD, RESET, ask_menu, ask_numbers, ask_yes_no, show_header, show_kept, show_menu, show_success, show_warning
 
 # --- US4: choose a specialisation ---
 
@@ -43,7 +43,7 @@ def choose_specialisation(plan, specialisations):
             print()
 
         # 3. Ask for a valid number, 0 goes back without changing anything
-        number = ask_menu(names, "Pick one (0 to go back): ")
+        number = ask_menu(names)
         if number == 0:
             return
         # lists start at 0, the menu at 1
@@ -51,7 +51,7 @@ def choose_specialisation(plan, specialisations):
 
         # 4. Same as before: say so and ask again
         if plan.specialisation_id == choice.id:
-            show_warning(f"{choice.name} is already your specialisation.")
+            show_warning(f"{choice.name} is already your specialisation")
         else:
             break
 
@@ -59,12 +59,12 @@ def choose_specialisation(plan, specialisations):
     if current is not None:
         replace = ask_yes_no(f"Replace {current} with {choice.name}? (y/n): ")
         if not replace:
-            show_kept(f"Kept {current}.")
+            show_kept(f"Kept {current}")
             return
 
     # 6. Save the choice in the plan
     plan.choose_specialisation(choice.id)
-    show_success(f"Specialisation set to {choice.name}.")
+    show_success(f"Specialisation set to {BOLD}{choice.name}{RESET}")
 
 
 # --- US5 + US6: plan electives ---
@@ -98,7 +98,7 @@ def plan_electives(plan, electives_by_category):
         show_header("Plan electives", "Must add up to 12 ECTS. Swap one if it doesn't fit")
         print(selected_line(plan))
         print()
-        number = ask_menu(["Add an elective", "Remove an elective"], "Choose (0-2): ")
+        number = ask_menu(["Add an elective", "Remove an elective"])
 
         # 2. Open the action the student chose
         if number == 0:
@@ -127,7 +127,7 @@ def add_elective(plan, electives_by_category):
     while True:
         # 2. Ask for a category, 0 goes back to Plan electives
         show_header("Categories", "Pick a category to see its electives")
-        number = ask_menu(category_options, "Choose a category (0 to go back): ")
+        number = ask_menu(category_options)
         if number == 0:
             return
         # lists start at 0, the menu at 1
@@ -143,7 +143,7 @@ def add_elective(plan, electives_by_category):
                     campus = campus + ", "
                 campus = campus + place
             # :<40 pads the name to 40 characters, so the columns line up
-            line = f"{elective.name:<40}{elective.ects} ECTS   {elective.semester:<8}{campus}"
+            line = f"{elective.name:<40}{elective.ects} ECTS {elective.semester:<8}{campus}"
             # Electives already in the plan get the "current" colour
             if plan.has_elective(elective.id):
                 line = f"{CURRENT}{line}{RESET}"
@@ -152,7 +152,7 @@ def add_elective(plan, electives_by_category):
         # 4. Show the list, 0 goes back to the categories
         show_header(category, "HS = autumn, FS = spring. Pick one or more, e.g. 5, 6")
         highest = show_menu(options, "Back")
-        numbers = ask_numbers("Pick an elective (0 to go back): ", 0, highest)
+        numbers = ask_numbers(f"Choose an option (0-{highest}): ", 0, highest)
         if 0 not in numbers:
             break
 
@@ -164,16 +164,16 @@ def try_to_add(plan, elective):
     """Story 5: add the elective, or say why it can't be added."""
     # 1. Already in the plan: say so and add nothing
     if plan.has_elective(elective.id):
-        show_warning(f"{elective.name} is already in your plan.")
+        show_warning(f"{elective.name} is already in your plan")
         return
 
     # 2. Too many ECTS: say how many are still free, then offer a swap
     if elective.ects > plan.ects_left():
         new_total = plan.total_elective_ects() + elective.ects
         if plan.ects_left() == 0:
-            show_warning(f"That would make {new_total}/12 ECTS — you cannot add anything else.")
+            show_warning(f"That would make {new_total}/12 ECTS — you cannot add anything else")
         else:
-            show_warning(f"That would make {new_total}/12 ECTS — you can add at most {plan.ects_left()} more ECTS.")
+            show_warning(f"That would make {new_total}/12 ECTS — you can add at most {plan.ects_left()} more ECTS")
         offer_swap(plan, elective)
         return
 
@@ -188,7 +188,7 @@ def remove_elective(plan):
     """Story 6: remove one or more electives from the plan."""
     # 1. Nothing to remove: say so and go back to Plan electives
     if plan.electives == []:
-        show_warning("You have no electives to remove.")
+        show_warning("You have no electives to remove")
         return
 
     # 2. List the chosen electives with their ECTS
@@ -196,7 +196,7 @@ def remove_elective(plan):
     print(selected_line(plan))
     print()
     highest = show_menu(chosen_options(plan), "Back")
-    numbers = ask_numbers("Pick an elective to remove (0 to go back): ", 0, highest)
+    numbers = ask_numbers(f"Choose an option (0-{highest}): ", 0, highest)
     if 0 in numbers:
         return
 
@@ -223,7 +223,7 @@ def offer_swap(plan, elective):
     print()
     print(selected_line(plan))
     print()
-    number = ask_menu(chosen_options(plan), "Pick an elective to swap out (0 to go back): ")
+    number = ask_menu(chosen_options(plan))
     if number == 0:
         return
     old = plan.electives[number - 1]
@@ -231,7 +231,7 @@ def offer_swap(plan, elective):
     # 3. Still too many ECTS without the old one: say so and change nothing
     new_total = plan.total_elective_ects() - old.ects + elective.ects
     if new_total > 12:
-        show_warning(f"Swapping out {old.name} would still make {new_total}/12 ECTS.")
+        show_warning(f"Swapping out {old.name} would still make {new_total}/12 ECTS")
         return
 
     # 4. Swap them and show the new counter
