@@ -6,7 +6,7 @@ User stories:
   7. Check my plan and list every problem            (Step 8)
   9. Personal 180-ECTS roadmap per semester          (Step 9)
 
-US7 checks — return a list of warning texts; an empty list means the plan is OK:
+US7 checks — return warning texts; an empty list means the plan is OK:
   - a specialisation is chosen
   - electives reach 12 ECTS
   - no unknown specialisation or elective ids (my_plan.json can be hand-edited)
@@ -20,9 +20,17 @@ bar toward 180 (rounded down).
 Both US7 and US9 live in this file.
 """
 
+from planner.prompts import pause, show_header, show_success, show_warning
+
 # A complete plan needs exactly this many elective ECTS
 # (data/electives.json: info.elective_ects_required)
 REQUIRED_ELECTIVE_ECTS = 12
+
+# The roadmap counts a chosen specialisation as one 36-ECTS block
+# (data/specialisations.json: ects)
+SPECIALISATION_ECTS = 36
+TOTAL_ECTS = 180
+BAR_WIDTH = 20
 
 
 # --- US7: check the plan ---
@@ -80,6 +88,59 @@ def check_plan(plan, specialisations, electives):
     return problems
 
 
+def show_plan_check(plan, specialisations, electives):
+    """US7: print every problem with the plan, then wait for Enter."""
+    problems = check_plan(plan, specialisations, electives)
+
+    show_header("Plan check")
+    if not problems:
+        show_success("Your plan is complete (180/180 ECTS).")
+        pause()
+        return
+
+    for problem in problems:
+        show_warning(problem)
+
+    if len(problems) == 1:
+        prompt = "1 warning. Press Enter to return. "
+    else:
+        prompt = f"{len(problems)} warnings. Press Enter to return. "
+    pause(prompt)
+
+
 # --- US9: personal 180-ECTS roadmap ---
+
+def find_specialisation(plan, specialisations):
+    """Return the chosen specialisation, or None."""
+    for specialisation in specialisations:
+        if specialisation.id == plan.specialisation_id:
+            return specialisation
+    return None
+
+
+def roadmap_total(plan, modules, specialisations):
+    """Return the ECTS the plan reaches so far, out of 180."""
+    total = 0
+    for module in modules:
+        total = total + module.ects
+
+    # An unknown or missing specialisation counts as not chosen yet
+    specialisation = find_specialisation(plan, specialisations)
+    if specialisation is not None:
+        total = total + SPECIALISATION_ECTS
+
+    total = total + plan.total_elective_ects()
+    return total
+
+
+def progress_bar(total):
+    """Return a bar like [###---], rounded down and at most BAR_WIDTH long."""
+    filled = total * BAR_WIDTH // TOTAL_ECTS
+    # A hand-edited my_plan.json can go above 180 ECTS
+    if filled > BAR_WIDTH:
+        filled = BAR_WIDTH
+    empty = BAR_WIDTH - filled
+    return "[" + "#" * filled + "-" * empty + "]"
+
 
 # TODO (Hugo): write the roadmap function.

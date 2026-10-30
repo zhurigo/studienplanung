@@ -23,6 +23,7 @@ from planner.data_loader import DataError, electives_by_category, load_all
 from planner.display import explore_specialisations, show_degree_plan
 from planner.models import StudentPlan
 from planner.prompts import BOLD, ITALIC, RESET, ask_number, ask_yes_no, show_error, show_header, show_menu, show_success
+from planner.rules import show_plan_check
 from planner.storage import StorageError, load_plan, save_plan
 
 
@@ -154,7 +155,7 @@ def main():
             if plan.electives != before:
                 unsaved = True
         elif choice == 5:
-            pass  # US7 (Hugo): check my plan
+            show_plan_check(plan, specialisations, electives)
         elif choice == 6:
             pass  # US9 (Hugo): roadmap
         elif choice == 7:
