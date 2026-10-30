@@ -11,8 +11,17 @@ from contextlib import redirect_stdout
 from types import SimpleNamespace
 from unittest.mock import patch
 
+from planner.data_loader import load_all
 from planner.models import Elective, StudentPlan
 from planner.rules import check_plan, show_plan_check
+from planner.rules import (
+    elective_line,
+    find_specialisation,
+    name_width,
+    progress_bar,
+    roadmap_total,
+    show_roadmap,
+)
 
 
 def make_elective(elective_id: str, ects: int,
@@ -179,6 +188,257 @@ class ShowPlanCheckTests(unittest.TestCase):
         self.assertIn("Electives: 0/12 ECTS — 12 ECTS missing.", output)
         self.assertIn("2 warnings. Press Enter to return.",
                       mocked.call_args.args[0])
+
+
+class ElectiveLineTests(unittest.TestCase):
+    """US9: the one wording for missing and extra elective ECTS."""
+
+    def test_zero_ects_is_twelve_missing(self):
+        self.assertEqual(
+            elective_line(0),
+            "Electives: 0/12 ECTS — 12 ECTS missing.",
+        )
+
+    def test_nine_ects_is_three_missing(self):
+        self.assertEqual(
+            elective_line(9),
+            "Electives: 9/12 ECTS — 3 ECTS missing.",
+        )
+
+    def test_exactly_twelve_returns_none(self):
+        self.assertIsNone(elective_line(12))
+
+    def test_fifteen_ects_is_three_over_the_limit(self):
+        self.assertEqual(
+            elective_line(15),
+            "Electives: 15/12 ECTS — 3 ECTS over the limit.",
+        )
+
+
+class FindSpecialisationTests(unittest.TestCase):
+    """US9: the lookup shared by the total and the roadmap screen."""
+
+    def setUp(self):
+        self.specialisations = [
+            SimpleNamespace(id="DT", name="Digital Trust"),
+            SimpleNamespace(id="BADS", name="Business Analytics"),
+        ]
+
+    def test_finds_the_chosen_specialisation(self):
+        plan = make_plan(specialisation_id="DT")
+
+        found = find_specialisation(plan, self.specialisations)
+
+        self.assertEqual(found.name, "Digital Trust")
+
+    def test_none_when_nothing_is_chosen(self):
+        plan = make_plan(specialisation_id=None)
+
+        found = find_specialisation(plan, self.specialisations)
+
+        self.assertIsNone(found)
+
+    def test_none_when_the_id_is_unknown(self):
+        plan = make_plan(specialisation_id="XX")
+
+        found = find_specialisation(plan, self.specialisations)
+
+        self.assertIsNone(found)
+
+
+class RoadmapTotalTests(unittest.TestCase):
+    """US9: core modules + specialisation + electives, on the real data."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.groups, cls.modules, cls.specialisations, cls.electives = (
+            load_all()
+        )
+        cls.by_id = {}
+        for elective in cls.electives:
+            cls.by_id[elective.id] = elective
+
+    def test_no_specialisation_no_electives_is_132(self):
+        plan = make_plan(specialisation_id=None)
+
+        total = roadmap_total(
+            plan, self.modules, self.specialisations
+        )
+
+        self.assertEqual(total, 132)
+
+    def test_specialisation_and_twelve_ects_is_180(self):
+        plan = make_plan(electives=[
+            self.by_id["TECH-050721S1"],
+            self.by_id["BUS-061033S"],
+        ])
+
+        total = roadmap_total(
+            plan, self.modules, self.specialisations
+        )
+
+        self.assertEqual(total, 180)
+
+    def test_no_specialisation_and_nine_ects_is_141(self):
+        plan = make_plan(specialisation_id=None, electives=[
+            self.by_id["LANG-DE-A1"],
+            self.by_id["LANG-IT-A1"],
+            self.by_id["LANG-ES-A1"],
+        ])
+
+        total = roadmap_total(
+            plan, self.modules, self.specialisations
+        )
+
+        self.assertEqual(total, 141)
+
+    def test_unknown_specialisation_does_not_add_36(self):
+        plan = make_plan(specialisation_id="XX", electives=[
+            self.by_id["TECH-050721S1"],
+            self.by_id["BUS-061033S"],
+        ])
+
+        total = roadmap_total(
+            plan, self.modules, self.specialisations
+        )
+
+        self.assertEqual(total, 144)
+
+
+class ProgressBarTests(unittest.TestCase):
+    """US9: twenty characters, rounded down and clamped."""
+
+    def test_zero_is_all_dashes(self):
+        bar = progress_bar(0)
+
+        self.assertEqual(bar, "[--------------------]")
+        self.assertEqual(len(bar), 22)
+
+    def test_177_leaves_one_dash(self):
+        bar = progress_bar(177)
+
+        self.assertEqual(bar, "[###################-]")
+        self.assertEqual(bar.count("#"), 19)
+        self.assertEqual(bar.count("-"), 1)
+        self.assertEqual(len(bar), 22)
+
+    def test_180_is_full(self):
+        bar = progress_bar(180)
+
+        self.assertEqual(bar, "[####################]")
+        self.assertEqual(bar.count("#"), 20)
+        self.assertEqual(len(bar), 22)
+
+    def test_over_180_stays_full(self):
+        bar = progress_bar(190)
+
+        self.assertEqual(bar.count("#"), 20)
+        self.assertEqual(bar.count("-"), 0)
+        self.assertEqual(len(bar), 22)
+
+
+class NameWidthTests(unittest.TestCase):
+    """US9: the name column fits the longest line on the screen."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.groups, cls.modules, cls.specialisations, cls.electives = (
+            load_all()
+        )
+        cls.module_names = []
+        for module in cls.modules:
+            cls.module_names.append(module.name)
+
+    def test_empty_list_uses_the_minimum(self):
+        self.assertEqual(name_width([]), 31)
+
+    def test_short_name_uses_the_minimum(self):
+        self.assertEqual(name_width(["Statistics 1"]), 31)
+
+    def test_all_module_names_fit_the_longest(self):
+        self.assertEqual(name_width(self.module_names), 44)
+
+    def test_specialisation_label_widens_the_column(self):
+        names = self.module_names + [
+            "Business Analytics and Data Science modules",
+        ]
+
+        self.assertEqual(name_width(names), 46)
+
+
+class ShowRoadmapTests(unittest.TestCase):
+    """US9: the printed roadmap follows the plan."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.groups, cls.modules, cls.specialisations, cls.electives = (
+            load_all()
+        )
+        cls.by_id = {}
+        for elective in cls.electives:
+            cls.by_id[elective.id] = elective
+        cls.nine = [
+            cls.by_id["LANG-DE-A1"],
+            cls.by_id["LANG-IT-A1"],
+            cls.by_id["LANG-ES-A1"],
+        ]
+        cls.twelve = [
+            cls.by_id["TECH-050721S1"],
+            cls.by_id["BUS-061033S"],
+        ]
+
+    def run_roadmap(self, plan):
+        """Run the screen with a mocked Enter and captured stdout."""
+        with patch("builtins.input", return_value="") as mocked:
+            with redirect_stdout(io.StringIO()) as output:
+                show_roadmap(
+                    plan, self.modules, self.groups,
+                    self.specialisations,
+                )
+        return output.getvalue(), mocked
+
+    def test_nine_ects_shows_177_and_the_missing_line(self):
+        plan = make_plan(electives=self.nine)
+
+        output, mocked = self.run_roadmap(plan)
+
+        self.assertIn("177/180 ECTS (98%)", output)
+        self.assertIn("[###################-]", output)
+        self.assertIn(
+            "  Electives: 9/12 ECTS — 3 ECTS missing.", output
+        )
+        self.assertEqual(mocked.call_count, 1)
+
+    def test_no_specialisation_still_renders(self):
+        plan = make_plan(specialisation_id=None, electives=self.nine)
+
+        output, mocked = self.run_roadmap(plan)
+
+        self.assertIn("Specialisation — not chosen yet", output)
+        self.assertIn("141/180 ECTS (78%)", output)
+        self.assertEqual(mocked.call_count, 1)
+
+    def test_twelve_ects_prints_no_elective_line(self):
+        plan = make_plan(electives=self.twelve)
+
+        output, mocked = self.run_roadmap(plan)
+
+        self.assertNotIn("missing", output)
+        self.assertNotIn("over the limit", output)
+        self.assertIn("180/180 ECTS (100%)", output)
+
+    def test_roadmap_follows_a_change(self):
+        plan = make_plan(electives=self.nine[:])
+
+        first, first_mocked = self.run_roadmap(plan)
+        plan.add_elective(self.by_id["LANG-ZH-A1"])
+        second, second_mocked = self.run_roadmap(plan)
+
+        self.assertIn("177/180 ECTS (98%)", first)
+        self.assertIn("180/180 ECTS (100%)", second)
+        self.assertNotEqual(first, second)
+        self.assertEqual(first_mocked.call_count, 1)
+        self.assertEqual(second_mocked.call_count, 1)
 
 
 if __name__ == "__main__":
