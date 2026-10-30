@@ -120,7 +120,7 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
         print(f"{number}. {group['short']}")
     while True:
         answer = input(
-            "Enter a group number, or press Enter to skip (0 to go back): "
+            f"Choose an option (0-{len(groups)}), or press Enter to skip: "
         ).strip()
         if answer == "0":
             return
@@ -128,7 +128,7 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
             break
         if answer.isdigit() and 1 <= int(answer) <= len(groups):
             break
-        print(f"Please enter a number from 1 to {len(groups)}.")
+        print(f"Please enter a number from 1 to {len(groups)}:")
     if answer != "":
         selected_group = groups[int(answer) -1]
         print()
@@ -146,10 +146,7 @@ def explore_specialisations(specialisations):
         names.append(specialisation.name)
     while True:
         show_header("Explore specialisations")
-        number = ask_menu(
-            names,
-            "Pick one to see details (0 to go back): "
-        )
+        number = ask_menu(names)
         if number == 0:
             return
         specialisation = specialisations[number -1]

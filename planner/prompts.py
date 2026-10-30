@@ -58,39 +58,35 @@ ERROR_MARK = f"{BOLD}❌{RESET} "
 # --- Headers ---
 
 def show_header(title, description=""):
-    """Print an empty line, then the title centred between two lines.
-    If there is a description, print it centred in italics right under the box."""
+    width = 62
+
     print()
-    print("-" * 55)
-    print(f"{title:^55}")
-    print("-" * 55)
+    print("-" * width)
+    print(f"{title:^{width}}")
+    print("-" * width)
     if description != "":
-        print(f"\033[2m{ITALIC}{description:^55}{RESET}")
+        print(f"\033[2m{ITALIC}{description:^{width}}{RESET}")
     print()
 
 
 # --- Messages ---
 
 def show_kept(message):
-    """Print an empty line, then the message with 🔒."""
     print()
     print(f"{KEPT_MARK}{message}{RESET}")
 
 
 def show_success(message):
-    """Print an empty line, then the message with ✅."""
     print()
     print(f"{SUCCESS_MARK}{message}{RESET}")
 
 
 def show_warning(message):
-    """Print an empty line, then the message with ❗️."""
     print()
     print(f"{WARNING_MARK}{message}{RESET}")
 
 
 def show_error(message):
-    """Print an empty line, then the message with ❌."""
     print()
     print(f"{ERROR_MARK}{message}{RESET}")
 
@@ -107,12 +103,12 @@ def ask_number(prompt, low, high):
             number = int(answer)
             if number >= low and number <= high:
                 return number
-        show_warning(f"Please enter a number from {low} to {high}.")
+        show_warning(f"Please enter a number from {low} to {high}")
 
 
 def ask_numbers(prompt, low, high):
     """Ask until the user types one or more numbers from low to high,
-    split by commas or spaces, e.g. "5, 6" or "5 6". Returns them as a list."""
+    split by commas or spaces, e.g. "5, 6" or "5 6"."""
     while True:
         print()
         answer = input(f"{ARROW}{prompt}")
@@ -130,11 +126,11 @@ def ask_numbers(prompt, low, high):
                 all_valid = False
         if all_valid and numbers != []:
             return numbers
-        show_warning(f"Please enter a number from {low} to {high}.")
+        show_warning(f"Please enter a number from {low} to {high}")
 
 
 def ask_yes_no(prompt):
-    """Ask until the user types y or n. Returns True for y."""
+    """Ask until the user types y or n"""
     while True:
         print()
         answer = input(f"{ARROW}{prompt}").strip().lower()
@@ -142,10 +138,10 @@ def ask_yes_no(prompt):
             return True
         if answer == "n":
             return False
-        show_warning("Please enter y or n.")
+        show_warning("Please enter y or n")
 
 
-def pause(prompt="Press Enter to return. "):
+def pause(prompt="Press Enter to return"):
     """Wait for Enter so the screen can be read. Returns nothing."""
     print()
     input(f"{ARROW}{prompt}")
@@ -155,14 +151,16 @@ def pause(prompt="Press Enter to return. "):
 
 def show_menu(options, last_option):
     """Print options as 1, 2, 3 ... and 0 with last_option. Returns the highest number."""
-    # 1. Show the options, counting from 1
+    # Numbers are right-aligned to the widest one, so " 9." and "10." line up
+    digits = len(str(len(options)))
+
+    # Show the options, counting from 1 and keeping 0 as the last option
     number = 0
     for option in options:
         number = number + 1
-        print(f"{number}. {option}")
+        print(f"{number:>{digits}}. {option}")
 
-    # 2. 0 is always last, even though it is the lowest number
-    print(f"0. {last_option}")
+    print(f"{0:>{digits}}. {last_option}")
     return number
 
 
@@ -170,5 +168,5 @@ def ask_menu(options, prompt=None):
     """Show options with 0. Back and ask for one. Returns the number, 0 means back."""
     highest = show_menu(options, "Back")
     if prompt is None:
-        prompt = f"Your choice (0-{highest}): "
+        prompt = f"Choose an option (0-{highest}): "
     return ask_number(prompt, 0, highest)
