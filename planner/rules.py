@@ -32,6 +32,28 @@ SPECIALISATION_ECTS = 36
 TOTAL_ECTS = 180
 BAR_WIDTH = 20
 
+# The name column is never narrower than this, like in the degree plan
+MIN_NAME_WIDTH = 31
+
+
+# --- Wording shared by US7 and US9 ---
+
+def elective_line(total):
+    """Return the line about missing or extra elective ECTS, or None."""
+    if total < REQUIRED_ELECTIVE_ECTS:
+        missing = REQUIRED_ELECTIVE_ECTS - total
+        return (
+            f"Electives: {total}/{REQUIRED_ELECTIVE_ECTS} ECTS"
+            f" — {missing} ECTS missing."
+        )
+    if total > REQUIRED_ELECTIVE_ECTS:
+        extra = total - REQUIRED_ELECTIVE_ECTS
+        return (
+            f"Electives: {total}/{REQUIRED_ELECTIVE_ECTS} ECTS"
+            f" — {extra} ECTS over the limit."
+        )
+    return None
+
 
 # --- US7: check the plan ---
 
@@ -55,18 +77,9 @@ def check_plan(plan, specialisations, electives):
 
     # 2. The electives add up to exactly 12 ECTS
     total = sum(elective.ects for elective in plan.electives)
-    if total < REQUIRED_ELECTIVE_ECTS:
-        missing = REQUIRED_ELECTIVE_ECTS - total
-        problems.append(
-            f"Electives: {total}/{REQUIRED_ELECTIVE_ECTS} ECTS"
-            f" — {missing} ECTS missing."
-        )
-    elif total > REQUIRED_ELECTIVE_ECTS:
-        extra = total - REQUIRED_ELECTIVE_ECTS
-        problems.append(
-            f"Electives: {total}/{REQUIRED_ELECTIVE_ECTS} ECTS"
-            f" — {extra} ECTS over the limit."
-        )
+    line = elective_line(total)
+    if line is not None:
+        problems.append(line)
 
     # 3. Every elective id exists in the catalogue
     for elective in plan.electives:
@@ -141,6 +154,16 @@ def progress_bar(total):
         filled = BAR_WIDTH
     empty = BAR_WIDTH - filled
     return "[" + "#" * filled + "-" * empty + "]"
+
+
+def name_width(names):
+    """Return a column width that fits the longest name."""
+    longest = 0
+    for name in names:
+        if len(name) > longest:
+            longest = len(name)
+    # 3 spaces between the name and the next column
+    return max(MIN_NAME_WIDTH, longest + 3)
 
 
 # TODO (Hugo): write the roadmap function.
