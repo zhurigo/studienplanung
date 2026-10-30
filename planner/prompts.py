@@ -13,26 +13,24 @@ Headers:
   show_header  print a title in a box, to start a new screen,
                with an optional short description under it
 
-Messages (empty line, colour and symbol in one call):
-  show_kept     cyan   → nothing changed, the current choice was kept
-  show_success  green  → something was saved or changed
-  show_warning  yellow ! check your answer, like "Please enter ..."
-  show_error    orange ✗ a problem, like a missing file
+Messages (empty line and emoji in one call, no full stop at the end):
+  show_kept     🔒 nothing changed, the current choice was kept
+  show_success  ✅ something was saved or changed
+  show_warning  ❗️ check your answer, like "Please enter ..."
+  show_error    ❌ a problem, like a missing file
 
 Menus (built on the basic questions):
   show_menu    print a numbered list with 0 at the bottom (Back or Exit)
   ask_menu     show_menu with 0. Back, then ask for a number
 
-Colours (so messages look the same in every menu):
-  CURRENT  cyan    the current choice and what was kept
-  BOLD     bold    questions and messages
-  SUCCESS  green   something was saved or changed
-  WARNING  yellow  check your answer: "Please enter ..." or nothing changed
-  ERROR    orange  a problem, like a missing file
+Colours (so the screens look the same in every menu):
+  CURRENT  cyan    the current choice and the electives already in the plan
+  SUCCESS  green   the ❯❯ arrow in front of every question
+  BOLD     bold    names that stand out, like the new specialisation
   ITALIC   italic  the short description under a header
   RESET   back to normal (no colour, no bold, no italics), put it at the end of every coloured or bold text
 
-Use the show_ messages instead of printing CURRENT, SUCCESS, WARNING or ERROR yourself.
+Use the show_ messages instead of printing an emoji yourself.
 
 The error messages live only here, so the wording is the same in every menu.
 """
@@ -43,11 +41,18 @@ The error messages live only here, so the wording is the same in every menu.
 # Codes that tell the terminal to change the text colour
 CURRENT = "\033[36m"
 SUCCESS = "\033[32m"
-WARNING = "\033[33m"
-ERROR = "\033[38;5;208m"
 RESET = "\033[0m"
 BOLD = "\033[1m"
 ITALIC = "\033[3m"
+
+# Bold green arrow in front of every question, like a terminal prompt
+ARROW = f"{BOLD}{SUCCESS}❯❯{RESET} "
+
+# Emoji in front of each message (see Messages below)
+WARNING_MARK = f"{BOLD}❗️{RESET} "
+SUCCESS_MARK = f"{BOLD}✅{RESET} "
+KEPT_MARK = f"{BOLD}🔒{RESET} "
+ERROR_MARK = f"{BOLD}❌{RESET} "
 
 
 # --- Headers ---
@@ -67,27 +72,27 @@ def show_header(title, description=""):
 # --- Messages ---
 
 def show_kept(message):
-    """Print an empty line, then the message in cyan with →."""
+    """Print an empty line, then the message with 🔒."""
     print()
-    print(f"{CURRENT}→ {message}{RESET}")
+    print(f"{KEPT_MARK}{message}{RESET}")
 
 
 def show_success(message):
-    """Print an empty line, then the message in green with →."""
+    """Print an empty line, then the message with ✅."""
     print()
-    print(f"{SUCCESS}→ {message}{RESET}")
+    print(f"{SUCCESS_MARK}{message}{RESET}")
 
 
 def show_warning(message):
-    """Print an empty line, then the message in yellow with !."""
+    """Print an empty line, then the message with ❗️."""
     print()
-    print(f"{WARNING}! {message}{RESET}")
+    print(f"{WARNING_MARK}{message}{RESET}")
 
 
 def show_error(message):
-    """Print an empty line, then the message in orange with ✗."""
+    """Print an empty line, then the message with ❌."""
     print()
-    print(f"{ERROR}✗ {message}{RESET}")
+    print(f"{ERROR_MARK}{message}{RESET}")
 
 
 # --- Basic questions ---
@@ -95,9 +100,8 @@ def show_error(message):
 def ask_number(prompt, low, high):
     """Ask until the user types a whole number from low to high."""
     while True:
-        # Every question gets an empty line above it and is bold
         print()
-        answer = input(f"{BOLD}{prompt}{RESET}").strip()
+        answer = input(f"{ARROW}{prompt}").strip()
         # isdigit() first, so int() never gets text like "abc"
         if answer.isdigit():
             number = int(answer)
@@ -110,9 +114,8 @@ def ask_numbers(prompt, low, high):
     """Ask until the user types one or more numbers from low to high,
     split by commas or spaces, e.g. "5, 6" or "5 6". Returns them as a list."""
     while True:
-        # Every question gets an empty line above it and is bold
         print()
-        answer = input(f"{BOLD}{prompt}{RESET}")
+        answer = input(f"{ARROW}{prompt}")
 
         # 1. Turn commas into spaces, then split into single words
         words = answer.replace(",", " ").split()
@@ -133,9 +136,8 @@ def ask_numbers(prompt, low, high):
 def ask_yes_no(prompt):
     """Ask until the user types y or n. Returns True for y."""
     while True:
-        # Every question gets an empty line above it and is bold
         print()
-        answer = input(f"{BOLD}{prompt}{RESET}").strip().lower()
+        answer = input(f"{ARROW}{prompt}").strip().lower()
         if answer == "y":
             return True
         if answer == "n":
@@ -146,7 +148,7 @@ def ask_yes_no(prompt):
 def pause(prompt="Press Enter to return. "):
     """Wait for Enter so the screen can be read. Returns nothing."""
     print()
-    input(f"{BOLD}{prompt}{RESET}")
+    input(f"{ARROW}{prompt}")
 
 
 # --- Menus ---
