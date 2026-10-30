@@ -55,7 +55,7 @@ def save_plan(plan, path=PLAN_FILE):
             file.write("\n")
         temp_path.replace(path)
     except OSError:
-        raise StorageError("Could not save my_plan.json.")
+        raise StorageError("Could not save my_plan.json")
 
 
 def load_plan(electives, path=PLAN_FILE):

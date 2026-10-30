@@ -21,7 +21,7 @@ class PromptWordingTests(unittest.TestCase):
                 answer = ask_number("Pick: ", 1, 3)
 
         self.assertEqual(answer, 3)
-        self.assertIn("Please enter a number from 1 to 3.",
+        self.assertIn("Please enter a number from 1 to 3",
                       output.getvalue())
 
     def test_ask_yes_no_rejects_other_words(self):
@@ -30,7 +30,7 @@ class PromptWordingTests(unittest.TestCase):
                 answer = ask_yes_no("Continue? (y/n): ")
 
         self.assertFalse(answer)
-        self.assertIn("Please enter y or n.", output.getvalue())
+        self.assertIn("Please enter y or n", output.getvalue())
 
     def test_pause_accepts_any_input_once(self):
         with patch("builtins.input", return_value="xyz") as mocked:
@@ -39,7 +39,7 @@ class PromptWordingTests(unittest.TestCase):
 
         self.assertIsNone(result)
         self.assertEqual(mocked.call_count, 1)
-        self.assertIn("Press Enter to return.", mocked.call_args.args[0])
+        self.assertIn("Press Enter to return", mocked.call_args.args[0])
 
 
 if __name__ == "__main__":

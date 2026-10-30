@@ -33,12 +33,12 @@ def _read_json(filename):
         with open(path, encoding="utf-8") as file:
             return json.load(file)
     except (OSError, json.JSONDecodeError):
-        raise DataError(f"Could not read data/{filename} — stopping.")
+        raise DataError(f"Could not read data/{filename} — stopping")
 
 
 def _wrong_shape(filename):
     """Build the error for a file that is JSON but not what we expect."""
-    return DataError(f"Could not read data/{filename} — stopping.")
+    return DataError(f"Could not read data/{filename} — stopping")
 
 
 def load_groups():

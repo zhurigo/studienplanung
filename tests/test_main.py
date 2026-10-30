@@ -2,7 +2,7 @@
 Tests for the program entry point.
 
 Alternate flow 15 (docs/app_flow.md §6): Ctrl-C / Ctrl-D ends with
-"Goodbye." and exit code 0, without a traceback.
+the goodbye message and exit code 0, without a traceback.
 
 Run with:  python -m unittest discover tests
 """
@@ -34,12 +34,12 @@ class EntryPointTests(unittest.TestCase):
         )
 
         self.assertEqual(result.returncode, 0)
-        self.assertIn("Goodbye.", result.stdout)
+        self.assertIn("Thanks for using the BIT Study Planner", result.stdout)
         self.assertNotIn("Traceback", result.stderr)
 
     def test_data_error_exits_with_code_1(self):
         error = DataError(
-            "Could not read data/electives.json — stopping."
+            "Could not read data/electives.json — stopping"
         )
 
         with patch("main.load_all", side_effect=error):
@@ -49,7 +49,7 @@ class EntryPointTests(unittest.TestCase):
 
         self.assertEqual(caught.exception.code, 1)
         self.assertIn(
-            "Could not read data/electives.json — stopping.",
+            "Could not read data/electives.json — stopping",
             output.getvalue(),
         )
 

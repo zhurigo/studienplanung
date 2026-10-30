@@ -35,7 +35,7 @@ class DataLoaderErrorTests(unittest.TestCase):
 
         self.assertEqual(
             str(caught.exception),
-            "Could not read data/electives.json — stopping.",
+            "Could not read data/electives.json — stopping",
         )
 
     def test_wrong_shape_raises_data_error(self):
@@ -47,7 +47,7 @@ class DataLoaderErrorTests(unittest.TestCase):
 
         self.assertEqual(
             str(caught.exception),
-            "Could not read data/modules.json — stopping.",
+            "Could not read data/modules.json — stopping",
         )
 
 
