@@ -22,7 +22,7 @@ from planner.choices import choose_specialisation, plan_electives
 from planner.data_loader import DataError, electives_by_category, load_all
 from planner.display import explore_specialisations, show_degree_plan
 from planner.models import StudentPlan
-from planner.prompts import ask_number, ask_yes_no, show_error, show_header, show_success
+from planner.prompts import BOLD, ITALIC, RESET, ask_number, ask_yes_no, show_error, show_header, show_menu, show_success
 from planner.storage import StorageError, load_plan, save_plan
 
 
@@ -47,35 +47,57 @@ def plan_summary(plan, specialisations):
     for elective in plan.electives:
         ects = ects + elective.ects
 
-    count = len(plan.electives)
-    word = "elective" if count == 1 else "electives"
-    return f"Plan loaded: {name}, {count} {word} ({ects}/12 ECTS)."
+    indent = "     "
+    summary = "Plan loaded"
+    summary = summary + f"\n\n{indent}Specialisation: {name}"
+    if plan.electives == []:
+        summary = summary + f"\n{indent}Electives: none"
+    else:
+        summary = summary + f"\n{indent}Electives ({ects}/12 ECTS):"
+        for elective in plan.electives:
+            summary = summary + f"\n{indent}  • {elective.name} ({elective.ects} ECTS)"
+    return summary
+
+
+def show_goodbye():
+    width = 60
+    print()
+    print(f"{BOLD}{'Thanks for using the BIT Study Planner':^{width}}{RESET}")
+    print(f"\033[2m{ITALIC}{'Good luck with your studies at FHNW 🍀':^{width}}{RESET}")
+    print()
 
 
 # --- Main menu ---
 
 def show_main_menu():
-    """Print the main menu, with 0. Exit at the bottom."""
+    """Print the main menu, with 0. Exit at the bottom"""
     show_header("Main menu")
-    print("1. View degree plan")
-    print("2. Explore specialisations")
-    print("3. Choose specialisation")
-    print("4. Plan electives")
-    print("5. Check my plan")
-    print("6. Roadmap")
-    print("7. Save plan")
-    print("0. Exit")
+    options = [
+        "View degree plan",
+        "Explore specialisations",
+        "Choose specialisation",
+        "Plan electives",
+        "Check my plan",
+        "Roadmap",
+        "Save plan",
+    ]
+    return show_menu(options, "Exit")
 
 
 # --- Program ---
 
 def main():
-    print("=======================================================")
-    print()
-    print("           Welcome to the BIT Study Planner")
-    print("   FHNW School of Business · Academic year 2026/2027")
-    print()
-    print("=======================================================")
+    width = 60
+
+    print("╔" + "═" * width + "╗")
+    print("║" + " " * width + "║")
+    print("║" + " " * width + "║")
+    print(f"║{'Welcome to the BIT Study Planner':^{width}}║")
+    print("║" + " " * width + "║")
+    print(f"║{'FHNW School of Business · Academic year 2026/2027':^{width}}║")
+    print("║" + " " * width + "║")
+    print("║" + " " * width + "║")
+    print("╚" + "═" * width + "╝")
 
     # Step 1: load the data files (stops with an error if one is missing or broken)
     try:
@@ -103,8 +125,8 @@ def main():
 
     # Step 3: the menu comes back after every action, until the user picks 0
     while True:
-        show_main_menu()
-        choice = ask_number("Choose an option (0-7): ", 0, 7)
+        highest = show_main_menu()
+        choice = ask_number(f"Choose an option (0-{highest}): ", 0, highest)
         if choice == 0:
             if unsaved and ask_yes_no(
                     "You have unsaved changes. Save now? (y/n): "):
@@ -113,7 +135,7 @@ def main():
                 except StorageError as error:
                     show_error(error)
                 else:
-                    show_success("Plan saved to my_plan.json.")
+                    show_success("Plan saved to my_plan.json")
             break
 
         # Open the option the student chose (pass = not written yet)
@@ -141,15 +163,14 @@ def main():
             except StorageError as error:
                 show_error(error)
             else:
-                show_success("Plan saved to my_plan.json.")
+                show_success("Plan saved to my_plan.json")
                 unsaved = False
-    print()
-    print("Goodbye.")
+    show_goodbye()
 
 if __name__ == "__main__":
     try:
         main()
     except (KeyboardInterrupt, EOFError):
         print()
-        print("Goodbye.")
+        show_goodbye()
         sys.exit(0)
