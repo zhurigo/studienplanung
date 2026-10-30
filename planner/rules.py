@@ -26,6 +26,12 @@ from planner.prompts import pause, show_header, show_success, show_warning
 # (data/electives.json: info.elective_ects_required)
 REQUIRED_ELECTIVE_ECTS = 12
 
+# The roadmap counts a chosen specialisation as one 36-ECTS block
+# (data/specialisations.json: ects)
+SPECIALISATION_ECTS = 36
+TOTAL_ECTS = 180
+BAR_WIDTH = 20
+
 
 # --- US7: check the plan ---
 
@@ -110,6 +116,21 @@ def find_specialisation(plan, specialisations):
         if specialisation.id == plan.specialisation_id:
             return specialisation
     return None
+
+
+def roadmap_total(plan, modules, specialisations):
+    """Return the ECTS the plan reaches so far, out of 180."""
+    total = 0
+    for module in modules:
+        total = total + module.ects
+
+    # An unknown or missing specialisation counts as not chosen yet
+    specialisation = find_specialisation(plan, specialisations)
+    if specialisation is not None:
+        total = total + SPECIALISATION_ECTS
+
+    total = total + plan.total_elective_ects()
+    return total
 
 
 # TODO (Hugo): write the roadmap function.
