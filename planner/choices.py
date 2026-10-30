@@ -92,8 +92,13 @@ def show_selected(plan):
 
 def chosen_options(plan):
     """One line per elective in the plan: name and ECTS."""
+    return chosen_options_from(plan.electives)
+
+
+def chosen_options_from(electives):
+    """One line per elective in the list: name and ECTS."""
     options = []
-    for elective in plan.electives:
+    for elective in electives:
         options.append(f"{elective.name:<40}{elective.ects} ECTS")
     return options
 
@@ -130,7 +135,7 @@ def add_elective(plan, electives_by_category):
         categories.append(category)
         category_options.append(f"{category} ({count})")
 
-    # Stay here until the student picks electives, or 0 in the categories
+    # Stay here until the student picks 0 in the categories
     while True:
         # 2. Ask for a category, 0 goes back to Plan electives
         show_header("Categories", "Pick a category to see its electives")
@@ -141,31 +146,90 @@ def add_elective(plan, electives_by_category):
         category = categories[number - 1]
         electives = electives_by_category[category]
 
-        # 3. Make one line per elective: name, ECTS, semester and campus
-        options = []
-        for elective in electives:
-            campus = ""
-            for place in elective.campus:
-                if campus != "":
-                    campus = campus + ", "
-                campus = campus + place
-            # :<40 pads the name to 40 characters, so the columns line up
-            line = f"{elective.name:<40}{elective.ects} ECTS {elective.semester:<8}{campus}"
-            # Electives already in the plan get the "current" colour
-            if plan.has_elective(elective.id):
-                line = f"{CURRENT}{line}{RESET}"
-            options.append(line)
+        # Stay in this category until the student picks 0, so they can add more or try again
+        while True:
+            # 3. Make one line per elective: name, ECTS, semester and campus
+            #    (made again every time, so newly added electives get the "current" colour)
+            options = []
+            for elective in electives:
+                campus = ""
+                for place in elective.campus:
+                    if campus != "":
+                        campus = campus + ", "
+                    campus = campus + place
+                # :<40 pads the name to 40 characters, so the columns line up
+                line = f"{elective.name:<40}{elective.ects} ECTS {elective.semester:<8}{campus}"
+                # Electives already in the plan get the "current" colour
+                if plan.has_elective(elective.id):
+                    line = f"{CURRENT}{line}{RESET}"
+                options.append(line)
 
-        # 4. Show the list, 0 goes back to the categories
-        show_header(category, "HS = autumn, FS = spring. Pick one or more, e.g. 5, 6")
-        highest = show_menu(options, "Back")
+            # 4. Show the list, 0 goes back to the categories
+            show_header(category, "HS = autumn, FS = spring. Pick one or more, e.g. 5, 6")
+            highest = show_menu(options, "Back")
+            numbers = ask_numbers(f"Choose an option (0-{highest}): ", 0, highest)
+            if 0 in numbers:
+                break
+
+            # 5. Add the picked electives, or ask which ones to keep if they don't all fit
+            picked = []
+            for number in numbers:
+                picked.append(electives[number - 1])
+            add_picked(plan, picked)
+
+
+def add_picked(plan, picked):
+    """Story 5: add several electives at once. If they don't all fit, add none
+    and ask which ones to keep."""
+    # 1. Leave out the ones already in the plan, and any typed twice
+    new = []
+    for elective in picked:
+        if plan.has_elective(elective.id):
+            show_warning(f"{elective.name} is already in your plan")
+        elif elective not in new:
+            new.append(elective)
+    if new == []:
+        return
+
+    # 2. Only one: add it the normal way, with the swap offer if it doesn't fit
+    if len(new) == 1:
+        try_to_add(plan, new[0])
+        return
+
+    # 3. Add up the new ones to see if they all fit
+    new_ects = 0
+    for elective in new:
+        new_ects = new_ects + elective.ects
+
+    # 4. They don't all fit: ask which ones to keep, until the kept ones fit or 0
+    while new_ects > plan.ects_left():
+        new_total = plan.total_elective_ects() + new_ects
+        if plan.ects_left() == 0:
+            show_warning(f"That would make {new_total}/12 ECTS — you cannot add anything else")
+            return
+        show_warning(f"That would make {new_total}/12 ECTS — you can add at most {plan.ects_left()} more ECTS")
+        print()
+        print("Which ones do you want to keep?")
+        highest = show_menu(chosen_options_from(new), "Back")
         numbers = ask_numbers(f"Choose an option (0-{highest}): ", 0, highest)
-        if 0 not in numbers:
-            break
+        if 0 in numbers:
+            return
 
-    # 5. Try to add each one, in the order they were typed
-    for number in numbers:
-        try_to_add(plan, electives[number - 1])
+        # Keep only the ones picked now, then check again
+        kept = []
+        for number in numbers:
+            if new[number - 1] not in kept:
+                kept.append(new[number - 1])
+        new = kept
+        new_ects = 0
+        for elective in new:
+            new_ects = new_ects + elective.ects
+
+    # 5. They fit: add them all and show the new counter after each
+    for elective in new:
+        plan.add_elective(elective)
+        show_success(f"Added {elective.name}{ects_bar(plan)}")
+
 
 def try_to_add(plan, elective):
     """Story 5: add the elective, or say why it can't be added."""
