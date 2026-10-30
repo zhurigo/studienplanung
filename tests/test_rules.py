@@ -166,7 +166,7 @@ class ShowPlanCheckTests(unittest.TestCase):
 
         self.assertIn("Your plan is complete (180/180 ECTS).", output)
         self.assertEqual(mocked.call_count, 1)
-        self.assertIn("Press Enter to return.",
+        self.assertIn("Press Enter to return",
                       mocked.call_args.args[0])
 
     def test_one_problem_uses_singular_warning(self):
