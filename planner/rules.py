@@ -104,4 +104,12 @@ def show_plan_check(plan, specialisations, electives):
 
 # --- US9: personal 180-ECTS roadmap ---
 
+def find_specialisation(plan, specialisations):
+    """Return the chosen specialisation, or None."""
+    for specialisation in specialisations:
+        if specialisation.id == plan.specialisation_id:
+            return specialisation
+    return None
+
+
 # TODO (Hugo): write the roadmap function.
