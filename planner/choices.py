@@ -306,6 +306,7 @@ def offer_swap(plan, elective):
     """Story 6: the new elective doesn't fit, so offer to swap it for one in the plan."""
     # 1. Ask first, n keeps the plan as it is
     if not ask_yes_no("Swap it for one of your electives? (y/n): "):
+        show_kept("No change was made to your electives")
         return
 
     # 2. Ask which elective to swap out
