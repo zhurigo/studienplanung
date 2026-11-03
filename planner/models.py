@@ -64,6 +64,8 @@ class StudentPlan:
         # Nothing is chosen when the program starts
         self.specialisation_id = None
         self.electives = []
+        # The semester (3 to 6) the student picked for each elective, by id
+        self.elective_semesters = {}
 
     # --- US4 (Thalita) ---
 
@@ -91,14 +93,33 @@ class StudentPlan:
                 return True
         return False
 
-    def add_elective(self, elective):
-        """Add the elective if it is new and fits in 12 ECTS. Returns True if added."""
+    def add_elective(self, elective, semester=None):
+        """Add the elective if it is new and fits in 12 ECTS. Returns True if added.
+        semester is the semester the student picked for it (None = not picked)."""
         if self.has_elective(elective.id):
             return False
         if elective.ects > self.ects_left():
             return False
         self.electives.append(elective)
+        if semester is not None:
+            self.elective_semesters[elective.id] = semester
         return True
+
+    def semester_of(self, elective_id):
+        """The semester picked for the elective, or None if none was picked."""
+        if elective_id in self.elective_semesters:
+            return self.elective_semesters[elective_id]
+        return None
+
+    def fill_missing_semesters(self):
+        """Give every elective without a semester the first one of its season,
+        e.g. in a plan saved before the semesters were picked: FS -> 4, HS and HS/FS -> 3."""
+        for elective in self.electives:
+            if elective.id not in self.elective_semesters:
+                if elective.semester == "FS":
+                    self.elective_semesters[elective.id] = 4
+                else:
+                    self.elective_semesters[elective.id] = 3
 
     # --- US6 (Thalita) ---
 
@@ -107,4 +128,7 @@ class StudentPlan:
         for elective in self.electives:
             if elective.id == elective_id:
                 self.electives.remove(elective)
+                # Forget its semester too
+                if elective_id in self.elective_semesters:
+                    del self.elective_semesters[elective_id]
                 return

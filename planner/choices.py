@@ -18,6 +18,7 @@ This file only asks the questions and shows the answers.
 The input helpers (ask_menu, ask_yes_no) are in prompts.py.
 """
 
+from planner.display import ELECTIVE_SEMESTERS, semester_label
 from planner.prompts import CURRENT, BOLD, RESET, ask_menu, ask_yes_no, show_header, show_kept, show_success, show_warning
 
 # --- US4: choose a specialisation ---
@@ -81,20 +82,35 @@ def selected_line(plan):
     return f"Selected: {BOLD}{plan.total_elective_ects()}/12 ECTS{RESET}"
 
 
+def where(plan, elective):
+    """The semester picked for the elective, e.g. 'S3'."""
+    return f"S{plan.semester_of(elective.id)}"
+
+
+def electives_by_semester(plan):
+    """The chosen electives sorted by semester (3 to 6)."""
+    ordered = []
+    for semester in ELECTIVE_SEMESTERS:
+        for elective in plan.electives:
+            if plan.semester_of(elective.id) == semester:
+                ordered.append(elective)
+    return ordered
+
+
 def show_selected(plan):
-    """The counter, then the chosen electives as a bullet list in the "current" colour."""
+    """The counter, then the chosen electives with their semester, as a bullet list."""
     print(selected_line(plan))
     if plan.electives == []:
         print("  • none yet")
-    for elective in plan.electives:
-        print(f"  • {elective.name:<40}{elective.ects} ECTS")
+    for elective in electives_by_semester(plan):
+        print(f"  • {elective.name:<40}{where(plan, elective):<5}{elective.ects} ECTS")
 
 
 def chosen_options(plan):
-    """One line per elective in the plan: name and ECTS."""
+    """One line per elective in the plan: name, semester and ECTS."""
     options = []
-    for elective in plan.electives:
-        options.append(f"{elective.name:<40}{elective.ects} ECTS")
+    for elective in electives_by_semester(plan):
+        options.append(f"{elective.name:<40}{where(plan, elective):<5}{elective.ects} ECTS")
     return options
 
 
@@ -186,9 +202,48 @@ def try_to_add(plan, elective):
         offer_swap(plan, elective)
         return
 
-    # 3. Add it and show the new counter
-    plan.add_elective(elective)
-    show_success(f"Added {elective.name}{ects_bar(plan)}")
+    # 3. Ask the semester, 0 adds nothing
+    semester = ask_semester(elective)
+    if semester == 0:
+        show_kept(f"{elective.name} was not added")
+        return
+
+    # 4. Add it and show the new counter
+    plan.add_elective(elective, semester)
+    show_success(f"Added {elective.name} to semester {semester}{ects_bar(plan)}")
+
+
+# --- US5: pick the semester of an elective ---
+
+def fits_season(elective, semester):
+    """True if the elective is taught in the semester's season.
+    Odd semesters are autumn (HS), even ones spring (FS), HS/FS fits both."""
+    if elective.semester == "HS/FS":
+        return True
+    if semester % 2 == 1:
+        return elective.semester == "HS"
+    return elective.semester == "FS"
+
+
+def ask_semester(elective):
+    """Ask in which semester (3 to 6) to take the elective. Returns 0 for back.
+    Only the semesters of its season are offered."""
+    semesters = []
+    options = []
+    for semester in ELECTIVE_SEMESTERS:
+        if fits_season(elective, semester):
+            semesters.append(semester)
+            # Semesters 3 and 4 are year 2, 5 and 6 are year 3
+            year = (semester + 1) // 2
+            options.append(f"Semester {semester}   {semester_label(semester)}   year {year}")
+    print()
+    print(f"In which semester would you like to take {BOLD}{elective.name}{RESET} ({elective.semester})?")
+    print()
+    number = ask_menu(options)
+    if number == 0:
+        return 0
+    # lists start at 0, the menu at 1
+    return semesters[number - 1]
 
 
 # --- US6: remove or swap an elective ---
@@ -208,10 +263,11 @@ def remove_elective(plan):
     if number == 0:
         return
 
-    # 3. Remove it and show the new counter
-    elective = plan.electives[number - 1]
+    # 3. Remove it and show the new counter, with the semester it was in
+    elective = electives_by_semester(plan)[number - 1]
+    semester = plan.semester_of(elective.id)
     plan.remove_elective(elective.id)
-    show_success(f"Removed {elective.name}{ects_bar(plan)}")
+    show_success(f"Removed {elective.name} from semester {semester}{ects_bar(plan)}")
 
 
 def offer_swap(plan, elective):
@@ -227,7 +283,7 @@ def offer_swap(plan, elective):
     number = ask_menu(chosen_options(plan))
     if number == 0:
         return
-    old = plan.electives[number - 1]
+    old = electives_by_semester(plan)[number - 1]
 
     # 3. Still too many ECTS without the old one: say so and change nothing
     new_total = plan.total_elective_ects() - old.ects + elective.ects
@@ -235,7 +291,18 @@ def offer_swap(plan, elective):
         show_warning(f"Swapping out {old.name} would still make {new_total}/12 ECTS")
         return
 
-    # 4. Swap them and show the new counter
+    # 4. Ask the semester for the new one, 0 keeps the plan as it is
+    semester = ask_semester(elective)
+    if semester == 0:
+        show_kept(f"{elective.name} was not added")
+        return
+
+    # 5. Swap them and show the new counter. One line for the elective that left
+    #    and one for the new one, indented like the counter, the semesters lined up
+    old_where = where(plan, old)
+    width = max(len(old.name), len(elective.name))
     plan.remove_elective(old.id)
-    plan.add_elective(elective)
-    show_success(f"Swapped {old.name} for {elective.name}{ects_bar(plan)}")
+    plan.add_elective(elective, semester)
+    out_line = f"\n   - {old.name:<{width}}   {old_where}"
+    in_line = f"\n   + {elective.name:<{width}}   S{semester}"
+    show_success(f"Swapped electives{out_line}{in_line}{ects_bar(plan)}")

@@ -51,6 +51,24 @@ def place_specialisation(specialisation):
     return placed
 
 
+# --- Semester names (Thalita, US5) ---
+
+# Part-time starts in autumn 2026 (data/modules.json: academic_year)
+START_YEAR = 2026
+
+# The semesters where the electives go
+ELECTIVE_SEMESTERS = [3, 4, 5, 6]
+
+
+def semester_label(semester):
+    """The season and year of a semester, e.g. 3 -> 'HS 2027', 4 -> 'FS 2028'.
+    Odd semesters are autumn (HS), even ones spring (FS)."""
+    year = START_YEAR + semester // 2
+    if semester % 2 == 1:
+        return f"HS {year}"
+    return f"FS {year}"
+
+
 # --- US1: the degree plan ---
 
 def show_degree_plan(modules, groups, plan=None, specialisations=None):

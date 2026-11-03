@@ -223,8 +223,19 @@ Choose a category (0 to go back): 1
 Pick an elective (0 to go back): 11
 Please enter a number from 0 to 10.
 Pick an elective (0 to go back): 7
-Added Spanish A1. Selected: 9/12 ECTS
+
+In which semester would you like to take Spanish A1 (HS/FS)?
+
+1. Semester 3   HS 2027   year 2
+2. Semester 4   FS 2028   year 2
+3. Semester 5   HS 2028   year 3
+4. Semester 6   FS 2029   year 3
+0. Back
+Choose an option (0-4): 2
+Added Spanish A1 to semester 4. Selected: 9/12 ECTS
 ```
+
+Only the semesters of the elective's season are offered: HS = autumn (3, 5), FS = spring (4, 6).
 
 When an elective doesn't fit, you can swap it for one you already have (`n` keeps your plan as it is):
 
@@ -239,7 +250,17 @@ Selected: 9/12 ECTS (German Basic A1, Italian A1, Spanish A1)
 3. Spanish A1                           3 ECTS
 0. Back
 Pick an elective to swap out (0 to go back): 3
-Swapped Spanish A1 for Spanish intensive course A1/A2. Selected: 12/12 ECTS
+
+In which semester would you like to take Spanish intensive course A1/A2 (FS)?
+
+1. Semester 4   FS 2028   year 2
+2. Semester 6   FS 2029   year 3
+0. Back
+Choose an option (0-2): 1
+Swapped electives
+   - Spanish A1                       S4
+   + Spanish intensive course A1/A2   S4
+   ▰▰▰▰▰▰▰▰▰▰▰▰  12/12 ECTS
 ```
 
 ### Step 8: Check my plan
