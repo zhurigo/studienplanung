@@ -237,6 +237,7 @@ Added Spanish A1 to semester 4. Selected: 9/12 ECTS
 ```
 
 Only the semesters of the elective's season are offered: HS = autumn (3, 5), FS = spring (4, 6).
+The degree plan then shows the elective in that semester.
 
 When an elective doesn't fit, you can swap it for one you already have (`n` keeps your plan as it is):
 

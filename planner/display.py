@@ -10,11 +10,13 @@ User stories:
 US1 is implemented here. US2 (the group filter) and US3 (the specialisation
 screen) are still to write.
 
-Added by Thalita (Plan, US4):
+Added by Thalita (Plan, US4 + US5):
   - the chosen specialisation's modules in semesters 6 to 8 (place_specialisation)
+  - the chosen electives in the semester the student picked (place_electives)
 """
 
-from planner.prompts import RESET, ask_menu, pause, show_header
+from planner.prompts import ARROW, BOLD, ITALIC, RESET, ask_menu, pause, show_header, show_menu, show_warning
+from planner.rules import TOTAL_ECTS
 
 
 # --- Group colours, the same as in the FHNW module overview ---
@@ -28,6 +30,13 @@ GROUP_COLOURS = {
     "Specialisation": "\033[38;5;117m",                   # light blue
     "Electives": "\033[38;5;147m",                        # light purple
 }
+
+
+# --- Row styles ---
+# Only the group label gets its colour, so its easier to read the plan
+
+DIM = "\033[2m"
+EMPTY = f"{DIM}{ITALIC}"       # a slot that is still to choose
 
 
 # --- Specialisation modules in semesters 6 to 8 (Thalita, US4) ---
@@ -69,6 +78,32 @@ def semester_label(semester):
     return f"FS {year}"
 
 
+# --- Chosen electives in semesters 3 to 6 (Thalita, US5) ---
+
+def place_electives(plan):
+    """Sort the chosen electives into semesters 3 to 6, each in the semester
+    the student picked for it."""
+    placed = {3: [], 4: [], 5: [], 6: []}
+    ects = {3: 0, 4: 0, 5: 0, 6: 0}
+    for elective in plan.electives:
+        semester = plan.semester_of(elective.id)
+        placed[semester].append(elective)
+        ects[semester] = ects[semester] + elective.ects
+    return placed, ects
+
+
+def free_elective_ects(ects, ects_left):
+    """How many elective ECTS are still free in each semester 3 to 6.
+    The module overview has one 3-ECTS elective slot per semester, so this fills
+    the semesters with less than 3 ECTS, until ects_left is used up."""
+    free = {}
+    for semester in ELECTIVE_SEMESTERS:
+        empty = min(max(3 - ects[semester], 0), ects_left)
+        free[semester] = empty
+        ects_left = ects_left - empty
+    return free
+
+
 # --- US1: the degree plan ---
 
 def show_degree_plan(modules, groups, plan=None, specialisations=None):
@@ -81,6 +116,14 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
     shorts = {}
     for group in groups:
         shorts[group["name"]] = group["short"]
+
+    # Place the chosen electives, and find the ECTS still to choose (Thalita, US5)
+    if plan is not None:
+        electives_placed, elective_ects = place_electives(plan)
+        free = free_elective_ects(elective_ects, plan.ects_left())
+    else:
+        electives_placed = {3: [], 4: [], 5: [], 6: []}
+        free = free_elective_ects({3: 0, 4: 0, 5: 0, 6: 0}, 12)
 
     # Find the chosen specialisation and place its modules
     placed = {6: [], 7: [], 8: []}
@@ -106,39 +149,80 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
             longest = len(module.name)
     width = max(31, longest + 3)
 
+    # The ECTS per semester, for the semester headings and the total (Thalita, US5)
+    semester_ects = {}
+    for semester in range(1, 9):
+        semester_ects[semester] = 0
+    for module in modules:
+        semester_ects[module.semester] = semester_ects[module.semester] + module.ects
+    for semester in electives_placed:
+        for elective in electives_placed[semester]:
+            semester_ects[semester] = semester_ects[semester] + elective.ects
+        semester_ects[semester] = semester_ects[semester] + free[semester]
+    for semester in placed:
+        if chosen:
+            for module in placed[semester]:
+                semester_ects[semester] = semester_ects[semester] + module["ects"]
+        else:
+            semester_ects[semester] = semester_ects[semester] + 12
+
     show_header("Degree plan")
+    total = 0
     for semester in range(1, 9):
         # Empty line between semesters, not right under the header
         if semester > 1:
             print()
-        print(f"Semester {semester}")
+        # The heading with the season and year, e.g. "Semester 3  HS 2027 · 30 ECTS"
+        print(f"{BOLD}Semester {semester}{RESET}  "
+              f"{DIM}{semester_label(semester)} · {semester_ects[semester]} ECTS{RESET}")
+        print()
+        total = total + semester_ects[semester]
         for module in modules:
             if module.semester == semester:
                 label = shorts.get(module.group, module.group)
-                # Colour the whole row in its group's colour
+                # Colour the group label in its group's colour
                 colour = ""
                 if module.group in GROUP_COLOURS:
                     colour = GROUP_COLOURS[module.group]
-                print(f"{colour}{module.name:<{width}}{label:<22}"
-                      f"{module.ects:>1} ECTS{RESET}")
+                print(f"{module.name:<{width}}{colour}{label:<16}{RESET}"
+                      f"{module.ects:>2} ECTS")
 
-        # The chosen specialisation's modules, in light blue
+        # The chosen electives, the label in light purple (Thalita, US5)
+        if semester in electives_placed:
+            colour = GROUP_COLOURS["Electives"]
+            for elective in electives_placed[semester]:
+                print(f"{elective.name:<{width}}{colour}{'Electives':<16}{RESET}"
+                      f"{elective.ects:>2} ECTS")
+            if free[semester] > 0:
+                # One placeholder row for the ECTS still to choose, dim italic
+                print(f"{EMPTY}{'(choose an elective)':<{width}}{RESET}{colour}{'Electives':<16}{RESET}"
+                      f"{EMPTY}{free[semester]:>2} ECTS{RESET}")
+
+        # The chosen specialisation's modules, the label in light blue
         if semester in placed:
             colour = GROUP_COLOURS["Specialisation"]
             if chosen:
                 for module in placed[semester]:
-                    print(f"{colour}{module['name']:<{width}}{'Specialisation':<22}"
-                          f"{module['ects']:>1} ECTS{RESET}")
+                    print(f"{module['name']:<{width}}{colour}{'Specialisation':<16}{RESET}"
+                          f"{module['ects']:>2} ECTS")
             else:
-                # Nothing chosen: one placeholder row for the 12 ECTS slot
-                print(f"  {colour}{'(choose a specialisation)':<{width}}{'Specialisation':<22}"
-                      f"12 ECTS{RESET}") 
-    print("filter by group?")
-    for number, group in enumerate(groups, start=1):
-        print(f"{number}. {group['short']}")
+                # Nothing chosen: one placeholder row for the 12 ECTS slot, dim italic
+                print(f"{EMPTY}{'(choose a specialisation)':<{width}}{RESET}{colour}{'Specialisation':<16}{RESET}"
+                      f"{EMPTY}12 ECTS{RESET}")
+    print()
+    print(f"{BOLD}Total: {total}/{TOTAL_ECTS} ECTS{RESET}")
+
+    # The group filter, with the same menu and messages as the other screens
+    print()
+    print("Filter by group:")
+    options = []
+    for group in groups:
+        options.append(group["short"])
+    show_menu(options, "Back")
     while True:
+        print()
         answer = input(
-            f"Choose an option (0-{len(groups)}), or press Enter to skip: "
+            f"{ARROW}Choose an option (0-{len(groups)}), or press Enter to skip: "
         ).strip()
         if answer == "0":
             return
@@ -146,7 +230,7 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
             break
         if answer.isdigit() and 1 <= int(answer) <= len(groups):
             break
-        print(f"Please enter a number from 1 to {len(groups)}:")
+        show_warning(f"Please enter a number from 0 to {len(groups)}")
     if answer != "":
         selected_group = groups[int(answer) -1]
         print()
@@ -156,6 +240,7 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
                 print(
              f"  S{module.semester}  {module.name}  {module.ects}"
              f" ECTS")
+        pause()
 
 def explore_specialisations(specialisations):
     """Show the specialisation and let the student pick one."""
