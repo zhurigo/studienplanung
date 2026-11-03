@@ -250,9 +250,9 @@ Checks your current plan and prints one line per problem, or confirms that the p
 -------------------------------------------------------
                        Plan check
 -------------------------------------------------------
-Electives: 9/12 ECTS — 3 ECTS missing.
+Electives: 9/12 ECTS — 3 ECTS missing
 
-1 warning. Press Enter to return.
+1 warning. Press Enter to return
 ```
 
 When nothing is wrong:
@@ -261,9 +261,9 @@ When nothing is wrong:
 -------------------------------------------------------
                        Plan check
 -------------------------------------------------------
-Your plan is complete (180/180 ECTS).
+Your plan is complete (180/180 ECTS)
 
-Press Enter to return.
+Press Enter to return
 ```
 
 ### Step 9: Personal roadmap
@@ -290,7 +290,7 @@ Electives
   German Basic A1                             Elective               3 ECTS
   Italian A1                                  Elective               3 ECTS
   Spanish A1                                  Elective               3 ECTS
-  Electives: 9/12 ECTS — 3 ECTS missing.
+  Electives: 9/12 ECTS — 3 ECTS missing
 
 Total  [###################-]  177/180 ECTS (98%)
 ```

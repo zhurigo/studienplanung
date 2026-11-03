@@ -48,13 +48,13 @@ def elective_line(total):
         missing = REQUIRED_ELECTIVE_ECTS - total
         return (
             f"Electives: {total}/{REQUIRED_ELECTIVE_ECTS} ECTS"
-            f" — {missing} ECTS missing."
+            f" — {missing} ECTS missing"
         )
     if total > REQUIRED_ELECTIVE_ECTS:
         extra = total - REQUIRED_ELECTIVE_ECTS
         return (
             f"Electives: {total}/{REQUIRED_ELECTIVE_ECTS} ECTS"
-            f" — {extra} ECTS over the limit."
+            f" — {extra} ECTS over the limit"
         )
     return None
 
@@ -76,7 +76,7 @@ def check_plan(plan, specialisations, electives):
 
     # 1. A specialisation is chosen, and it exists
     if plan.specialisation_id is None:
-        problems.append("No specialisation chosen.")
+        problems.append("No specialisation chosen")
     elif plan.specialisation_id not in known_specialisations:
         problems.append(
             f"Unknown specialisation id: {plan.specialisation_id}"
@@ -114,7 +114,7 @@ def show_plan_check(plan, specialisations, electives):
 
     show_header("Plan check")
     if not problems:
-        show_success("Your plan is complete (180/180 ECTS).")
+        show_success("Your plan is complete (180/180 ECTS)")
         pause()
         return
 
@@ -122,9 +122,9 @@ def show_plan_check(plan, specialisations, electives):
         show_warning(problem)
 
     if len(problems) == 1:
-        prompt = "1 warning. Press Enter to return. "
+        prompt = "1 warning. Press Enter to return"
     else:
-        prompt = f"{len(problems)} warnings. Press Enter to return. "
+        prompt = f"{len(problems)} warnings. Press Enter to return"
     pause(prompt)
 
 

@@ -75,7 +75,7 @@ class CheckPlanTests(unittest.TestCase):
 
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
-        self.assertEqual(problems, ["No specialisation chosen."])
+        self.assertEqual(problems, ["No specialisation chosen"])
 
     def test_too_few_ects(self):
         plan = make_plan(electives=[self.german, self.french, self.spanish])
@@ -84,7 +84,7 @@ class CheckPlanTests(unittest.TestCase):
 
         self.assertEqual(
             problems,
-            ["Electives: 9/12 ECTS — 3 ECTS missing."],
+            ["Electives: 9/12 ECTS — 3 ECTS missing"],
         )
 
     def test_too_many_ects(self):
@@ -96,7 +96,7 @@ class CheckPlanTests(unittest.TestCase):
 
         self.assertEqual(
             problems,
-            ["Electives: 15/12 ECTS — 3 ECTS over the limit."],
+            ["Electives: 15/12 ECTS — 3 ECTS over the limit"],
         )
 
     def test_unknown_elective(self):
@@ -132,8 +132,8 @@ class CheckPlanTests(unittest.TestCase):
         problems = check_plan(plan, self.specialisations, self.catalogue)
 
         self.assertEqual(problems, [
-            "No specialisation chosen.",
-            "Electives: 0/12 ECTS — 12 ECTS missing.",
+            "No specialisation chosen",
+            "Electives: 0/12 ECTS — 12 ECTS missing",
         ])
 
 
@@ -164,7 +164,7 @@ class ShowPlanCheckTests(unittest.TestCase):
 
         output, mocked = self.run_check(plan)
 
-        self.assertIn("Your plan is complete (180/180 ECTS).", output)
+        self.assertIn("Your plan is complete (180/180 ECTS)", output)
         self.assertEqual(mocked.call_count, 1)
         self.assertIn("Press Enter to return",
                       mocked.call_args.args[0])
@@ -175,8 +175,8 @@ class ShowPlanCheckTests(unittest.TestCase):
 
         output, mocked = self.run_check(plan)
 
-        self.assertIn("No specialisation chosen.", output)
-        self.assertIn("1 warning. Press Enter to return.",
+        self.assertIn("No specialisation chosen", output)
+        self.assertIn("1 warning. Press Enter to return",
                       mocked.call_args.args[0])
 
     def test_two_problems_use_plural_warnings(self):
@@ -184,9 +184,9 @@ class ShowPlanCheckTests(unittest.TestCase):
 
         output, mocked = self.run_check(plan)
 
-        self.assertIn("No specialisation chosen.", output)
-        self.assertIn("Electives: 0/12 ECTS — 12 ECTS missing.", output)
-        self.assertIn("2 warnings. Press Enter to return.",
+        self.assertIn("No specialisation chosen", output)
+        self.assertIn("Electives: 0/12 ECTS — 12 ECTS missing", output)
+        self.assertIn("2 warnings. Press Enter to return",
                       mocked.call_args.args[0])
 
 
@@ -196,13 +196,13 @@ class ElectiveLineTests(unittest.TestCase):
     def test_zero_ects_is_twelve_missing(self):
         self.assertEqual(
             elective_line(0),
-            "Electives: 0/12 ECTS — 12 ECTS missing.",
+            "Electives: 0/12 ECTS — 12 ECTS missing",
         )
 
     def test_nine_ects_is_three_missing(self):
         self.assertEqual(
             elective_line(9),
-            "Electives: 9/12 ECTS — 3 ECTS missing.",
+            "Electives: 9/12 ECTS — 3 ECTS missing",
         )
 
     def test_exactly_twelve_returns_none(self):
@@ -211,7 +211,7 @@ class ElectiveLineTests(unittest.TestCase):
     def test_fifteen_ects_is_three_over_the_limit(self):
         self.assertEqual(
             elective_line(15),
-            "Electives: 15/12 ECTS — 3 ECTS over the limit.",
+            "Electives: 15/12 ECTS — 3 ECTS over the limit",
         )
 
 
@@ -405,7 +405,7 @@ class ShowRoadmapTests(unittest.TestCase):
         self.assertIn("177/180 ECTS (98%)", output)
         self.assertIn("[###################-]", output)
         self.assertIn(
-            "  Electives: 9/12 ECTS — 3 ECTS missing.", output
+            "  Electives: 9/12 ECTS — 3 ECTS missing", output
         )
         self.assertEqual(mocked.call_count, 1)
 

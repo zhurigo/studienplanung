@@ -33,7 +33,7 @@ class StorageError(Exception):
 def _damaged():
     """Build the error for a plan file we cannot use."""
     return StorageError(
-        "Could not read my_plan.json — starting with an empty plan."
+        "Could not read my_plan.json — starting with an empty plan"
     )
 
 
