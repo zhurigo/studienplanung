@@ -99,7 +99,7 @@ def load_specialisations():
 
 
 def load_electives():
-    """Return all 22 electives as one flat list (main.py Step 1, US5)."""
+    """Return all 50 electives as one flat list (main.py Step 1, US5)."""
     data = _read_json("electives.json")
     try:
         electives = []

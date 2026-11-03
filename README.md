@@ -94,7 +94,7 @@ The app loads the data files from the `data/` folder and shows how much it found
            Welcome to the BIT Study Planner
    FHNW School of Business · Academic year 2026/2027
 =======================================================
-Loaded 28 modules, 3 specialisations and 22 electives.
+Loaded 28 modules, 3 specialisations and 50 electives.
 ```
 
 ### Step 2: Load a saved plan
@@ -203,10 +203,11 @@ Selected: 6/12 ECTS (German Basic A1, Italian A1)
 Choose (0-2): 1
 
 --- Categories ---
-1. Languages (10)
-2. Technology (8)
-3. Business and Management (2)
+1. Languages (13)
+2. Technology (17)
+3. Business and Management (7)
 4. Job Reflection (2)
+5. Society and Culture (11)
 Choose a category (0 to go back): 1
 
 --- Languages ---

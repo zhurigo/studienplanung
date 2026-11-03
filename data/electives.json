@@ -5,7 +5,7 @@
     "academic_year": "Fall 2026/2027",
     "elective_ects_required": 12,
     "ects_allowed": [2, 3, 5, 6],
-    "note": "BIT electives from the FHNW module descriptions (HS26 and FS27), limited to regular BIT courses and language courses. semester: HS = autumn, FS = spring, HS/FS = both. campus: where the classes take place (Online = remote option).",
+    "note": "BIT electives from the FHNW module descriptions (HS26 and FS27), regular BIT courses, language courses and the free choice electives (context modules) open to BIT. Not included: modules cancelled (Abgesagt) in HS26 or FS27, the Integration Modules (ISP, by application only) and the Summer School EAFIT Colombia (abroad, separate application). semester: HS = autumn, FS = spring, HS/FS = both. campus: where the classes take place (Online = remote option).",
     "ects_note": "Official rule (Sandra Koller, Head of BIT Brugg-Windisch, 2026-10-15): electives of different sizes may be combined — 2, 3, 5 or 6 ECTS — as long as the plan reaches 12 ECTS. German-taught electives count, and language modules count even when no module type is stated. NOTE: the ECTS values below are currently simplified to 3 or 6 (old-curriculum values rounded: 5 -> 6, 4 -> 3, 2 -> 3); restore the true values from the FHNW module descriptions when available. A plan needs exactly 12 elective ECTS."
   },
   "categories": {
@@ -32,6 +32,13 @@
         "campus": ["Olten"]
       },
       {
+        "id": "LANG-FR-B2C1",
+        "name": "French B2-C1",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Olten"]
+      },
+      {
         "id": "LANG-DE-A1",
         "name": "German Basic A1",
         "ects": 3,
@@ -42,15 +49,29 @@
         "id": "LANG-IT-A1",
         "name": "Italian A1",
         "ects": 3,
-        "semester": "HS",
+        "semester": "HS/FS",
         "campus": ["Basel", "Windisch"]
+      },
+      {
+        "id": "LANG-IT-A2",
+        "name": "Italian A2",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Windisch"]
       },
       {
         "id": "LANG-JA-A11",
         "name": "Japanese Basic A1.1",
         "ects": 3,
-        "semester": "HS",
+        "semester": "HS/FS",
         "campus": ["Basel"]
+      },
+      {
+        "id": "LANG-RU-A11",
+        "name": "Russian Basic A1.1",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Windisch"]
       },
       {
         "id": "LANG-ES-A1",
@@ -104,11 +125,39 @@
         "campus": ["Olten", "Windisch"]
       },
       {
+        "id": "TECH-BLOC",
+        "name": "Blockchain",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "TECH-060732S1",
+        "name": "Cyber Resilience",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Basel", "Olten"]
+      },
+      {
         "id": "TECH-050731S1",
         "name": "Data Privacy",
         "ects": 6,
         "semester": "HS",
         "campus": ["Basel", "Olten", "Online", "Windisch"]
+      },
+      {
+        "id": "TECH-DHEALTH",
+        "name": "Digital Health",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Basel", "Olten", "Windisch"]
+      },
+      {
+        "id": "TECH-GKFU",
+        "name": "Generative AI for Business",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Basel"]
       },
       {
         "id": "TECH-060714S1",
@@ -118,11 +167,39 @@
         "campus": ["Basel", "Olten"]
       },
       {
+        "id": "TECH-060724S1",
+        "name": "IT-project",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Olten"]
+      },
+      {
         "id": "TECH-050701S1",
         "name": "Machine Learning with Python",
         "ects": 6,
         "semester": "HS",
         "campus": ["Olten", "Windisch"]
+      },
+      {
+        "id": "TECH-SAP",
+        "name": "SAP Certification",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "TECH-SOZROB",
+        "name": "Social Robots",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Windisch"]
+      },
+      {
+        "id": "TECH-060722S1",
+        "name": "Software Architecture",
+        "ects": 6,
+        "semester": "FS",
+        "campus": ["Olten"]
       },
       {
         "id": "TECH-050723S1",
@@ -137,6 +214,13 @@
         "ects": 6,
         "semester": "FS",
         "campus": ["Windisch"]
+      },
+      {
+        "id": "TECH-WEBGCMK",
+        "name": "Web 3.0: Gaming, Community & Cryptoassets",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Olten", "Online"]
       }
     ],
     "Business and Management": [
@@ -148,17 +232,52 @@
         "campus": ["Olten"]
       },
       {
+        "id": "BUS-040773",
+        "name": "ESG & Tokenization: Impact Business Models",
+        "ects": 6,
+        "semester": "HS",
+        "campus": ["Olten", "Online"]
+      },
+      {
+        "id": "BUS-EINBIIS",
+        "name": "Insights into Innovative Swiss Companies",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "BUS-INTERRAG",
+        "name": "International Relations and Geopolitics",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Olten", "Online"]
+      },
+      {
         "id": "BUS-050713S1",
         "name": "Strategic Digital Management",
         "ects": 6,
         "semester": "HS",
         "campus": ["Basel", "Olten"]
+      },
+      {
+        "id": "BUS-TSWBS",
+        "name": "The Swiss Banking Sector",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "BUS-WUW",
+        "name": "Wine and Business",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Windisch"]
       }
     ],
     "Job Reflection": [
       {
         "id": "JOB-REFBP1",
-        "name": "Jobreflection 1",
+        "name": "Job Reflection 1",
         "ects": 6,
         "semester": "HS",
         "campus": ["Olten"]
@@ -169,6 +288,85 @@
         "ects": 6,
         "semester": "FS",
         "campus": ["Basel", "Windisch"]
+      }
+    ],
+    "Society and Culture": [
+      {
+        "id": "CTX-AUFTKRFG",
+        "name": "Appearance Skills: Leadership & Credibility",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "CTX-BAYO",
+        "name": "Balanced You: Mentally Strong and Focused",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Basel"]
+      },
+      {
+        "id": "CTX-WETHIK",
+        "name": "Business Ethics: Ethical Dilemma Situations",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Olten"]
+      },
+      {
+        "id": "CTX-SIDP",
+        "name": "Criminal Law in Practice",
+        "ects": 3,
+        "semester": "HS/FS",
+        "campus": ["Basel"]
+      },
+      {
+        "id": "CTX-GDW",
+        "name": "History of Economic Law",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Windisch", "Online"]
+      },
+      {
+        "id": "CTX-DPSYDM",
+        "name": "Human Psychodynamics",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Windisch"]
+      },
+      {
+        "id": "CTX-EIDSJ",
+        "name": "Insight into the Criminal Justice System",
+        "ects": 3,
+        "semester": "HS/FS",
+        "campus": ["Windisch"]
+      },
+      {
+        "id": "CTX-PHIDG",
+        "name": "Philosophy: The Basics",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Basel"]
+      },
+      {
+        "id": "CTX-SCI4TKZ",
+        "name": "Science 4: Technology, Climate and Future",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Windisch"]
+      },
+      {
+        "id": "CTX-004118S",
+        "name": "SIY: Mindful Emotional Intelligence",
+        "ects": 3,
+        "semester": "HS",
+        "campus": ["Basel"]
+      },
+      {
+        "id": "CTX-AUFTKS",
+        "name": "Strengthen Appearance Skills",
+        "ects": 3,
+        "semester": "FS",
+        "campus": ["Olten"]
       }
     ]
   }
