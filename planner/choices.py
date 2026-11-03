@@ -19,7 +19,7 @@ The input helpers (ask_menu, ask_yes_no) are in prompts.py.
 """
 
 from planner.display import ELECTIVE_SEMESTERS, semester_label
-from planner.prompts import CURRENT, BOLD, RESET, ask_menu, ask_yes_no, show_header, show_kept, show_success, show_warning
+from planner.prompts import BOX_TEXT_WIDTH, CURRENT, BOLD, DIM, RESET, ask_menu, fit, ask_yes_no, show_box, show_header, show_kept, show_success, show_warning
 
 # --- US4: choose a specialisation ---
 
@@ -39,9 +39,12 @@ def choose_specialisation(plan, specialisations):
     while True:
         # 2. Show the current choice and the list
         show_header("Choose specialisation", "Your specialisation fills semesters 6 to 8")
-        if current is not None:
-            print(f"Current choice: {CURRENT}{current}{RESET}")
-            print()
+        # Like the electives box: "Selected" as the title, the choice under it
+        if current is None:
+            show_box("Selected", ["none yet"], center=True)
+        else:
+            show_box("Selected", [current], center=True)
+        print()
 
         # 3. Ask for a valid number, 0 goes back without changing anything
         number = ask_menu(names)
@@ -58,7 +61,7 @@ def choose_specialisation(plan, specialisations):
 
     # 5. A different one is already chosen: confirm before replacing
     if current is not None:
-        replace = ask_yes_no(f"Replace {current} with {choice.name}? (y/n): ")
+        replace = ask_yes_no(f"Replace it with {choice.name}? (y/n): ")
         if not replace:
             show_kept(f"Kept {current}")
             return
@@ -98,19 +101,20 @@ def electives_by_semester(plan):
 
 
 def show_selected(plan):
-    """The counter, then the chosen electives with their semester, as a bullet list."""
-    print(selected_line(plan))
+    """The counter, then the chosen electives with their semester, in a centered box."""
+    rows = []
     if plan.electives == []:
-        print("  • none yet")
+        rows.append("• none yet")
     for elective in electives_by_semester(plan):
-        print(f"  • {elective.name:<40}{where(plan, elective):<5}{elective.ects} ECTS")
+        rows.append(fit(f"• {elective.name}", f"{where(plan, elective):<5}{elective.ects} ECTS", BOX_TEXT_WIDTH))
+    show_box(f"Selected: {plan.total_elective_ects()}/12 ECTS", rows)
 
 
 def chosen_options(plan):
     """One line per elective in the plan: name, semester and ECTS."""
     options = []
     for elective in electives_by_semester(plan):
-        options.append(f"{elective.name:<40}{where(plan, elective):<5}{elective.ects} ECTS")
+        options.append((elective.name, f"{where(plan, elective):<5}{elective.ects} ECTS"))
     return options
 
 
@@ -136,53 +140,80 @@ def plan_electives(plan, electives_by_category):
 
 def add_elective(plan, electives_by_category):
     """Story 5: pick a category, then an elective to add to the plan."""
-    # 1. List the categories with how many electives each one has
+    # Stay here until the student picks 0 in the categories
+    while True:
+        # 1. Ask for a category, 0 goes back to Plan electives
+        category = ask_category(plan, electives_by_category, "Categories", "Pick a category to see its electives")
+        if category is None:
+            return
+
+        # Stay in this category until the student picks 0, so they can add more or try again
+        while True:
+            # 2. Ask for an elective, 0 goes back to the categories
+            elective = ask_elective(plan, electives_by_category[category], category, "HS = autumn, FS = spring")
+            if elective is None:
+                break
+
+            # 3. Add it, or say why it can't be added
+            try_to_add(plan, elective)
+
+
+# --- Picking from the electives catalogue ---
+
+def ask_category(plan, electives_by_category, title, description):
+    """Ask for a category, with how many electives it has. Returns its name, or None for back."""
     categories = []
-    category_options = []
+    options = []
     for category in electives_by_category:
         count = 0
         for elective in electives_by_category[category]:
             count = count + 1
         categories.append(category)
-        category_options.append(f"{category} ({count})")
+        options.append(f"{category} ({count})")
+    show_header(title, description)
+    number = ask_menu(options)
+    if number == 0:
+        return None
+    # lists start at 0, the menu at 1
+    return categories[number - 1]
 
-    # Stay here until the student picks 0 in the categories
-    while True:
-        # 2. Ask for a category, 0 goes back to Plan electives
-        show_header("Categories", "Pick a category to see its electives")
-        number = ask_menu(category_options)
-        if number == 0:
-            return
-        # lists start at 0, the menu at 1
-        category = categories[number - 1]
-        electives = electives_by_category[category]
 
-        # Stay in this category until the student picks 0, so they can add more or try again
-        while True:
-            # 3. Make one line per elective: name, ECTS, semester and campus
-            #    (made again every time, so newly added electives get the "current" colour)
-            options = []
-            for elective in electives:
-                campus = ""
-                for place in elective.campus:
-                    if campus != "":
-                        campus = campus + ", "
-                    campus = campus + place
-                # :<40 pads the name to 40 characters, so the columns line up
-                line = f"{elective.name:<40}{elective.ects} ECTS {elective.semester:<8}{campus}"
-                # Electives already in the plan get the "current" colour
-                if plan.has_elective(elective.id):
-                    line = f"{CURRENT}{line}{RESET}"
-                options.append(line)
+CAMPUS_CODES = {"Basel": "BS", "Olten": "OL", "Windisch": "WI", "Online": "ON"}
+CAMPUS_LEGEND = "BS Basel · OL Olten · WI Windisch · ON Online"
 
-            # 4. Show the list, 0 goes back to the categories
-            show_header(category, "HS = autumn, FS = spring")
-            number = ask_menu(options)
-            if number == 0:
-                break
 
-            # 5. Add it, or say why it can't be added
-            try_to_add(plan, electives[number - 1])
+def campus_codes(elective):
+    """The campus as short codes, e.g. ['Olten', 'Windisch'] -> 'OL WI'."""
+    codes = ""
+    for place in elective.campus:
+        if codes != "":
+            codes = codes + " "
+        codes = codes + CAMPUS_CODES.get(place, place)
+    return codes
+
+
+def ask_elective(plan, electives, title, description):
+    """Ask for one of the electives, one line each: name, ECTS, HS/FS and campus.
+    Electives already in the plan get the "current" colour. Returns it, or None for back."""
+    # 1. The campus column is as wide as the longest campus in this list
+    campus_width = len("Campus")
+    for elective in electives:
+        campus_width = max(campus_width, len(campus_codes(elective)))
+
+    # 2. One line per elective, the columns line up under the dim column names
+    options = []
+    for elective in electives:
+        style = ""
+        if plan.has_elective(elective.id):
+            style = CURRENT
+        options.append((elective.name, f"{elective.ects:<4}  {elective.semester:<5}  {campus_codes(elective):<{campus_width}}", style))
+    show_header(title, description + "\n" + CAMPUS_LEGEND)
+    columns = "ECTS  Term   " + "Campus".ljust(campus_width)
+    print(f"{DIM}{fit('', columns)}{RESET}")
+    number = ask_menu(options)
+    if number == 0:
+        return None
+    return electives[number - 1]
 
 
 def try_to_add(plan, elective):
@@ -196,9 +227,9 @@ def try_to_add(plan, elective):
     if elective.ects > plan.ects_left():
         new_total = plan.total_elective_ects() + elective.ects
         if plan.ects_left() == 0:
-            show_warning(f"That would make {new_total}/12 ECTS — you cannot add anything else")
+            show_warning(f"You cannot add anything else, that would make {new_total}/12 ECTS")
         else:
-            show_warning(f"That would make {new_total}/12 ECTS — you can add at most {plan.ects_left()} more ECTS")
+            show_warning(f"Only {plan.ects_left()} ECTS left, that would make {new_total}/12 ECTS")
         offer_swap(plan, elective)
         return
 
@@ -235,9 +266,10 @@ def ask_semester(elective):
             semesters.append(semester)
             # Semesters 3 and 4 are year 2, 5 and 6 are year 3
             year = (semester + 1) // 2
-            options.append(f"Semester {semester}   {semester_label(semester)}   year {year}")
+            options.append((f"Semester {semester}", f"{semester_label(semester)}   year {year}"))
     print()
-    print(f"In which semester would you like to take {BOLD}{elective.name}{RESET} ({elective.semester})?")
+    print("In which semester would you like to take")
+    print(f"{BOLD}{elective.name}{RESET} ({elective.semester})?")
     print()
     number = ask_menu(options)
     if number == 0:
@@ -273,28 +305,30 @@ def remove_elective(plan):
 def offer_swap(plan, elective):
     """Story 6: the new elective doesn't fit, so offer to swap it for one in the plan."""
     # 1. Ask first, n keeps the plan as it is
-    if not ask_yes_no(f"Swap {elective.name} for one of your electives? (y/n): "):
+    if not ask_yes_no("Swap it for one of your electives? (y/n): "):
         return
 
     # 2. Ask which elective to swap out
     print()
-    print(f"Which elective would you like to swap for {BOLD}{elective.name}{RESET}?")
+    print("Which elective would you like to swap for")
+    print(f"{BOLD}{elective.name}{RESET}?")
     print()
     number = ask_menu(chosen_options(plan))
     if number == 0:
+        show_kept(f"{elective.name} was not added, kept your {len(plan.electives)} electives")
         return
     old = electives_by_semester(plan)[number - 1]
 
     # 3. Still too many ECTS without the old one: say so and change nothing
     new_total = plan.total_elective_ects() - old.ects + elective.ects
     if new_total > 12:
-        show_warning(f"Swapping out {old.name} would still make {new_total}/12 ECTS")
+        show_warning(f"Swapping out {old.name}\n   would still make {new_total}/12 ECTS")
         return
 
     # 4. Ask the semester for the new one, 0 keeps the plan as it is
     semester = ask_semester(elective)
     if semester == 0:
-        show_kept(f"{elective.name} was not added")
+        show_kept(f"{elective.name} was not added, kept your {len(plan.electives)} electives")
         return
 
     # 5. Swap them and show the new counter. One line for the elective that left

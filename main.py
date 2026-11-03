@@ -22,7 +22,7 @@ from planner.choices import choose_specialisation, plan_electives
 from planner.data_loader import DataError, electives_by_category, load_all
 from planner.display import explore_specialisations, show_degree_plan
 from planner.models import StudentPlan
-from planner.prompts import BOLD, ITALIC, RESET, ask_number, ask_yes_no, show_error, show_header, show_menu, show_success
+from planner.prompts import APP_WIDTH, BOLD, ITALIC, RESET, ask_number, ask_yes_no, show_error, show_header, show_menu, show_success
 from planner.rules import show_plan_check, show_roadmap
 from planner.storage import StorageError, load_plan, save_plan
 
@@ -61,7 +61,7 @@ def plan_summary(plan, specialisations):
 
 
 def show_goodbye():
-    width = 60
+    width = APP_WIDTH
     print()
     print(f"{BOLD}{'Thanks for using the BIT Study Planner':^{width}}{RESET}")
     print(f"\033[2m{ITALIC}{'Good luck with your studies at FHNW 🍀':^{width}}{RESET}")
@@ -88,7 +88,7 @@ def show_main_menu():
 # --- Program ---
 
 def main():
-    width = 60
+    width = APP_WIDTH - 2
 
     print("╔" + "═" * width + "╗")
     print("║" + " " * width + "║")
@@ -122,6 +122,8 @@ def main():
     if saved is not None:
         if ask_yes_no("A saved plan was found. Load it? (y/n): "):
             plan = saved
+            # Every elective needs a semester, older plans have none yet
+            plan.fill_missing_semesters()
             show_success(plan_summary(plan, specialisations))
 
     # Step 3: the menu comes back after every action, until the user picks 0

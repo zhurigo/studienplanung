@@ -36,8 +36,8 @@ BAR_WIDTH = 20
 # The name column is never narrower than this, like in the degree plan
 MIN_NAME_WIDTH = 31
 
-# The label column is 22 wide, as on the degree-plan screen
-LABEL_WIDTH = 22
+# The label column is 15 wide, as on the degree-plan screen
+LABEL_WIDTH = 15
 
 
 # --- Wording shared by US7 and US9 ---

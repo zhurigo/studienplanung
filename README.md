@@ -227,10 +227,10 @@ Pick an elective (0 to go back): 7
 
 In which semester would you like to take Spanish A1 (HS/FS)?
 
-1. Semester 3   HS 2027   year 2
-2. Semester 4   FS 2028   year 2
-3. Semester 5   HS 2028   year 3
-4. Semester 6   FS 2029   year 3
+1. Semester 3                                         HS 2027   year 2
+2. Semester 4                                         FS 2028   year 2
+3. Semester 5                                         HS 2028   year 3
+4. Semester 6                                         FS 2029   year 3
 0. Back
 Choose an option (0-4): 2
 Added Spanish A1 to semester 4. Selected: 9/12 ECTS
@@ -254,8 +254,8 @@ Pick an elective to swap out (0 to go back): 3
 
 In which semester would you like to take Spanish intensive course A1/A2 (FS)?
 
-1. Semester 4   FS 2028   year 2
-2. Semester 6   FS 2029   year 3
+1. Semester 4                                         FS 2028   year 2
+2. Semester 6                                         FS 2029   year 3
 0. Back
 Choose an option (0-2): 1
 Swapped electives
