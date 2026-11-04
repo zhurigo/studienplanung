@@ -233,13 +233,19 @@ def try_to_add(plan, elective):
         offer_swap(plan, elective)
         return
 
-    # 3. Ask the semester, 0 adds nothing
-    semester = ask_semester(elective)
+    # 3. No free semester in its season: say so and add nothing
+    semesters = free_semesters(plan, elective)
+    if semesters == []:
+        show_warning(f"No free semester for {elective.name}\n   each semester can have one elective")
+        return
+
+    # 4. Ask the semester, 0 adds nothing
+    semester = ask_semester(elective, semesters)
     if semester == 0:
         show_kept(f"{elective.name} was not added")
         return
 
-    # 4. Add it and show the new counter
+    # 5. Add it and show the new counter
     plan.add_elective(elective, semester)
     show_success(f"Added {elective.name} to semester {semester}{ects_bar(plan)}")
 
@@ -256,17 +262,28 @@ def fits_season(elective, semester):
     return elective.semester == "FS"
 
 
-def ask_semester(elective):
-    """Ask in which semester (3 to 6) to take the elective. Returns 0 for back.
-    Only the semesters of its season are offered."""
-    semesters = []
-    options = []
+def free_semesters(plan, elective, swapped_out=None):
+    """The semesters (3 to 6) of the elective's season that have no elective yet.
+    Each semester has one elective slot. In a swap, the semester of the elective
+    that leaves (swapped_out) counts as free."""
+    free = []
     for semester in ELECTIVE_SEMESTERS:
-        if fits_season(elective, semester):
-            semesters.append(semester)
-            # Semesters 3 and 4 are year 2, 5 and 6 are year 3
-            year = (semester + 1) // 2
-            options.append((f"Semester {semester}", f"{semester_label(semester)}   year {year}"))
+        taken = False
+        for chosen in plan.electives:
+            if chosen is not swapped_out and plan.semester_of(chosen.id) == semester:
+                taken = True
+        if fits_season(elective, semester) and not taken:
+            free.append(semester)
+    return free
+
+
+def ask_semester(elective, semesters):
+    """Ask in which of the semesters to take the elective. Returns 0 for back."""
+    options = []
+    for semester in semesters:
+        # Semesters 3 and 4 are year 2, 5 and 6 are year 3
+        year = (semester + 1) // 2
+        options.append((f"Semester {semester}", f"{semester_label(semester)}   year {year}"))
     print()
     print("In which semester would you like to take")
     print(f"{BOLD}{elective.name}{RESET} ({elective.semester})?")
@@ -326,13 +343,19 @@ def offer_swap(plan, elective):
         show_warning(f"Swapping out {old.name}\n   would still make {new_total}/12 ECTS")
         return
 
-    # 4. Ask the semester for the new one, 0 keeps the plan as it is
-    semester = ask_semester(elective)
+    # 4. No free semester for the new one, even without the old one: change nothing
+    semesters = free_semesters(plan, elective, old)
+    if semesters == []:
+        show_warning(f"No free semester for {elective.name}\n   each semester can have one elective")
+        return
+
+    # 5. Ask the semester for the new one, 0 keeps the plan as it is
+    semester = ask_semester(elective, semesters)
     if semester == 0:
         show_kept(f"{elective.name} was not added, kept your {len(plan.electives)} electives")
         return
 
-    # 5. Swap them and show the new counter. One line for the elective that left
+    # 6. Swap them and show the new counter. One line for the elective that left
     #    and one for the new one, indented like the counter, the semesters lined up
     old_where = where(plan, old)
     width = max(len(old.name), len(elective.name))

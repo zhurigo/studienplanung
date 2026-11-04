@@ -112,14 +112,24 @@ class StudentPlan:
         return None
 
     def fill_missing_semesters(self):
-        """Give every elective without a semester the first one of its season,
-        e.g. in a plan saved before the semesters were picked: FS -> 4, HS and HS/FS -> 3."""
+        """Give every elective without a semester the first free one of its season,
+        e.g. in a plan saved before the semesters were picked.
+        HS = 3 or 5, FS = 4 or 6, HS/FS = any. If none is free, the first one of its season."""
         for elective in self.electives:
             if elective.id not in self.elective_semesters:
-                if elective.semester == "FS":
-                    self.elective_semesters[elective.id] = 4
+                if elective.semester == "HS":
+                    options = [3, 5]
+                elif elective.semester == "FS":
+                    options = [4, 6]
                 else:
-                    self.elective_semesters[elective.id] = 3
+                    options = [3, 4, 5, 6]
+                # The first semester that has no elective yet
+                chosen = options[0]
+                for semester in options:
+                    if semester not in self.elective_semesters.values():
+                        chosen = semester
+                        break
+                self.elective_semesters[elective.id] = chosen
 
     # --- US6 (Thalita) ---
 
