@@ -7,7 +7,8 @@ User story:
 Course criterion: file processing (writing and reading)
 
 What goes here:
-  - save: write the chosen specialisation and elective ids to my_plan.json
+  - save: write the chosen specialisation and elective ids to my_plan.json,
+  the electives ids and the semester picked for each elective to my_plan.json
   - load: read my_plan.json back into a StudentPlan
   - handle a missing or damaged file with a clear message, never a crash
 
@@ -47,6 +48,7 @@ def save_plan(plan, path=PLAN_FILE):
         "version": 1,
         "specialisation": plan.specialisation_id,
         "electives": elective_ids,
+        "elective_semesters": plan.elective_semesters,
     }
 
     # Write to a temporary file first, then swap it in, so a failed write
@@ -66,7 +68,8 @@ def load_plan(electives, path=PLAN_FILE):
 
     Returns None when there is no saved plan yet. Raises StorageError when
     the file exists but cannot be used. Unknown elective ids are kept as
-    placeholder Electives so US7 can report them.
+    placeholder Electives so US7 can report them. Files saved before semesters
+    could be picjed load without them (main.py filles them in)
     """
     path = Path(path)
     if not path.exists():
@@ -90,6 +93,11 @@ def load_plan(electives, path=PLAN_FILE):
             specialisation_id, str):
         raise _damaged()
 
+    # Plans saved before semesters could be picked have no such field
+    semesters = data.get("elective_semesters", {})
+    if not isinstance(semesters, dict):
+        raise _damaged()
+
     catalogue = {}
     for elective in electives:
         catalogue[elective.id] = elective
@@ -111,4 +119,12 @@ def load_plan(electives, path=PLAN_FILE):
                 semester="",
                 campus=[],
             ))
+
+        # Put back semester picked for this elective if there is one
+        if elective_id in semesters:
+            semester = semesters[elective_id]
+            # Electives can only be taken in semesters 3 to 6
+            if not isinstance(semester, int) or semester < 3 or semester > 6:
+                raise _damaged()
+            plan.elective_semesters[elective_id] = semester
     return plan
