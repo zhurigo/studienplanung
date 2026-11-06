@@ -127,6 +127,5 @@ class StorageTests(unittest.TestCase):
         with self.assertRaises(StorageError):
             load_plan(self.catalogue, self.path)
 
-
 if __name__ == "__main__":
     unittest.main()

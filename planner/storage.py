@@ -7,8 +7,8 @@ User story:
 Course criterion: file processing (writing and reading)
 
 What goes here:
-  - save: write the chosen specialisation and elective ids to my_plan.json,
-  the electives ids and the semester picked for each elective to my_plan.json
+  - save: write the chosen specialisation, the electives ids and the semester
+  picked for each elective to my_plan.json
   - load: read my_plan.json back into a StudentPlan
   - handle a missing or damaged file with a clear message, never a crash
 
@@ -69,7 +69,7 @@ def load_plan(electives, path=PLAN_FILE):
     Returns None when there is no saved plan yet. Raises StorageError when
     the file exists but cannot be used. Unknown elective ids are kept as
     placeholder Electives so US7 can report them. Files saved before semesters
-    could be picjed load without them (main.py filles them in)
+    could be picked load without them (main.py files them in)
     """
     path = Path(path)
     if not path.exists():
