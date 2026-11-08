@@ -23,7 +23,7 @@ from planner.data_loader import DataError, electives_by_category, load_all
 from planner.display import explore_specialisations, show_degree_plan
 from planner.models import StudentPlan
 from planner.prompts import ask_number, ask_yes_no, show_menu
-from planner.styling import APP_WIDTH, BOLD, ITALIC, RESET, show_error, show_header, show_success
+from planner.styling import APP_WIDTH, BOLD, DIM, ITALIC, RESET, show_error, show_header, show_success
 from planner.rules import show_plan_check, show_roadmap
 from planner.storage import StorageError, load_plan, save_plan
 
@@ -65,7 +65,7 @@ def show_goodbye():
     width = APP_WIDTH
     print()
     print(f"{BOLD}{'Thanks for using the BIT Study Planner':^{width}}{RESET}")
-    print(f"\033[2m{ITALIC}{'Good luck with your studies at FHNW 🍀':^{width}}{RESET}")
+    print(f"{DIM}{ITALIC}{'Good luck with your studies at FHNW 🍀':^{width}}{RESET}")
     print()
 
 

@@ -36,9 +36,30 @@ def fit(left, right="", width=APP_WIDTH):
     return left + " " * space + right
 
 
+def wrap(text, width=APP_WIDTH):
+    """Break the text between words, so no line is wider than width"""
+    lines = []
+    line = ""
+    for word in text.split(" "):
+        if line == "":
+            line = word
+        elif len(line) + 1 + len(word) <= width:
+            line = line + " " + word
+        else:
+            lines.append(line)
+            line = word
+    lines.append(line)
+    return "\n".join(lines)
+
+
+def bullet(left, right="", width=APP_WIDTH):
+    """'• ' and a fit line, width wide, e.g. for a row in a box"""
+    return "• " + fit(left, right, width - 2)
+
+
 def show_bullet(left, right="", style=""):
-    """Print '  • ' and a fit line. style colours the whole line"""
-    print(f"  • {style}{fit(left, right, APP_WIDTH - 4)}{RESET}")
+    """Print an indented bullet line as wide as the app. style colours the whole line"""
+    print(f"  {style}{bullet(left, right, APP_WIDTH - 2)}{RESET}")
 
 
 # --- Headers ---

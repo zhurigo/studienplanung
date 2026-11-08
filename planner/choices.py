@@ -20,7 +20,7 @@ The input helpers (ask_menu, ask_yes_no) are in prompts.py, the colours and mess
 
 from planner.display import ELECTIVE_SEMESTERS, semester_label
 from planner.prompts import ask_menu, ask_yes_no
-from planner.styling import BOX_TEXT_WIDTH, CURRENT, BOLD, DIM, RESET, fit, show_box, show_header, show_kept, show_success, show_warning
+from planner.styling import BOX_TEXT_WIDTH, CURRENT, BOLD, DIM, RESET, bullet, fit, wrap, show_box, show_header, show_kept, show_success, show_warning
 
 # --- US4: choose a specialisation ---
 
@@ -103,11 +103,14 @@ def electives_by_semester(plan):
 
 def show_selected(plan):
     """The counter, then the chosen electives with their semester, in a centered box."""
-    rows = []
+    # Nothing chosen yet: a message instead of "Selected: 0/12 ECTS"
     if plan.electives == []:
-        rows.append("• none yet")
+        show_box("No electives selected yet", [])
+        return
+
+    rows = []
     for elective in electives_by_semester(plan):
-        rows.append(fit(f"• {elective.name}", f"{where(plan, elective):<5}{elective.ects} ECTS", BOX_TEXT_WIDTH))
+        rows.append(bullet(elective.name, f"{where(plan, elective):<5}{elective.ects} ECTS", BOX_TEXT_WIDTH))
     show_box(f"Selected: {plan.total_elective_ects()}/12 ECTS", rows)
 
 
@@ -286,8 +289,7 @@ def ask_semester(elective, semesters):
         year = (semester + 1) // 2
         options.append((f"Semester {semester}", f"{semester_label(semester)}   year {year}"))
     print()
-    print("In which semester would you like to take")
-    print(f"{BOLD}{elective.name}{RESET} ({elective.semester})?")
+    print(wrap(f"In which semester would you like to take {BOLD}{elective.name}{RESET} ({elective.semester})?"))
     print()
     number = ask_menu(options)
     if number == 0:
@@ -329,8 +331,7 @@ def offer_swap(plan, elective):
 
     # 2. Ask which elective to swap out
     print()
-    print("Which elective would you like to swap for")
-    print(f"{BOLD}{elective.name}{RESET}?")
+    print(wrap(f"Which elective would you like to swap for {BOLD}{elective.name}{RESET}?"))
     print()
     number = ask_menu(chosen_options(plan))
     if number == 0:

@@ -16,7 +16,7 @@ Added by Thalita (Plan, US4 + US5):
 """
 
 from planner.prompts import ask_menu, pause, show_menu
-from planner.styling import ARROW, BOLD, ITALIC, RESET, show_header, show_warning
+from planner.styling import ARROW, BOLD, DIM, ITALIC, RESET, show_bullet, show_header, show_warning
 from planner.rules import TOTAL_ECTS
 
 
@@ -36,7 +36,6 @@ GROUP_COLOURS = {
 # --- Row styles ---
 # Only the group label gets its colour, so its easier to read the plan
 
-DIM = "\033[2m"
 EMPTY = f"{DIM}{ITALIC}"       # a slot that is still to choose
 
 
@@ -266,5 +265,5 @@ def explore_specialisations(specialisations):
         print(f"\nTotal: {total_ects} ECTS")
         print("\nPossible careers:")
         for career in specialisation.careers:
-            print(f" - {career}")
+            show_bullet(career)
         pause() 
