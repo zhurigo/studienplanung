@@ -52,6 +52,38 @@ class StorageTests(unittest.TestCase):
         self.assertEqual(loaded.specialisation_id, "DT")
         self.assertEqual(loaded_ids, ["LANG-DE-A1", "LANG-ES-A1"])
 
+    def test_semesters_survive_save_and_load(self):
+            plan = self.make_plan()
+            plan.elective_semesters = {"LANG-DE-A1": 6, "LANG-ES-A1": 4}
+
+            save_plan(plan, self.path)
+            loaded = load_plan(self.catalogue, self.path)
+
+            self.assertEqual(loaded.elective_semesters,
+                             {"LANG-DE-A1": 6, "LANG-ES-A1": 4})
+
+    def test_old_file_without_semesters_loads(self):
+            self.write_plan_file({
+                "version": 1,
+                "specialisation": "DT",
+                "electives": ["LANG-DE-A1"],
+            })
+
+            loaded = load_plan(self.catalogue, self.path)
+
+            self.assertEqual(loaded.elective_semesters, {})
+
+    def test_semester_out_of_range_raises(self):
+            self.write_plan_file({
+                "version": 1,
+                "specialisation": "DT",
+                "electives": ["LANG-DE-A1"],
+                "elective_semesters": {"LANG-DE-A1": 9},
+            })
+
+            with self.assertRaises(StorageError):
+                load_plan(self.catalogue, self.path)
+
     def test_missing_file_returns_none(self):
         self.assertIsNone(load_plan(self.catalogue, self.path))
 
@@ -94,7 +126,6 @@ class StorageTests(unittest.TestCase):
 
         with self.assertRaises(StorageError):
             load_plan(self.catalogue, self.path)
-
 
 if __name__ == "__main__":
     unittest.main()
