@@ -15,7 +15,8 @@ Added by Thalita (Plan, US4 + US5):
   - the chosen electives in the semester the student picked (place_electives)
 """
 
-from planner.prompts import ARROW, BOLD, ITALIC, RESET, ask_menu, pause, show_header, show_menu, show_warning
+from planner.prompts import ask_menu, pause, show_menu
+from planner.styling import ARROW, BOLD, ITALIC, RESET, show_header, show_warning
 from planner.rules import TOTAL_ECTS
 
 

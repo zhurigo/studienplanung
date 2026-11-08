@@ -21,7 +21,8 @@ US7 through elective_line.
 Both US7 and US9 live in this file.
 """
 
-from planner.prompts import pause, show_header, show_success, show_warning
+from planner.prompts import pause
+from planner.styling import show_header, show_success, show_warning
 
 # A complete plan needs exactly this many elective ECTS
 # (data/electives.json: info.elective_ects_required)

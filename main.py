@@ -22,7 +22,8 @@ from planner.choices import choose_specialisation, plan_electives
 from planner.data_loader import DataError, electives_by_category, load_all
 from planner.display import explore_specialisations, show_degree_plan
 from planner.models import StudentPlan
-from planner.prompts import APP_WIDTH, BOLD, ITALIC, RESET, ask_number, ask_yes_no, show_error, show_header, show_menu, show_success
+from planner.prompts import ask_number, ask_yes_no, show_menu
+from planner.styling import APP_WIDTH, BOLD, ITALIC, RESET, show_error, show_header, show_success
 from planner.rules import show_plan_check, show_roadmap
 from planner.storage import StorageError, load_plan, save_plan
 

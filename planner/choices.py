@@ -15,11 +15,12 @@ Input to validate:
 
 The rules themselves (limits, no doubles) live in StudentPlan in models.py.
 This file only asks the questions and shows the answers.
-The input helpers (ask_menu, ask_yes_no) are in prompts.py.
+The input helpers (ask_menu, ask_yes_no) are in prompts.py, the colours and messages in styling.py.
 """
 
 from planner.display import ELECTIVE_SEMESTERS, semester_label
-from planner.prompts import BOX_TEXT_WIDTH, CURRENT, BOLD, DIM, RESET, ask_menu, fit, ask_yes_no, show_box, show_header, show_kept, show_success, show_warning
+from planner.prompts import ask_menu, ask_yes_no
+from planner.styling import BOX_TEXT_WIDTH, CURRENT, BOLD, DIM, RESET, fit, show_box, show_header, show_kept, show_success, show_warning
 
 # --- US4: choose a specialisation ---
 
