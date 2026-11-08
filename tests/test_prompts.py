@@ -27,7 +27,7 @@ class PromptWordingTests(unittest.TestCase):
     def test_ask_yes_no_rejects_other_words(self):
         with patch("builtins.input", side_effect=["yes", "n"]):
             with redirect_stdout(io.StringIO()) as output:
-                answer = ask_yes_no("Continue? (y/n): ")
+                answer = ask_yes_no("Continue?")
 
         self.assertFalse(answer)
         self.assertIn("Please enter y or n", output.getvalue())

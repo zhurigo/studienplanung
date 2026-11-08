@@ -62,7 +62,7 @@ def choose_specialisation(plan, specialisations):
 
     # 5. A different one is already chosen: confirm before replacing
     if current is not None:
-        replace = ask_yes_no(f"Replace it with {choice.name}? (y/n): ")
+        replace = ask_yes_no(f"Replace it with {choice.name}?")
         if not replace:
             show_kept(f"Kept {current}")
             return
@@ -325,7 +325,7 @@ def remove_elective(plan):
 def offer_swap(plan, elective):
     """Story 6: the new elective doesn't fit, so offer to swap it for one in the plan."""
     # 1. Ask first, n keeps the plan as it is
-    if not ask_yes_no("Swap it for one of your electives? (y/n): "):
+    if not ask_yes_no("Swap it for one of your electives?"):
         show_kept("No change was made to your electives")
         return
 

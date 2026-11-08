@@ -33,10 +33,10 @@ def ask_number(prompt, low, high):
 
 
 def ask_yes_no(prompt):
-    """Ask until the user types y or n"""
+    """Ask until the user types y or n. Adds " (y/n): " to the question"""
     while True:
         print()
-        answer = input(f"{ARROW}{prompt}").strip().lower()
+        answer = input(f"{ARROW}{prompt} (y/n): ").strip().lower()
         if answer == "y":
             return True
         if answer == "n":

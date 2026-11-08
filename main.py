@@ -121,7 +121,7 @@ def main():
     plan = StudentPlan()
     unsaved = False
     if saved is not None:
-        if ask_yes_no("A saved plan was found. Load it? (y/n): "):
+        if ask_yes_no("A saved plan was found. Load it?"):
             plan = saved
             # Every elective needs a semester, older plans have none yet
             plan.fill_missing_semesters()
@@ -133,7 +133,7 @@ def main():
         choice = ask_number(f"Choose an option (0-{highest}): ", 0, highest)
         if choice == 0:
             if unsaved and ask_yes_no(
-                    "You have unsaved changes. Save now? (y/n): "):
+                    "You have unsaved changes. Save now?"):
                 try:
                     save_plan(plan)
                 except StorageError as error:
