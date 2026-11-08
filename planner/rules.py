@@ -22,7 +22,7 @@ Both US7 and US9 live in this file.
 """
 
 from planner.prompts import pause
-from planner.styling import show_header, show_success, show_warning
+from planner.styling import LABEL_WIDTH, show_header, show_success, show_warning
 
 # A complete plan needs exactly this many elective ECTS
 # (data/electives.json: info.elective_ects_required)
@@ -36,9 +36,6 @@ BAR_WIDTH = 20
 
 # The name column is never narrower than this, like in the degree plan
 MIN_NAME_WIDTH = 31
-
-# The label column is 15 wide, as on the degree-plan screen
-LABEL_WIDTH = 15
 
 
 # --- Wording shared by US7 and US9 ---

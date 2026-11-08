@@ -16,7 +16,7 @@ Added by Thalita (Plan, US4 + US5):
 """
 
 from planner.prompts import ask_menu, pause, show_menu
-from planner.styling import ARROW, BOLD, DIM, ITALIC, RESET, show_bullet, show_header, show_warning
+from planner.styling import ARROW, BOLD, DIM, ITALIC, LABEL_WIDTH, RESET, show_bullet, show_header, show_warning
 from planner.rules import TOTAL_ECTS
 
 
@@ -184,18 +184,18 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
                 colour = ""
                 if module.group in GROUP_COLOURS:
                     colour = GROUP_COLOURS[module.group]
-                print(f"{module.name:<{width}}{colour}{label:<16}{RESET}"
+                print(f"{module.name:<{width}}{colour}{label:<{LABEL_WIDTH}}{RESET}"
                       f"{module.ects:>2} ECTS")
 
         # The chosen electives, the label in light purple (Thalita, US5)
         if semester in electives_placed:
             colour = GROUP_COLOURS["Electives"]
             for elective in electives_placed[semester]:
-                print(f"{elective.name:<{width}}{colour}{'Electives':<16}{RESET}"
+                print(f"{elective.name:<{width}}{colour}{'Electives':<{LABEL_WIDTH}}{RESET}"
                       f"{elective.ects:>2} ECTS")
             if free[semester] > 0:
                 # One placeholder row for the ECTS still to choose, dim italic
-                print(f"{EMPTY}{'(choose an elective)':<{width}}{RESET}{colour}{'Electives':<16}{RESET}"
+                print(f"{EMPTY}{'(choose an elective)':<{width}}{RESET}{colour}{'Electives':<{LABEL_WIDTH}}{RESET}"
                       f"{EMPTY}{free[semester]:>2} ECTS{RESET}")
 
         # The chosen specialisation's modules, the label in light blue
@@ -203,11 +203,11 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
             colour = GROUP_COLOURS["Specialisation"]
             if chosen:
                 for module in placed[semester]:
-                    print(f"{module['name']:<{width}}{colour}{'Specialisation':<16}{RESET}"
+                    print(f"{module['name']:<{width}}{colour}{'Specialisation':<{LABEL_WIDTH}}{RESET}"
                           f"{module['ects']:>2} ECTS")
             else:
                 # Nothing chosen: one placeholder row for the 12 ECTS slot, dim italic
-                print(f"{EMPTY}{'(choose a specialisation)':<{width}}{RESET}{colour}{'Specialisation':<16}{RESET}"
+                print(f"{EMPTY}{'(choose a specialisation)':<{width}}{RESET}{colour}{'Specialisation':<{LABEL_WIDTH}}{RESET}"
                       f"{EMPTY}12 ECTS{RESET}")
     print()
     print(f"{BOLD}Total: {total}/{TOTAL_ECTS} ECTS{RESET}")

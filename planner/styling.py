@@ -25,6 +25,10 @@ KEPT_MARK = "🔒 "
 ERROR_MARK = "❌ "
 
 
+# Group label column in the degree plan and the roadmap, e.g. "Business Admin."
+LABEL_WIDTH = 16
+
+
 # --- Lines ---
 
 def fit(left, right="", width=APP_WIDTH):
