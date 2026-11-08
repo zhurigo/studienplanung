@@ -22,7 +22,7 @@ Both US7 and US9 live in this file.
 """
 
 from planner.prompts import pause
-from planner.styling import LABEL_WIDTH, show_header, show_success, show_warning
+from planner.styling import EMPTY, LABEL_WIDTH, RESET, show_header, show_success, show_warning
 
 # A complete plan needs exactly this many elective ECTS
 # (data/electives.json: info.elective_ects_required)
@@ -205,7 +205,7 @@ def show_roadmap(plan, modules, groups, specialisations):
         print(f"  {specialisation.name + ' modules':<{width}}"
               f"{'':<{LABEL_WIDTH}}{SPECIALISATION_ECTS:>2} ECTS")
     else:
-        print("  Specialisation — not chosen yet")
+        print(f"  {EMPTY}Specialisation — not chosen yet{RESET}")
 
     print()
     print("Electives")

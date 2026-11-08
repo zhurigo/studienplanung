@@ -16,7 +16,7 @@ Added by Thalita (Plan, US4 + US5):
 """
 
 from planner.prompts import ask_menu, pause, show_menu
-from planner.styling import ARROW, BOLD, DIM, ITALIC, LABEL_WIDTH, RESET, show_bullet, show_header, show_warning
+from planner.styling import ARROW, BOLD, DIM, EMPTY, LABEL_WIDTH, RESET, show_bullet, show_header, show_warning
 from planner.rules import TOTAL_ECTS
 
 
@@ -31,12 +31,6 @@ GROUP_COLOURS = {
     "Specialisation": "\033[38;5;117m",                   # light blue
     "Electives": "\033[38;5;147m",                        # light purple
 }
-
-
-# --- Row styles ---
-# Only the group label gets its colour, so its easier to read the plan
-
-EMPTY = f"{DIM}{ITALIC}"       # a slot that is still to choose
 
 
 # --- Specialisation modules in semesters 6 to 8 (Thalita, US4) ---

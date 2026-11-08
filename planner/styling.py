@@ -11,6 +11,7 @@ BOLD = "\033[1m"
 ITALIC = "\033[3m"
 DIM = "\033[2m"        # less important text, like the description under a header
 RESET = "\033[0m"      # end every coloured or bold text with this
+EMPTY = f"{DIM}{ITALIC}"  # a slot that is still to choose, e.g. "(choose an elective)"
 
 # Headers, lists and boxes all end at this edge
 APP_WIDTH = 70
