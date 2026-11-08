@@ -57,6 +57,11 @@ def wrap(text, width=APP_WIDTH):
     return "\n".join(lines)
 
 
+def ects(value):
+    """An ECTS value for a row, e.g. ' 3 ECTS', so 3 and 12 line up"""
+    return f"{value:>2} ECTS"
+
+
 def bullet(left, right="", width=APP_WIDTH):
     """'• ' and a fit line, width wide, e.g. for a row in a box"""
     return "• " + fit(left, right, width - 2)

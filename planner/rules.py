@@ -22,7 +22,7 @@ Both US7 and US9 live in this file.
 """
 
 from planner.prompts import pause
-from planner.styling import EMPTY, LABEL_WIDTH, RESET, show_header, show_success, show_warning
+from planner.styling import APP_WIDTH, EMPTY, LABEL_WIDTH, RESET, ects, show_header, show_success, show_warning
 
 # A complete plan needs exactly this many elective ECTS
 # (data/electives.json: info.elective_ects_required)
@@ -186,7 +186,8 @@ def show_roadmap(plan, modules, groups, specialisations):
         names.append(elective.name)
     if specialisation is not None:
         names.append(specialisation.name + " modules")
-    width = name_width(names)
+    # Never wider than the app: 2 spaces, name, label and ECTS (7) together
+    width = min(name_width(names), APP_WIDTH - 2 - LABEL_WIDTH - len(ects(0)))
 
     show_header("Roadmap")
     for semester in range(1, 9):
@@ -197,13 +198,13 @@ def show_roadmap(plan, modules, groups, specialisations):
             if module.semester == semester:
                 label = shorts.get(module.group, module.group)
                 print(f"  {module.name:<{width}}{label:<{LABEL_WIDTH}}"
-                      f"{module.ects:>2} ECTS")
+                      f"{ects(module.ects)}")
 
     print()
     print("Semesters 6-8 (specialisation)")
     if specialisation is not None:
         print(f"  {specialisation.name + ' modules':<{width}}"
-              f"{'':<{LABEL_WIDTH}}{SPECIALISATION_ECTS:>2} ECTS")
+              f"{'':<{LABEL_WIDTH}}{ects(SPECIALISATION_ECTS)}")
     else:
         print(f"  {EMPTY}Specialisation — not chosen yet{RESET}")
 
@@ -211,7 +212,7 @@ def show_roadmap(plan, modules, groups, specialisations):
     print("Electives")
     for elective in plan.electives:
         print(f"  {elective.name:<{width}}{'Elective':<{LABEL_WIDTH}}"
-              f"{elective.ects:>2} ECTS")
+              f"{ects(elective.ects)}")
     line = elective_line(plan.total_elective_ects())
     if line is not None:
         print(f"  {line}")

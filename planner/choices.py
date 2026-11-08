@@ -20,7 +20,7 @@ The input helpers (ask_menu, ask_yes_no) are in prompts.py, the colours and mess
 
 from planner.display import ELECTIVE_SEMESTERS, semester_label
 from planner.prompts import ask_menu, ask_yes_no
-from planner.styling import BOX_TEXT_WIDTH, CURRENT, BOLD, DIM, RESET, bullet, fit, wrap, show_box, show_header, show_kept, show_success, show_warning
+from planner.styling import BOX_TEXT_WIDTH, CURRENT, BOLD, DIM, RESET, bullet, ects, fit, wrap, show_box, show_header, show_kept, show_success, show_warning
 
 # --- US4: choose a specialisation ---
 
@@ -110,7 +110,7 @@ def show_selected(plan):
 
     rows = []
     for elective in electives_by_semester(plan):
-        rows.append(bullet(elective.name, f"{where(plan, elective):<5}{elective.ects} ECTS", BOX_TEXT_WIDTH))
+        rows.append(bullet(elective.name, f"{where(plan, elective):<4}{ects(elective.ects)}", BOX_TEXT_WIDTH))
     show_box(f"Selected: {plan.total_elective_ects()}/12 ECTS", rows)
 
 
@@ -118,7 +118,7 @@ def chosen_options(plan):
     """One line per elective in the plan: name, semester and ECTS."""
     options = []
     for elective in electives_by_semester(plan):
-        options.append((elective.name, f"{where(plan, elective):<5}{elective.ects} ECTS"))
+        options.append((elective.name, f"{where(plan, elective):<4}{ects(elective.ects)}"))
     return options
 
 
