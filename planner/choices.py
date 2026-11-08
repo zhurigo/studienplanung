@@ -82,8 +82,8 @@ def ects_bar(plan):
 
 
 def selected_line(plan):
-    """The counter line, e.g. 'Selected: 6/12 ECTS'."""
-    return f"Selected: {BOLD}{plan.total_elective_ects()}/12 ECTS{RESET}"
+    """The counter text, e.g. 'Selected: 6/12 ECTS', for the box title and the remove screen."""
+    return f"Selected: {plan.total_elective_ects()}/12 ECTS"
 
 
 def where(plan, elective):
@@ -111,7 +111,7 @@ def show_selected(plan):
     rows = []
     for elective in electives_by_semester(plan):
         rows.append(bullet(elective.name, f"{where(plan, elective):<4}{ects(elective.ects)}", BOX_TEXT_WIDTH))
-    show_box(f"Selected: {plan.total_elective_ects()}/12 ECTS", rows)
+    show_box(selected_line(plan), rows)
 
 
 def chosen_options(plan):
@@ -309,7 +309,7 @@ def remove_elective(plan):
 
     # 2. List the chosen electives with their ECTS
     show_header("Remove an elective")
-    print(selected_line(plan))
+    print(f"{BOLD}{selected_line(plan)}{RESET}")
     print()
     number = ask_menu(chosen_options(plan))
     if number == 0:
