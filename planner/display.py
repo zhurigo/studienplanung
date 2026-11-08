@@ -16,7 +16,7 @@ Added by Thalita (Plan, US4 + US5):
 """
 
 from planner.prompts import ask_menu, pause, show_menu
-from planner.styling import APP_WIDTH, ARROW, BOLD, DIM, EMPTY, LABEL_WIDTH, RESET, ects, fit, show_bullet, show_header, show_warning
+from planner.styling import APP_WIDTH, ARROW, BOLD, EMPTY, LABEL_WIDTH, RESET, ects, fit, show_bullet, show_semester, show_header, show_warning
 from planner.rules import TOTAL_ECTS
 
 
@@ -167,9 +167,7 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
         if semester > 1:
             print()
         # The heading with the season and year, e.g. "Semester 3  HS 2027 · 30 ECTS"
-        print(f"{BOLD}Semester {semester}{RESET}  "
-              f"{DIM}{semester_label(semester)} · {semester_ects[semester]} ECTS{RESET}")
-        print()
+        show_semester(semester, f"{semester_label(semester)} · {semester_ects[semester]} ECTS")
         total = total + semester_ects[semester]
         for module in modules:
             if module.semester == semester:
@@ -178,18 +176,18 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
                 colour = ""
                 if module.group in GROUP_COLOURS:
                     colour = GROUP_COLOURS[module.group]
-                print(f"{module.name:<{width}}{colour}{label:<{LABEL_WIDTH}}{RESET}"
+                print(f"  {module.name:<{width}}{colour}{label:<{LABEL_WIDTH}}{RESET}"
                       f"{ects(module.ects)}")
 
         # The chosen electives, the label in light purple (Thalita, US5)
         if semester in electives_placed:
             colour = GROUP_COLOURS["Electives"]
             for elective in electives_placed[semester]:
-                print(f"{elective.name:<{width}}{colour}{'Electives':<{LABEL_WIDTH}}{RESET}"
+                print(f"  {elective.name:<{width}}{colour}{'Electives':<{LABEL_WIDTH}}{RESET}"
                       f"{ects(elective.ects)}")
             if free[semester] > 0:
                 # One placeholder row for the ECTS still to choose, dim italic
-                print(f"{EMPTY}{'(choose an elective)':<{width}}{RESET}{colour}{'Electives':<{LABEL_WIDTH}}{RESET}"
+                print(f"  {EMPTY}{'(choose an elective)':<{width}}{RESET}{colour}{'Electives':<{LABEL_WIDTH}}{RESET}"
                       f"{EMPTY}{ects(free[semester])}{RESET}")
 
         # The chosen specialisation's modules, the label in light blue
@@ -197,11 +195,11 @@ def show_degree_plan(modules, groups, plan=None, specialisations=None):
             colour = GROUP_COLOURS["Specialisation"]
             if chosen:
                 for module in placed[semester]:
-                    print(f"{module['name']:<{width}}{colour}{'Specialisation':<{LABEL_WIDTH}}{RESET}"
+                    print(f"  {module['name']:<{width}}{colour}{'Specialisation':<{LABEL_WIDTH}}{RESET}"
                           f"{ects(module['ects'])}")
             else:
                 # Nothing chosen: one placeholder row for the 12 ECTS slot, dim italic
-                print(f"{EMPTY}{'(choose a specialisation)':<{width}}{RESET}{colour}{'Specialisation':<{LABEL_WIDTH}}{RESET}"
+                print(f"  {EMPTY}{'(choose a specialisation)':<{width}}{RESET}{colour}{'Specialisation':<{LABEL_WIDTH}}{RESET}"
                       f"{EMPTY}{ects(12)}{RESET}")
     print()
     print(f"{BOLD}Total: {total}/{TOTAL_ECTS} ECTS{RESET}")
@@ -250,9 +248,10 @@ def explore_specialisations(specialisations):
         placed = place_specialisation(specialisation)
         total_ects = 0
         for semester in placed:
-            print(f"\nSemester {semester}")
+            print()
+            show_semester(semester)
             for module in placed[semester]:
-                show_bullet(module["name"], ects(module["ects"]))
+                print("  " + fit(module["name"], ects(module["ects"]), APP_WIDTH - 2))
                 total_ects = total_ects + module["ects"]
         print(f"\nTotal: {total_ects} ECTS")
         print("\nPossible careers:")

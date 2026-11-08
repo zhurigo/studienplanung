@@ -89,6 +89,18 @@ def show_header(title, description=""):
     print()
 
 
+# --- Semester headings ---
+
+def show_semester(semester, detail=""):
+    """Bold 'Semester 3', with an optional dim detail after it, e.g. 'HS 2027 · 30 ECTS',
+    then an empty line"""
+    if detail == "":
+        print(f"{BOLD}Semester {semester}{RESET}")
+    else:
+        print(f"{BOLD}Semester {semester}{RESET}  {DIM}{detail}{RESET}")
+    print()
+
+
 # --- Boxes ---
 
 BOX_WIDTH = 62                  # inside the borders, fits the longest elective row

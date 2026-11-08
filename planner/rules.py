@@ -22,7 +22,7 @@ Both US7 and US9 live in this file.
 """
 
 from planner.prompts import pause
-from planner.styling import APP_WIDTH, EMPTY, LABEL_WIDTH, RESET, ects, show_header, show_success, show_warning
+from planner.styling import APP_WIDTH, EMPTY, LABEL_WIDTH, RESET, ects, show_header, show_semester, show_success, show_warning
 
 # A complete plan needs exactly this many elective ECTS
 # (data/electives.json: info.elective_ects_required)
@@ -193,7 +193,7 @@ def show_roadmap(plan, modules, groups, specialisations):
     for semester in range(1, 9):
         if semester > 1:
             print()
-        print(f"Semester {semester}")
+        show_semester(semester)
         for module in modules:
             if module.semester == semester:
                 label = shorts.get(module.group, module.group)
