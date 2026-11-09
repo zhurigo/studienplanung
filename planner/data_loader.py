@@ -11,7 +11,7 @@ instead of printing a traceback.
 
 load_electives() returns one flat list, because main.py counts it for the
 welcome line. The categories are still there on every Elective, and
-electives_by_category() groups them again for the US5 menu.
+plan_service.electives_by_category() groups them again for the US5 menu.
 """
 
 import json
@@ -118,23 +118,6 @@ def load_electives():
         return electives
     except (KeyError, TypeError, AttributeError):
         raise _wrong_shape("electives.json")
-
-
-def electives_by_category(electives):
-    """Group a flat elective list back into {category: [Elective]} (US5)."""
-    categories = {}
-    for elective in electives:
-        categories.setdefault(elective.category, []).append(elective)
-    return categories
-
-
-def electives_by_id(electives):
-    """Return {id: Elective} for lookups (US7, storage)."""
-    by_id = {}
-    for elective in electives:
-        by_id[elective.id] = elective
-    return by_id
-
 
 def load_all():
     """Load everything once at start-up.
