@@ -42,7 +42,7 @@ class EntryPointTests(unittest.TestCase):
             "Could not read data/electives.json — stopping"
         )
 
-        with patch("main.load_all", side_effect=error):
+        with patch("main.load_catalogue", side_effect=error):
             with redirect_stdout(io.StringIO()) as output:
                 with self.assertRaises(SystemExit) as caught:
                     main.main()
