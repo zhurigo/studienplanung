@@ -33,14 +33,14 @@ flowchart TB
             display["display.py<br/>1 degree plan<br/>2 explore specialisations"]
             choices["choices.py<br/>3 choose specialisation<br/>4 plan electives"]
             rulesui["rules.py<br/>5 show_plan_check<br/>6 show_roadmap"]
-            prompts["prompts.py<br/>input and output helpers"]
+            prompts["prompts.py, styling.py<br/>input, output and layout helpers"]
         end
 
         subgraph middle["Middle layer: business rules"]
             direction LR
-            models["models.py<br/>StudentPlan<br/>choose_specialisation<br/>add_elective, remove_elective"]
+            models["models.py<br/>StudentPlan<br/>choose_specialisation<br/>add_elective, remove_elective<br/>fill_missing_semesters"]
             rules["rules.py<br/>check_plan<br/>roadmap_total"]
-            service["plan_service.py<br/>load_catalogue<br/>load_saved_plan<br/>save_current_plan"]
+            service["plan_service.py<br/>load_catalogue, load_saved_plan<br/>save_current_plan<br/>electives_by_category"]
         end
 
         subgraph persistence["Persistence layer: repositories"]
@@ -63,7 +63,8 @@ flowchart TB
     display & choices & rulesui -.-> prompts
     choices --> models
     rulesui --> rules
-    main -->|"app start, 7 save, 0 quit"| service
+    main -->|"app start, 4 electives, 7 save, 0 quit"| service
+    service -->|"fill_missing_semesters"| models
     service --> loader
     service --> storage
     loader -->|"reads"| catalogue
