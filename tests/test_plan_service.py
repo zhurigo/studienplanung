@@ -11,8 +11,7 @@ import unittest
 from pathlib import Path
 
 from planner.models import Elective, StudentPlan
-from planner.plan_service import (electives_by_category, load_saved_plan,
-                                  save_current_plan)
+from planner.plan_service import electives_by_category, load_saved_plan, save_current_plan
 
 
 class PlanServiceTests(unittest.TestCase):
