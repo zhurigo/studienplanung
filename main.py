@@ -7,7 +7,7 @@ Owner: whole team (set up together in CW 42)
 
 What goes here:
   - Show the welcome message                          (Step 1)
-  - Load the data files through planner/data_loader    (Step 1)
+  - Load the data files through planner/plan_service   (Step 1)
   - Ask whether to load a saved plan                  (Step 2)
   - Main menu loop: show options 0-7, read the choice,
     call the matching function, repeat until 0        (Step 3)
@@ -19,13 +19,14 @@ Keep this file short. The menu only calls functions from the planner package.
 import sys
 
 from planner.choices import choose_specialisation, plan_electives
-from planner.data_loader import DataError, electives_by_category, load_all
+from planner.data_loader import DataError
 from planner.display import explore_specialisations, show_degree_plan
 from planner.models import StudentPlan
+from planner.plan_service import (electives_by_category, load_catalogue, load_saved_plan, save_current_plan)
 from planner.prompts import ask_number, ask_yes_no, show_menu
 from planner.styling import APP_WIDTH, BOLD, DIM, ITALIC, RESET, show_error, show_header, show_success
 from planner.rules import show_plan_check, show_roadmap
-from planner.storage import StorageError, load_plan, save_plan
+from planner.storage import StorageError
 
 
 # --- Helpers ---
@@ -103,7 +104,7 @@ def main():
 
     # Step 1: load the data files (stops with an error if one is missing or broken)
     try:
-        groups, modules, specialisations, electives = load_all()
+        groups, modules, specialisations, electives = load_catalogue()
     except DataError as error:
         show_error(error)
         sys.exit(1)
@@ -112,7 +113,7 @@ def main():
 
     # Step 2: offer to load a saved plan (US8)
     try:
-        saved = load_plan(electives)
+        saved = load_saved_plan(electives)
     except StorageError as error:
         show_error(error)
         saved = None
@@ -123,8 +124,6 @@ def main():
     if saved is not None:
         if ask_yes_no("A saved plan was found. Load it?"):
             plan = saved
-            # Every elective needs a semester, older plans have none yet
-            plan.fill_missing_semesters()
             show_success(plan_summary(plan, specialisations))
 
     # Step 3: the menu comes back after every action, until the user picks 0
@@ -135,14 +134,14 @@ def main():
             if unsaved and ask_yes_no(
                     "You have unsaved changes. Save now?"):
                 try:
-                    save_plan(plan)
+                    save_current_plan(plan)
                 except StorageError as error:
                     show_error(error)
                 else:
                     show_success("Plan saved to my_plan.json")
             break
 
-        # Open the option the student chose (pass = not written yet)
+        # Open the option the student chose
         if choice == 1:
             show_degree_plan(modules, groups, plan, specialisations)
         elif choice == 2:
@@ -163,7 +162,7 @@ def main():
             show_roadmap(plan, modules, groups, specialisations)
         elif choice == 7:
             try:
-                save_plan(plan)
+                save_current_plan(plan)
             except StorageError as error:
                 show_error(error)
             else:
